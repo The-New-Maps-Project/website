@@ -1,0 +1,363 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+@mixin row(){
+  display: flex;
+  align-items: center;
+}
+
+@mixin col(){
+  @include row();
+  flex-direction: column;
+}
+
+@mixin center(){
+  @include row();
+  justify-content: center;
+}
+
+@mixin hoverer1{
+  transition: opacity 0.2s;
+  opacity: 1;
+  &:hover{
+    opacity: 0.7;
+  }
+}
+
+
+@mixin hoverer2{
+  transition: opacity 0.2s;
+  opacity: 0.7;
+  &:hover{
+    opacity: 1;
+  }
+}
+
+@mixin sbstyle{
+  background-color: black;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 7px 20px;
+  border-radius: 5px;
+  color: white;
+  box-shadow: 2px 2px 3px lightgray;
+  border: none;
+  @include hoverer1();
+}
+
+.sb{
+  @include sbstyle();
+}
+
+button .plus-icon{
+  margin-right: 5px;
+}
+
+@mixin tbstyle{
+  background-color: transparent;
+  border:none;
+  font-size: 15px;
+  @include hoverer1();
+}
+
+.tb{
+  @include tbstyle();
+}
+
+@mixin buttonStyle{
+  border: none;
+  border-radius: 5px;
+  box-shadow: 3px 3px 5px lightgrey;
+  font-size: 16px;
+  font-weight: bold;
+  @include hoverer1();
+}
+
+@mixin sistyle{
+  font-size: 15px;
+  padding: 3px;
+  border-radius: 0px;
+  border: 2px solid black;
+  background-color: rgb(230, 230, 230);
+  &:focus{
+    background-color: white;
+  }
+}
+
+input{
+  @include sistyle();
+}
+
+
+:root{
+  --primary-font: 'Roboto', sans-serif;
+  --coral: lightcoral;
+  --green: #559190;
+  --yellow: #FCFBE7;
+  --blue: #3C67FF
+}
+
+button, input {
+  &:focus{
+    outline: none;
+  }
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: var(--primary-font)
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.gob{
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0px;
+  left: 0px;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 100;
+  @include center();
+  .popup{
+    padding: 15px;
+    border-radius: 10px;
+    background-color: white;
+    position: relative;
+    .x-button{
+      position: absolute;
+      top: 5px;
+      right: 5px;
+    }
+  }
+}
+
+header{
+  padding: 0px 3vw;
+  @include row();
+  justify-content: space-between;
+  h1{
+      div{
+        margin: 0px;
+      }
+      #small-header{
+          font-size: 18px;
+          color: rgb(105, 105, 105)
+      }
+      #main-header{
+          font-size: 30px;
+      }
+  }
+  h2#map-title{
+    padding: 7px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 3px 3px 5px lightgrey;
+    color: var(--yellow);
+    background-color: var(--green);
+  }
+  .account-button{
+    border: none;
+    background-color: lightgrey;
+    border-radius: 10px;
+    padding: 7px 20px;
+    font-size: 16px;
+    @include row();
+    .user-icon{
+      margin-right: 5px;
+      font-size: 20px;
+    }
+  }
+  #save-and-import{
+    .save-button{
+      background-color: var(--blue);
+      border: none;
+      padding: 8px 20px;
+      border-radius: 5px;
+      box-shadow: 3px 3px 5px lightgrey;
+      color: white;
+      @include hoverer1();
+      font-size: 16px;
+      font-weight: bold;
+      .save-icon{
+        margin-right: 5px;
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+
+main{
+  padding: 0px 3vw;
+  min-height: 90vh;
+}
+
+#default-frontpage{
+  width: 100%;
+  height: 100vh;
+  @include center();
+}
+
+#auth{
+  h4{
+    font-size: 30px;
+    margin: 0px;
+    margin-bottom: 30px;
+  }
+  input{
+    display: block;
+    margin: 15px 0px;
+  }
+  .error-message{
+    font-size: 10px;
+    color:red;
+  }
+  .auth-buttons{
+    button:nth-child(1){
+      margin-right: 10px
+    }
+  }
+  
+}
+
+#docs-list{
+  padding: 0px;
+  margin: 20px 0px;
+  list-style: none;
+  li.single-doc{
+    border: 2px solid grey;
+    padding: 15px 20px;
+    margin: 20px 0px;
+    border-radius: 10px;
+    h5{
+      margin: 0px;
+      font-size: 20px
+    }
+    p{
+      margin: 10px 0px ;
+    }
+  }
+}
+
+#scaffold{
+  #first-row{
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.import-button{
+  padding: 7px 30px;
+  background-color: red;
+  @include buttonStyle();
+  .plus-icon{
+    margin-left: 5px;
+  }
+}
+
+#import-popup{
+  padding: 20px;
+  h5{
+    margin: 0px;
+    margin-bottom: 10px;
+  }
+}
+
+#parameters{
+  .first-row{
+    @include row();
+    h4{
+      margin: 0px;
+    }
+    margin-bottom: 10px;
+  }
+  #p-list{
+    padding: 0px;
+    @include row();
+    list-style: none;
+    //overflow-x: scroll;
+    .param{
+      min-width: 100px;
+      padding: 4px 15px;
+      @include center();
+      background-color: lightgray;
+      border-radius: 5px;
+      box-shadow: 3px 2px 5px lightgrey;
+      margin-right: 20px;
+      .p-settings{
+        .cogs{
+          @include hoverer2();
+          margin-left: 5px;
+          font-size: 10px;
+        }
+        position: relative;
+        .p-settings-display{
+          z-index: 10;
+          display: none;
+          position: absolute;
+          top: 20px;
+          left: 0px;
+          transform: translateX(-50%);
+          background-color:var(--green);
+          padding: 5px 10px;
+          border-radius: 5px;
+        }
+        &:hover .p-settings-display{
+          @include row();
+        }
+      }
+    }
+  }
+}
+
+#body{
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+
+#view-container{
+  padding: 20px 30px;
+  min-width: 30vw;
+}
+
+.plus-button{
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  color:green;
+  @include hoverer1();
+}
+
+.x-button{
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  color:red;
+  @include hoverer1();
+}
+
+#map{
+  border: 3px solid black;
+  box-shadow: 3px 3px 5px grey;
+  border-radius: 5px;
+  margin: 15px 0px;
+  height: 500px;
+  width: 100%;
+}
+
+footer{
+  @include center();
+  background-color: black;
+  color:white;
+  padding: 10px 0px;
+}
