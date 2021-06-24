@@ -49,7 +49,7 @@ export default function DistrictsEdit(){
     }
 
     return <div>
-        <button className="districts-button" onClick={()=>setShowPopup(true)}>{districts.length} Districts<FontAwesomeIcon icon={faCog}></FontAwesomeIcon></button>
+        <button className="districts-button" onClick={()=>setShowPopup(true)}>{districts.length} Districts<FontAwesomeIcon className="icon" icon={faCog}></FontAwesomeIcon></button>
         
         {showPopup&&<Popup>
             <div id="districts-popup">

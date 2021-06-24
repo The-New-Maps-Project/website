@@ -56,6 +56,7 @@ function MyApp({ Component, pageProps }) {
         name: name,
         parameters: parameters,
         date: (new Date()).getTime(),
+        districts: districts
       })
     }catch(e){
       console.error(e);

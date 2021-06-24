@@ -94,10 +94,10 @@ input{
   --green: #559190;
   --yellow: #FCFBE7;
   --blue: #3C67FF;
-  --green-icon: green;
+  --green-icon: rgb(73, 255, 73);
   --blue-icon: blue;
   --yellow-icon: yellow;
-  --turquoise-icon: rgb(0, 255, 149);
+  --turquoise-icon: rgb(0, 255, 213);
   --red-icon: red;
   --white-icon: white;
   --black-icon: black;
@@ -266,6 +266,10 @@ main{
   #first-row{
     display: flex;
     justify-content: space-between;
+    .right{
+      @include col();
+      align-items: flex-end;
+    }
   }
 }
 
@@ -360,6 +364,7 @@ main{
 }
 
 .color-box{
+  display: block;
   height: 25px;
   width: 25px;
   box-shadow: 2px 2px 3px lightgray;
@@ -368,9 +373,13 @@ main{
 .districts-button{
   @include buttonStyle();
   background-color: rgb(53, 235, 53);
+  font-weight: 100;
   margin-top: 10px;
-  font-size: 16px;
-  padding: 5px 15px;
+  font-size: 15px;
+  padding: 6px 20px;
+  .icon{
+    margin-left: 5px;
+  }
 }
 
 #districts-popup{
@@ -423,6 +432,100 @@ main{
   margin: 15px 0px;
   height: 500px;
   width: 100%;
+}
+
+#focused-precinct{
+  padding: 10px 20px;
+  border: 2px solid black;
+  box-shadow: 2px 2px 5px lightgrey;
+  border-radius: 10px;
+  margin: 10px 0px;
+  .precinct-name{
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .district{
+    @include row();
+    margin-top: 10px;
+    .show-district{
+      @include row();
+      .color-box{
+        margin-right: 5px;
+      }
+    }
+    .switch-button{
+      margin-left: 10px;
+    }
+  }
+  .population{
+    font-size: 14px;
+    color: grey;
+    margin: 10px 0px;
+  }
+  .params ul{
+    list-style: none;
+    padding: 0px;
+    li{
+      margin: 5px 0px;
+      .param-name{
+        font-weight: bold;
+        margin-right: 5px;
+      }
+      .param-value{
+        color: grey;
+      }
+    }
+  }
+
+}
+
+.switch-button{
+  @include hoverer1();
+  font-size: 14px;
+  font-weight: 100;
+  background-color: lightgrey;
+  box-shadow: 0px 0px 3px lightgrey;
+  padding: 3px 10px;
+  border:none;
+  border-radius: 6px      
+}
+
+.color-circle{
+  display: block;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  border: 2px solid black;
+  box-shadow: 2px 2px 3px grey;
+}
+
+#switch-popup{
+  min-width: 250px;
+  .current-district{
+    font-size: 14px;
+    @include row();
+    .color-circle{
+      margin: 0px 5px;
+    }
+  }
+  h5{
+    font-size: 18px;
+    margin: 20px 0px;
+  }
+  #switch-list{
+    list-style: none;
+    padding: 0px;
+    li{
+      margin: 5px 0px;
+      font-size: 16px;
+      .select-district{
+        @include row();
+        .color-circle{
+          margin-right: 10px
+        }
+      }
+    }
+  }
 }
 
 footer{

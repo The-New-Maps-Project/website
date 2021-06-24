@@ -8,7 +8,7 @@ import Popup from "../components/Popup";
 import Loading from "../components/Loading"
 
 export default function DocsList(){
-    const {docs,setDocId,setData,setName,getDocs, lastDoc,setParameters} = useContext(PContext);
+    const {docs,setDocId,setData,setName,getDocs, lastDoc,setParameters, setDistricts} = useContext(PContext);
     const [loading,setLoading]  = useState<boolean>(false);
     const [nameInput,setNameInput] = useState<string>("");
     const [createPopup,setCreatePopup] = useState<boolean>(false);
@@ -26,6 +26,7 @@ export default function DocsList(){
                 data: {},
                 date: (new Date()).getTime(),
                 parameters: [],
+                districts: [],
             }
             var res = await pDatabase.collection("users").doc(pAuth.currentUser.uid).collection("maps").add(mapObj);
             setLoading(false);
@@ -51,6 +52,7 @@ export default function DocsList(){
                         setName(doc.name);
                         setParameters(doc.parameters)
                         setDocId(doc.id);
+                        setDistricts(doc.districts)
                     }}>Open</button>
                 </li>
             })}
