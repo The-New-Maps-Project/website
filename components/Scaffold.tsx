@@ -3,6 +3,7 @@ import Header from "./Header";
 import Parameters from "./Parameters";
 import ImportFile from "./ImportFile";
 import ViewContainer from "./ViewContainer";
+import DistrictsEdit from "./DistrictsEdit";
 
 export default function Scaffold(){
     return <div id="scaffold">
@@ -12,6 +13,7 @@ export default function Scaffold(){
             </div>
             <div className="right">
                 <ImportFile></ImportFile>
+                <DistrictsEdit></DistrictsEdit>
             </div>
         </section>
         <section id="body">

@@ -13,11 +13,13 @@ function MyApp({ Component, pageProps }) {
   const [data,setData] = useState({});
   const [isAuth,setIsAuth] = useState(false);
   const [name,setName] = useState(""); //Name of the document
-  const [parameters,setParameters] = useState(['a','b','c','d']);
+  const [parameters,setParameters] = useState([]);
+  const [districts,setDistricts] = useState([]);
   const [docId,setDocId] = useState(null);
   const [docs,setDocs] = useState([]);
   const [lastDoc,setLastDoc] = useState(-1);
   const [appLoading,setAppLoading] = useState(false);
+  const colors = ["red","green","blue","yellow","orange","purple","pink","turquoise","black","white",]
 
   pAuth.onAuthStateChanged((user)=>{
     if(user){
@@ -63,7 +65,24 @@ function MyApp({ Component, pageProps }) {
 
 
   const contextValue = {
-    data,setData,isAuth,name,setName, parameters,setParameters,docs,setDocs,lastDoc,setLastDoc,docId,setDocId,getDocs,save
+    data,
+    setData,
+    isAuth,
+    name,
+    setName, 
+    parameters,
+    setParameters,
+    docs,
+    setDocs,
+    lastDoc,
+    setLastDoc,
+    docId,
+    setDocId,
+    getDocs,
+    save,
+    districts,
+    setDistricts,
+    colors
   }
 
   return <PContext.Provider value={contextValue}>

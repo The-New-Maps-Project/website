@@ -93,7 +93,18 @@ input{
   --coral: lightcoral;
   --green: #559190;
   --yellow: #FCFBE7;
-  --blue: #3C67FF
+  --blue: #3C67FF;
+  --green-icon: green;
+  --blue-icon: blue;
+  --yellow-icon: yellow;
+  --turquoise-icon: rgb(0, 255, 149);
+  --red-icon: red;
+  --white-icon: white;
+  --black-icon: black;
+  --pink-icon: rgb(255, 7, 152);
+  --grey-icon: grey;
+  --purple-icon: purple;
+  --orange-icon: orange;
 }
 
 button, input {
@@ -132,6 +143,8 @@ a {
     border-radius: 10px;
     background-color: white;
     position: relative;
+    max-height: 90vh;
+    overflow-y: scroll;
     .x-button{
       position: absolute;
       top: 5px;
@@ -344,6 +357,63 @@ main{
   font-size: 20px;
   color:red;
   @include hoverer1();
+}
+
+.color-box{
+  height: 25px;
+  width: 25px;
+  box-shadow: 2px 2px 3px lightgray;
+}
+
+.districts-button{
+  @include buttonStyle();
+  background-color: rgb(53, 235, 53);
+  margin-top: 10px;
+  font-size: 16px;
+  padding: 5px 15px;
+}
+
+#districts-popup{
+  min-width: 300px;
+  .first-row{
+    input{
+      margin: 0px 5px;
+      width: 40px;
+    }
+    .sb{
+      margin-left: 5px;
+    }
+  }
+  #districts-list{
+    list-style: none;
+    padding: 0px;
+    .single-district{
+      @include row();
+      padding: 5px 20px;
+      border-radius: 10px;
+      border: 2px solid black;
+      box-shadow: 3px 3px 5px grey;
+      margin: 10px 0px;
+      .color-box{
+        margin: 0px 10px;
+      }
+      select{
+        font-size: 18px;
+        padding: 3px;
+        border: none;
+        border-bottom: 3px solid black;
+        margin-right: 20px;
+      }
+      .delete-district{
+        font-size: 18px;
+        font-weight: bold;
+        color: rgb(78, 78, 78);
+        @include hoverer2();
+        border: none;
+        background-color: transparent;
+      }
+    }
+  }
 }
 
 #map{
