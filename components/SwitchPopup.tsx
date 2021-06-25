@@ -4,6 +4,7 @@ import { useContext } from "react";
 import PContext from "../services/context";
 import Popup from "./Popup";
 
+// PROPS: Function() xFunction, Number currentDistrict, Function(Number) selectDistrict
 export default function SwitchPopup(props){
     const {districts} = useContext(PContext);
 

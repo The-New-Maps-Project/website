@@ -19,6 +19,11 @@ function MyApp({ Component, pageProps }) {
   const [docs,setDocs] = useState([]);
   const [lastDoc,setLastDoc] = useState(-1);
   const [appLoading,setAppLoading] = useState(false);
+  const [mapZoom,setMapZoom] = useState({
+    lat: 39.3433, 
+    lng: -95.4603,
+    zoom: 4,
+  })
   const colors = ["red","green","blue","yellow","orange","purple","pink","turquoise","black","white",]
 
   pAuth.onAuthStateChanged((user)=>{
@@ -83,7 +88,9 @@ function MyApp({ Component, pageProps }) {
     save,
     districts,
     setDistricts,
-    colors
+    colors,
+    mapZoom,
+    setMapZoom
   }
 
   return <PContext.Provider value={contextValue}>

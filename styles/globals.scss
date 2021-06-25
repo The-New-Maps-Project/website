@@ -87,6 +87,10 @@ input{
   @include sistyle();
 }
 
+ul{
+  list-style: none;
+  padding: 0px;
+}
 
 :root{
   --primary-font: 'Roboto', sans-serif;
@@ -301,11 +305,13 @@ main{
   #p-list{
     padding: 0px;
     @include row();
+    flex-wrap: wrap;
     list-style: none;
     //overflow-x: scroll;
     .param{
       min-width: 100px;
       padding: 4px 15px;
+      margin-bottom: 15px;
       @include center();
       background-color: lightgray;
       border-radius: 5px;
@@ -345,6 +351,7 @@ main{
 #view-container{
   padding: 20px 30px;
   min-width: 30vw;
+  max-height: 100vh;
 }
 
 .plus-button{
@@ -432,6 +439,14 @@ main{
   margin: 15px 0px;
   height: 500px;
   width: 100%;
+}
+
+#map-hovering{
+  background-color: black;
+  color: white;
+  padding: 5px 10px;
+  position: fixed;
+  z-index: 10;
 }
 
 #focused-precinct{
@@ -524,6 +539,166 @@ main{
           margin-right: 10px
         }
       }
+    }
+  }
+}
+
+#view-container{
+  #menu{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    .menu-item{
+      background-color: transparent;
+      border: none;
+      @include col();
+      @include hoverer2();
+      h6{
+        font-size: 20px;
+        margin: 0px;
+        margin-bottom: 10px;
+      }
+      p{
+        margin: 0px;
+        width: 50%;
+        height: 5px;
+        background-color: black;
+        transition: all 0.2s;
+      }
+      
+      &:hover{
+        p{
+          width: 70%;
+        }
+      }
+
+      &.focused{
+        opacity: 1;
+        p{
+          width: 70%;
+        }
+      }
+    }
+  }
+}
+
+
+#list-view{
+  .edit-row{
+    @include row();
+    justify-content: space-between;
+    margin: 20px 0px;
+    button:not(.x-button){
+      padding: 5px 10px;
+      @include buttonStyle();
+      font-weight: 100;
+      color:white;
+      font-size: 14px;
+      background-color: black;
+    }
+  }
+  .first-row{
+    @include row();
+    justify-content: space-between;
+    font-size: 16px;
+    padding: 5px 20px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px grey;
+    margin: 20px 0px;
+    .sort-by{
+      select{
+        background-color: transparent;
+        border: none;
+        margin-left: 5px;
+      }
+    }
+    .search{
+      input{
+        width: 100px;
+        background-color: transparent;
+        border: none;
+        border-bottom: 3px solid black;
+        &:focus{
+          background-color: transparent;
+          border-bottom: 5px solid black;
+        }
+      }
+      button{
+        margin-left: 5px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+    }
+    .edit{
+      .icon{
+        font-size: 16px;
+        margin-left: 5px;
+      }
+    }
+  }
+  #searchQuery{
+    padding: 5px 15px;
+    margin: 20px 0px;
+    border: none;
+    border-radius: 5px;
+    background-color: lightgrey;
+    box-shadow: 2px 2px 5px lightgrey;
+    .x-button{
+      margin-left: 10px;
+    }
+  }
+}
+
+#precinct-list{
+  max-height: 60vh;
+  overflow-y: scroll;
+  li.single-precinct{
+    padding: 10px 20px;
+    border-radius: 15px;
+    border: 2px solid black;
+    box-shadow: 2px 2px 5px grey;
+    margin: 10px 0px;
+    .main-row{
+      @include row();
+      justify-content: space-between;
+      .precinct-name{
+        font-size: 18px;
+      }
+      .district{
+        .show-district{
+          @include row();
+          .color-box{
+            margin-right: 5px;
+          }
+        }
+      }
+      // .switch-button{
+      //     margin-left: 10;
+      // }
+      .info-button{
+        .icon{
+          margin-left: 5px;
+        }
+      }
+    }
+    .params ul{
+      margin: 20px 10px;
+      li.param-data{
+        margin-bottom: 5px;
+        font-size: 14px;
+        .param-name{
+          font-weight: bold;
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+}
+
+.delete-precincts{
+  div{
+    @include row();
+    button:nth-child(1){
+      margin-right: 10px
     }
   }
 }

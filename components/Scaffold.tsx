@@ -4,6 +4,7 @@ import Parameters from "./Parameters";
 import ImportFile from "./ImportFile";
 import ViewContainer from "./ViewContainer";
 import DistrictsEdit from "./DistrictsEdit";
+import { useState } from "react";
 
 export default function Scaffold(){
     return <div id="scaffold">
