@@ -111,7 +111,7 @@ ul{
   --orange-icon: orange;
 }
 
-button, input {
+button, input, select {
   &:focus{
     outline: none;
   }
