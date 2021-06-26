@@ -5,6 +5,8 @@ import ImportFile from "./ImportFile";
 import ViewContainer from "./ViewContainer";
 import DistrictsEdit from "./DistrictsEdit";
 import { useState } from "react";
+import RunAlgorithm from "./RunAlgorithm";
+import ListView from "./ListView";
 
 export default function Scaffold(){
     return <div id="scaffold">
@@ -14,12 +16,15 @@ export default function Scaffold(){
             </div>
             <div className="right">
                 <ImportFile></ImportFile>
-                <DistrictsEdit></DistrictsEdit>
+                <div className="second-row">
+                    <RunAlgorithm></RunAlgorithm>
+                    <DistrictsEdit></DistrictsEdit>
+                </div>
             </div>
         </section>
         <section id="body">
             <Map></Map>
-            <ViewContainer></ViewContainer>
+            <ListView></ListView>
         </section>
     </div>
 }

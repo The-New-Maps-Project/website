@@ -148,6 +148,7 @@ a {
     background-color: white;
     position: relative;
     max-height: 90vh;
+    max-width: 90vw;
     overflow-y: scroll;
     .x-button{
       position: absolute;
@@ -273,8 +274,22 @@ main{
     .right{
       @include col();
       align-items: flex-end;
+      .second-row{
+        @include row();
+        margin-top: 10px;
+      }
     }
   }
+}
+
+.algorithm-button{
+  @include buttonStyle();
+  padding: 5px 10px;
+  background-color: black;
+  color: white;
+  font-weight: 100;
+  font-size: 14px;
+  margin-right: 10px;
 }
 
 .import-button{
@@ -288,9 +303,40 @@ main{
 
 #import-popup{
   padding: 20px;
+  max-width: 500px;
   h5{
     margin: 0px;
     margin-bottom: 10px;
+    font-size: 26px;
+  }
+  .file-format, .line-example{
+    span{
+      font-weight: bold;
+      margin-right: 5px;
+    }
+  }
+  .example-files .sample-files-link{
+    @include tbstyle();
+    color: blue;
+    text-decoration: underline;
+  }
+  .order-box{
+    border: 3px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    padding-top: 30px;
+    background-color: lightgrey;
+    position: relative;
+    margin: 20px 0px;
+    p{
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      padding: 5px;
+      margin: 0px;
+      color: black;
+      font-weight: bold;
+    }
   }
 }
 
@@ -348,11 +394,6 @@ main{
   grid-template-columns: 1fr auto;
 }
 
-#view-container{
-  padding: 20px 30px;
-  min-width: 30vw;
-  max-height: 100vh;
-}
 
 .plus-button{
   background-color: transparent;
@@ -381,7 +422,6 @@ main{
   @include buttonStyle();
   background-color: rgb(53, 235, 53);
   font-weight: 100;
-  margin-top: 10px;
   font-size: 15px;
   padding: 6px 20px;
   .icon{
@@ -583,10 +623,12 @@ main{
 
 
 #list-view{
+    padding: 0px 30px;
+    min-width: 30vw;
   .edit-row{
     @include row();
     justify-content: space-between;
-    margin: 20px 0px;
+    margin: 0px 0px 5px 0px;
     button:not(.x-button){
       padding: 5px 10px;
       @include buttonStyle();
@@ -596,6 +638,15 @@ main{
       background-color: black;
     }
   }
+  .select-row-two{
+    @include row();
+    button{
+      @include tbstyle();
+      color: var(--green);
+      margin-left: 15px;
+    }
+    margin-bottom: 15px;
+  }
   .first-row{
     @include row();
     justify-content: space-between;
@@ -603,7 +654,8 @@ main{
     padding: 5px 20px;
     border-radius: 5px;
     box-shadow: 2px 2px 5px grey;
-    margin: 20px 0px;
+    margin: 0px;
+    margin-bottom: 20px;
     .sort-by{
       select{
         background-color: transparent;
@@ -664,6 +716,7 @@ main{
         font-size: 18px;
       }
       .district{
+        margin: 0px 20px;
         .show-district{
           @include row();
           .color-box{
@@ -675,6 +728,7 @@ main{
       //     margin-left: 10;
       // }
       .info-button{
+        margin-left: 10px;
         .icon{
           margin-left: 5px;
         }
@@ -699,6 +753,22 @@ main{
     @include row();
     button:nth-child(1){
       margin-right: 10px
+    }
+  }
+}
+
+#algorithm-popup{
+  max-width: 300px;
+  h5{
+    font-size: 24px;
+    margin-bottom: 10px;
+    margin-top: 40px;
+  }
+  .learn-more{
+    a{
+      text-decoration: underline;
+      @include hoverer1();
+      color: rgb(0, 0, 99);
     }
   }
 }

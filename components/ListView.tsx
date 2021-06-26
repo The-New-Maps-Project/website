@@ -15,6 +15,7 @@ export default function ListView(){
     const [searchQuery,setSearchQuery] = useState<string|null>(null);
     const [selected,setSelected] = useState({})//object [name]: boolean
     const [isEditing,setIsEditing] = useState(false);
+    const [selectedNum,setSelectedNum] = useState<number>(0);
     const [deletePopup,setDeletePopup] = useState(false);
     const [switchSelectedPopup,setSwitchSelectedPopup] = useState(false);
     const [isShowingSelected,setIsShowingSelected] = useState(false);
@@ -62,9 +63,9 @@ export default function ListView(){
             case "population":
                 arr.sort((a,b)=>data[b][1]-data[a][1]); //descending, greatest to least
                 break;
-            case "selected":
-                arr = arr.filter(a=>Boolean(selected[a]));
-                break;
+            // case "selected":
+            //     arr = arr.filter(a=>Boolean(selected[a]));
+            //     break;
             default:
                 if(!sortBy) break;
                 else{
@@ -75,9 +76,10 @@ export default function ListView(){
         setPrecinctList(arr);
     }
 
-    const searchList = () =>{
-        if(searchQuery==null) return setPrecinctList(Object.keys(data).sort());
-        if(searchQuery.length==0) return;
+    //for both search AND show selected
+    const updateList = () =>{
+        var arr = isShowingSelected?Object.keys(data).filter(a=>Boolean(selected[a])):Object.keys(data).sort();
+        if(searchQuery==null||searchQuery.length==0) return setPrecinctList(arr);
         var arr = Object.keys(data).filter(p=>{
             let a = p.toLowerCase();
             let b = searchQuery.toLowerCase();
@@ -87,16 +89,16 @@ export default function ListView(){
         return setSearchInput("");
     }
 
-    useEffect(searchList,[searchQuery]);
-
-    //Toggle show selected
-    useEffect(()=>{
-        setPrecinctList(isShowingSelected?Object.keys(data).filter(a=>Boolean(selected[a])):Object.keys(data).sort());
-    },[isShowingSelected])
+    //update the CONTENTS of the list (NOT sort them a certain way)
+    useEffect(updateList,[searchQuery,isShowingSelected,data]);
 
     useEffect(()=>{
         if(!isEditing) setSelected({});
     },[isEditing])
+
+    useEffect(()=>{
+        setSelectedNum(Object.keys(selected).filter(p=>Boolean(selected[p])).length);
+    },[selected])
 
     const deleteSelected = () =>{
         let ps = Object.keys(selected).filter(p=>Boolean(selected[p]));
@@ -122,15 +124,30 @@ export default function ListView(){
         //don't switch off editing, no need to, not deleting.
     }
 
+    const selectAll = (select:boolean) =>{
+        if(!select) setSelected({}); //UNselected all
+        else{
+            var newObj = {};
+            Object.keys(data).forEach(p=>{
+                newObj[p] = true;
+            })
+            setSelected(newObj);
+        }   
+    }
 
     return <div id="list-view">
-        {isEditing&&<div className="edit-row">
-            <div className="num-selected" onClick={()=>sortPrecincts("selected")}>{Object.keys(selected).filter(p=>Boolean(selected[p])).length} Selected</div>
-            <button onClick={()=>setIsShowingSelected(!isShowingSelected)}>{isShowingSelected?"Show All":"Show Selected"}</button>
-            <button className="delete-selected" onClick={()=>setDeletePopup(true)}>Delete</button>
-            <button className="switch-selected" onClick={()=>setSwitchSelectedPopup(true)}>Assign District</button>
-            <button className="x-button" onClick={()=>setIsEditing(false)}><FontAwesomeIcon icon={faTimes}></FontAwesomeIcon></button>
-        </div>}
+        {isEditing&&<div >
+            <div className="edit-row">
+                <div className="num-selected" >{selectedNum} Selected</div>
+                <button className="delete-selected" onClick={()=>setDeletePopup(true)}>Delete</button>
+                <button className="switch-selected" onClick={()=>setSwitchSelectedPopup(true)}>Assign District</button>
+                <button className="x-button" onClick={()=>setIsEditing(false)}><FontAwesomeIcon icon={faTimes}></FontAwesomeIcon></button>
+            </div>
+            <div className="select-row-two">
+                <button onClick={()=>setIsShowingSelected(!isShowingSelected)}>{isShowingSelected?"Show All":"Show Selected"}</button>
+                <button onClick={()=>selectAll(selectedNum==0)}>{selectedNum?"Unselect All":"Select All"}</button>
+            </div>
+            </div>}
         <div className="first-row">
             <div className="sort-by">
                 Sort By 
@@ -162,8 +179,9 @@ export default function ListView(){
             <span>{searchQuery}</span>
             <button onClick={()=>setSearchQuery(null)} className="x-button"><FontAwesomeIcon icon={faTimes}></FontAwesomeIcon></button>
         </div>}
+        {precinctList.length>100&&<p>Showing First 100 Precincts</p>}
         <ul id="precinct-list">
-            {precinctList.map(key=>{
+            {precinctList.slice(0,100).map(key=>{
                 let precinct:string = key;
                 if(!data[precinct]) return;
                 return <li className="single-precinct" key={precinct}>
@@ -187,7 +205,7 @@ export default function ListView(){
                                 })
                             }}>{precinct}</button>
                             <div className="district">
-                                {data[precinct][0]==0
+                                {data[precinct]&&data[precinct][0]==0
                                 ?"Unassigned":
                                 <span className="show-district">
                                     <span 
