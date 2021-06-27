@@ -2,7 +2,7 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useContext, useState } from "react";
-import { nmpAlgorithm } from "../calculate/algorithm/StatCalculate";
+import algorithm from "../calculate/algorithm";
 import PContext from "../services/context";
 import Popup from "./Popup";
 
@@ -13,7 +13,7 @@ export default function RunAlgorithm(){
 
     const runAlgorithm = () =>{
         var n = districts.length;
-        var newObj = {...nmpAlgorithm(data,n,tInput/100)};
+        var newObj = {...algorithm(data,n,tInput/100)};
         setData(newObj);
         setShowPopup(false);
     }

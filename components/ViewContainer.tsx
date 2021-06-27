@@ -1,6 +1,6 @@
 import { useState } from "react"
 import ListView from "./ListView";
-import StatsView from "./StatsView";
+import StatsView from "./Analysis";
 
 export default function ViewContainer(){
     const [view,setView] = useState(0);

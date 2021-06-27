@@ -7,6 +7,7 @@ import DistrictsEdit from "./DistrictsEdit";
 import { useState } from "react";
 import RunAlgorithm from "./RunAlgorithm";
 import ListView from "./ListView";
+import Analysis from "./Analysis";
 
 export default function Scaffold(){
     return <div id="scaffold">
@@ -25,6 +26,9 @@ export default function Scaffold(){
         <section id="body">
             <Map></Map>
             <ListView></ListView>
+        </section>
+        <section id="analysis">
+            <Analysis></Analysis>
         </section>
     </div>
 }
