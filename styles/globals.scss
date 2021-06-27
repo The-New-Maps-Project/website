@@ -772,6 +772,77 @@ main{
     }
   }
 }
+#analysis{
+  margin-top: 30vh;
+}
+
+#analysis-container{
+  #analysis-heading{
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 15px;
+    @include row();
+    h3{
+      font-size: 24px;
+      margin: 0px;
+    }
+    .recalc-button{
+      padding: 5px 15px;
+      font-size: 16px;
+      margin-left: 10px;
+      background-color: rgb(57, 255, 57);
+      @include buttonStyle();
+      box-shadow: none;
+    }
+  }
+
+  #analysis-main{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    #district-analysis{
+      padding: 30px 20px;
+      ul#districts-list{
+        li.single-district{
+          .district-name{
+            @include row();
+            font-size: 20px;
+            .color-box{
+              margin-right: 10px;
+            }
+          }
+          margin: 10px 0px;
+          border: 2px solid black;
+          padding: 10px 20px;
+          border-radius: 10px;
+          box-shadow: 3px 3px 5px grey;
+          .main-row{
+            @include row();
+            justify-content: space-between;
+          }
+          .table{
+            li{
+              @include row();
+              margin: 15px 0px;
+              div{
+                width: 30%;
+                text-align: left;
+                color: rgb(95, 95, 95);
+              }
+              .p-name{
+                color: black;
+                font-weight: bold;
+              }
+            }
+            .top-row{
+              font-weight: bolder
+            }
+          }
+        }
+      }
+    }
+  }
+}
 
 footer{
   @include center();
