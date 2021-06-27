@@ -772,34 +772,81 @@ main{
     }
   }
 }
-#analysis{
-  margin-top: 30vh;
-}
+
 
 #analysis-container{
-  #analysis-heading{
-    background-color: black;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 15px;
-    @include row();
-    h3{
-      font-size: 24px;
-      margin: 0px;
-    }
+  min-height: 50vh;
+  padding-bottom: 10vh;
+  hr{
+    margin: 5vh auto;
+    width: 90vw;
+  }
+  .recalc-button-container{
+    @include center();
     .recalc-button{
-      padding: 5px 15px;
-      font-size: 16px;
-      margin-left: 10px;
-      background-color: rgb(57, 255, 57);
+      padding: 8px 15px;
+      font-size: 18px;
+      border-radius: 10px;
+      background-color: lightgrey;
       @include buttonStyle();
       box-shadow: none;
+      margin: 5vh 0px;
     }
   }
 
   #analysis-main{
     display: grid;
     grid-template-columns: 1fr 1fr;
+    #param-analysis{
+      .first-row{
+        margin: 20px 0px;
+        select{
+          padding: 5px;
+          border-radius: 5px;
+          border: 2px solid grey;
+          box-shadow: 2px 2px 5px lightgrey;
+        }
+      }
+      #param-info{
+        h3{
+          font-size: 30px;
+          font-weight: bold;
+          margin: 30px 0px;
+          text-shadow: 1px 1px 3px grey;
+        }
+        hr{
+          width: 90%;
+          margin-right: auto;
+        }
+        .percent-bar{
+          margin: 10px 0px;
+        }
+        .values-list{
+          margin: 30px 0px;
+          font-size: 18px;
+          li{
+            @include row();
+            margin: 20px 0px;
+            label{
+              font-weight: bold;
+            }
+            p{
+              color: grey;
+              margin: 0px;
+              margin-left: 20px;
+            }
+          }
+          .allData{
+            @include buttonStyle();
+            padding: 5px 15px;
+            border-radius: 10px;
+            color:white;
+            font-weight: 100;
+            background-color: #004C93;
+          }
+        }
+      }
+    }
     #district-analysis{
       padding: 30px 20px;
       ul#districts-list{
@@ -843,6 +890,27 @@ main{
     }
   }
 }
+
+.percent-bar{
+  border: 3px solid black;
+  width: 100%;
+  height: 30px;
+  position: relative;
+  .inner-pb{
+    height: 100%;
+    background-color: lightgrey;
+  }
+  label{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px grey;
+    transform:  translate(-50%,-50%);
+  }
+}
+
+
 
 footer{
   @include center();
