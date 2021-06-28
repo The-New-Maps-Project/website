@@ -1,0 +1,1 @@
+export const googleMapsPublicKey = "AIzaSyAwJHicf4pmkwgy9E5hkq0h3UfBSsyb-kE";
