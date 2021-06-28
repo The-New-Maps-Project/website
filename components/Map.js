@@ -7,19 +7,18 @@ import {googleMapsPublicKey} from "../services/keys"
 
 
 export default function Map(){
-  
     const googlemap = useRef(null);
     const {data,parameters,districts,setData,mapZoom} = useContext(PContext);
-    const [mapObj,setMapObj] = useState<any>(null);
-    const [hovering,setHovering] = useState<string|null>(null);
-    const [focusing,setFocusing] = useState<string|null>(null);
+    const [mapObj,setMapObj] = useState(null);
+    const [hovering,setHovering] = useState(null);
+    const [focusing,setFocusing] = useState(null);
     const [markers,setMarkers] = useState({});//[precinctname]: markerObject
-    const [switchPopup,setSwitchPopup] = useState<boolean>(false);
-    const [mousePosX,setMousePosX] = useState<number>(0);
-    const [mousePosY,setMousePosY] = useState<number>(0);
+    const [switchPopup,setSwitchPopup] = useState(false);
+    // const [mousePosX,setMousePosX] = useState(0);
+    // const [mousePosY,setMousePosY] = useState(0);
 
     //creat a map of [name]: districtNo. from "data"
-    const createDistrictMapping = ():object =>{
+    const createDistrictMapping = () =>{
       var obj = {};
       Object.keys(data).forEach(key=>{
         obj[key] = Number(data[key][0]);
@@ -36,8 +35,10 @@ export default function Map(){
       version: 'weekly',
     });
     let map;
+    
     loader.load().then(() => {
-      map = new google.maps.Map(googlemap.current, {
+        let google = window.google;
+        map = new google.maps.Map(googlemap.current, {
         center: {lat: 39.3433, lng: -95.4603},
         zoom: 4,
       });
@@ -51,7 +52,7 @@ export default function Map(){
     var obj = {};
     Object.keys(data).forEach(key=>{
       let precinct = data[key];
-      let color:string = data[key][0]==0?"grey":districts[data[key][0]-1];
+      let color = data[key][0]==0?"grey":districts[data[key][0]-1];
       let marker = addMarker(key,color,{
         lat: Number(precinct[2]),
         lng: Number(precinct[3])
@@ -69,9 +70,9 @@ export default function Map(){
   }
 
   //RETURNS the marker object
-  const addMarker = (pname: string, color: string, latLng: object) =>{
+  const addMarker = (pname, color, latLng) =>{
     let name = pname
-    
+    let google = window.google;
     let marker = new google.maps.Marker({
       position: latLng,
       icon: `images/${color}icon.PNG`,
@@ -91,7 +92,7 @@ export default function Map(){
     return marker;
   }
 
-  const changeMarkerColor = (precinctname: string, toColor:string) =>{
+  const changeMarkerColor = (precinctname, toColor) =>{
     markers[precinctname].setIcon(`images/${toColor}icon.PNG`)
     //console.log(precinctname);
     //console.log(markers[precinctname]);
@@ -107,7 +108,7 @@ export default function Map(){
   }
 
   //change the focused district
-  const changeDistrict = (district:number) =>{
+  const changeDistrict = (district) =>{
     //Change district in "data"
     var newObj = {...data};
     newObj[focusing][0] = district;
@@ -181,7 +182,7 @@ export default function Map(){
   //   console.log("Changing PrevData",prevData);
   // },[prevData])
 
-  const renderParams = (precinctname: string) =>{
+  const renderParams = (precinctname) =>{
     var arr = [];
     var j = 0;
     for(var i = 4;i<data[precinctname].length;i++){
