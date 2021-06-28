@@ -58,13 +58,17 @@ export default function Parameters(){
 
         {addPopup&&<Popup><div className="new-param">
             <button className="x-button" onClick={()=>setAddPopup(false)}><FontAwesomeIcon icon={faTimes}></FontAwesomeIcon></button>
+            <h4>Add a Parameter</h4>
+            <p>Program parameters are demographic characteristics of a precinct. Parameters MUST
+                be proportion values, represented as a decimal {"(0 < P < 1)"}.
+            </p>
             <input
                 onChange={(e)=>setNewInput(e.target.value)}
                 value={newInput}
                 placeholder="New Parameter"
                 className="new-param-input" 
             ></input>
-            <button className="add-button" onClick={addParam}>Add Parameter</button>
+            <button className="sb" onClick={addParam}>Add Parameter</button>
         </div></Popup>}
     </div>
 }

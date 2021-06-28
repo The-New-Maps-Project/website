@@ -207,18 +207,17 @@ export default function ListView(){
                             <div className="district">
                                 {data[precinct]&&data[precinct][0]==0
                                 ?"Unassigned":
-                                <span className="show-district">
+                                <button className="show-district" onClick={()=>{
+                                    setPrecinctToSwitch(precinct)
+                                    setSwitchPopup(true)
+                                }}>
                                     <span 
                                     className="color-box" 
                                     style={{backgroundColor: `var(--${districts[data[precinct][0]-1]}-icon)`}}
                                     ></span>
                                     District {data[precinct][0]} 
-                                </span>}
+                                </button>}
                             </div>
-                            <button className="switch-button" onClick={()=>{
-                                setPrecinctToSwitch(precinct)
-                                setSwitchPopup(true)
-                            }}>{data[precinct][0]==0?"Assign":"Switch"}</button>
                             <button className="tb info-button" onClick={()=>{
                                 var newObj = {...showParams};
                                 newObj[precinct] = !Boolean(showParams[precinct]);

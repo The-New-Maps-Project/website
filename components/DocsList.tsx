@@ -8,13 +8,13 @@ import Popup from "../components/Popup";
 import Loading from "../components/Loading"
 
 export default function DocsList(){
-    const {docs,setDocId,setData,setName,getDocs, lastDoc,setParameters, setDistricts} = useContext(PContext);
+    const {docs,setDocId,setData,setName,getDocs, lastDoc,setParameters, setDistricts,saveTimes,setNeedSave} = useContext(PContext);
     const [loading,setLoading]  = useState<boolean>(false);
     const [nameInput,setNameInput] = useState<string>("");
     const [createPopup,setCreatePopup] = useState<boolean>(false);
     
     useEffect(()=>{
-        getDocs();
+        getDocs(false);
     },[])
 
 
@@ -29,12 +29,24 @@ export default function DocsList(){
                 districts: [],
             }
             var res = await pDatabase.collection("users").doc(pAuth.currentUser.uid).collection("maps").add(mapObj);
+            openDoc({...mapObj,id:res.id})
+            getDocs(true);
             setLoading(false);
-            setDocId(res.id);
         }catch(e){
             console.error(e);
             setLoading(false);
         }
+    }
+
+    //pass in doc data() object
+    const openDoc = (doc) =>{
+        setData(doc.data);
+        setName(doc.name);
+        setParameters(doc.parameters)
+        setDocId(doc.id);
+        setDistricts(doc.districts)
+        setNeedSave(false);
+        saveTimes.current = 0;
     }
 
     return <div>
@@ -47,13 +59,7 @@ export default function DocsList(){
                 return <li className="single-doc" key={doc.id}>
                     <h5>{doc.name}</h5>
                     <p>Last Modified {convertTime(doc.date)}</p>
-                    <button className="sb" onClick={()=>{
-                        setData(doc.data);
-                        setName(doc.name);
-                        setParameters(doc.parameters)
-                        setDocId(doc.id);
-                        setDistricts(doc.districts)
-                    }}>Open</button>
+                    <button className="sb" onClick={()=>openDoc(doc)}>Open</button>
                 </li>
             })}
             {lastDoc!=null&&<li key="add">
@@ -65,7 +71,7 @@ export default function DocsList(){
         </ul>
 
         {createPopup&&<Popup>
-            <button className="x-button"><FontAwesomeIcon icon={faTimes}></FontAwesomeIcon></button>
+            <button className="x-button" onClick={()=>{setCreatePopup(false)}}><FontAwesomeIcon icon={faTimes}></FontAwesomeIcon></button>
             <div className="create-map">
                 <h5>New Map</h5>
                 <input
