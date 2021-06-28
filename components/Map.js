@@ -75,7 +75,7 @@ export default function Map(){
     let google = window.google;
     let marker = new google.maps.Marker({
       position: latLng,
-      icon: `images/${color}icon.PNG`,
+      icon: `images/${color}icon.png`,
       map: mapObj,
       clickable: true,
       optimized: true,
