@@ -49,7 +49,7 @@ export default function Header(){
                     onChange={(e)=>setNameInput(e.target.value)}
                     placeholder="Name"
                 ></input>   
-                <button onClick={()=>changeName()}>Change</button>
+                <button className="sb ml5" onClick={()=>changeName()}>Change</button>
             </div>    
         </Popup>}
 

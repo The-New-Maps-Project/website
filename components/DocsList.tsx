@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import PContext from "../services/context"
 import convertTime from "../services/convertTime";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlusCircle, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faMapMarkedAlt, faPlusCircle, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { pAuth, pDatabase } from "../services/config";
 import Popup from "../components/Popup";
 import Loading from "../components/Loading"
@@ -50,16 +50,21 @@ export default function DocsList(){
     }
 
     return <div>
-        <h3>Open a Map</h3>
+        <h3 className="mymaps">My Maps</h3>
         <div>
             <button className="sb" onClick={()=>setCreatePopup(true)}><FontAwesomeIcon className="plus-icon" icon={faPlusCircle}></FontAwesomeIcon>New Map</button>
         </div>
         <ul id="docs-list">
             {docs.map(doc=>{
                 return <li className="single-doc" key={doc.id}>
-                    <h5>{doc.name}</h5>
-                    <p>Last Modified {convertTime(doc.date)}</p>
-                    <button className="sb" onClick={()=>openDoc(doc)}>Open</button>
+                    <div className="left">
+                        <FontAwesomeIcon icon={faMapMarkedAlt}></FontAwesomeIcon>
+                    </div>
+                    <div className="right">
+                        <h5>{doc.name}</h5>
+                        <p>Last Modified {convertTime(doc.date)}</p>
+                        <button className="sb" onClick={()=>openDoc(doc)}>Open</button>
+                    </div>
                 </li>
             })}
             {lastDoc!=null&&<li key="add">
@@ -73,14 +78,14 @@ export default function DocsList(){
         {createPopup&&<Popup>
             <button className="x-button" onClick={()=>{setCreatePopup(false)}}><FontAwesomeIcon icon={faTimes}></FontAwesomeIcon></button>
             <div className="create-map">
-                <h5>New Map</h5>
+                <h4>New Map</h4>
                 <input
                     onChange={(e)=>setNameInput(e.target.value)}
                     value={nameInput}
                     placeholder="Map Name"
                 ></input>
                 {loading&&<Loading></Loading>}
-                <button className="sb" onClick={()=>createNew()}>Create</button>
+                <button className="sb ml5" onClick={()=>createNew()}>Create</button>
             </div>
         </Popup>}
     </div>
