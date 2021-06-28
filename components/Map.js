@@ -93,7 +93,7 @@ export default function Map(){
   }
 
   const changeMarkerColor = (precinctname, toColor) =>{
-    markers[precinctname].setIcon(`images/${toColor}icon.PNG`)
+    markers[precinctname].setIcon(`images/${toColor}icon.png`)
     //console.log(precinctname);
     //console.log(markers[precinctname]);
     // if(!markers[precinctname]) return;
