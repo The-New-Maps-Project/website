@@ -161,17 +161,17 @@ export default function ListView(){
                     })}
                 </select>
             </div>
-            <div className="search">
+            <div className="search row">
                 <input
                     value={searchInput}
                     onChange={(e)=>setSearchInput(e.target.value)}
                     placeholder="Search"
                 ></input>
                 <button className="tb" onClick={()=>setSearchQuery(searchInput)}>
-                    <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>
+                    <FontAwesomeIcon className="si" icon={faSearch}></FontAwesomeIcon>
                 </button>
             </div>
-            {!isEditing&&<div className="edit">
+            {<div className="edit">
                 <button className="tb" onClick={()=>setIsEditing(true)}>Edit<FontAwesomeIcon className="icon" icon={faEdit}></FontAwesomeIcon></button>
             </div>}
         </div>
