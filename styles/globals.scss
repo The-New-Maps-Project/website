@@ -1,50 +1,49 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
-@mixin row(){
+@mixin row() {
   display: flex;
   align-items: center;
 }
 
-.row{
+.row {
   @include row();
 }
 
-@mixin col(){
+@mixin col() {
   @include row();
   flex-direction: column;
 }
 
-.col{
+.col {
   @include col();
 }
 
-@mixin center(){
+@mixin center() {
   @include row();
   justify-content: center;
 }
 
-.center{
+.center {
   @include center();
 }
 
-@mixin hoverer1{
+@mixin hoverer1 {
   transition: opacity 0.2s;
   opacity: 1;
-  &:hover{
+  &:hover {
     opacity: 0.7;
   }
 }
 
-
-@mixin hoverer2{
+@mixin hoverer2 {
   transition: opacity 0.2s;
   opacity: 0.7;
-  &:hover{
+  &:hover {
     opacity: 1;
   }
 }
 
-@mixin sbstyle{
+@mixin sbstyle {
   background-color: black;
   font-size: 15px;
   font-weight: bold;
@@ -56,34 +55,34 @@
   @include hoverer1();
 }
 
-.sb{
+.sb {
   @include sbstyle();
 }
 
-button .plus-icon{
+button .plus-icon {
   margin-right: 5px;
   height: 16px;
 }
 
-@mixin tbstyle{
+@mixin tbstyle {
   background-color: transparent;
-  border:none;
+  border: none;
   font-size: 15px;
   @include hoverer1();
 }
 
-.tb{
+.tb {
   @include tbstyle();
 }
 
-.grey-tb{
+.grey-tb {
   background-color: transparent;
-  border:none;
+  border: none;
   font-size: 15px;
   @include hoverer2();
 }
 
-@mixin buttonStyle{
+@mixin buttonStyle {
   border: none;
   border-radius: 5px;
   box-shadow: 3px 3px 5px lightgrey;
@@ -92,48 +91,48 @@ button .plus-icon{
   @include hoverer1();
 }
 
-@mixin sistyle{
+@mixin sistyle {
   font-size: 15px;
   padding: 3px;
   border-radius: 0px;
   border: 2px solid black;
   background-color: rgb(230, 230, 230);
-  &:focus{
+  &:focus {
     background-color: white;
   }
 }
 
-.ml15{
+.ml15 {
   margin-left: 15px;
 }
 
-.mr15{
+.mr15 {
   margin-right: 15px;
 }
 
-input{
+input {
   @include sistyle();
 }
 
-ul{
+ul {
   list-style: none;
   padding: 0px;
 }
 
-@mixin siStyles(){
-  height: 16px
+@mixin siStyles() {
+  height: 16px;
 }
 
-.si{
+.si {
   @include siStyles();
 }
 
-:root{
-  --primary-font: 'Roboto', sans-serif;
+:root {
+  --primary-font: "Roboto", sans-serif;
   --coral: lightcoral;
   --green: #559190;
-  --yellow: #FCFBE7;
-  --blue: #3C67FF;
+  --yellow: #fcfbe7;
+  --blue: #3c67ff;
   --green-icon: rgb(73, 255, 73);
   --blue-icon: blue;
   --yellow-icon: yellow;
@@ -147,8 +146,10 @@ ul{
   --orange-icon: orange;
 }
 
-button, input, select {
-  &:focus{
+button,
+input,
+select {
+  &:focus {
     outline: none;
   }
 }
@@ -157,7 +158,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: var(--primary-font)
+  font-family: var(--primary-font);
 }
 
 a {
@@ -169,16 +170,16 @@ a {
   box-sizing: border-box;
 }
 
-.gob{
+.gob {
   position: fixed;
   width: 100vw;
   height: 100vh;
   top: 0px;
   left: 0px;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   z-index: 100;
   @include center();
-  .popup{
+  .popup {
     padding: 15px;
     border-radius: 10px;
     background-color: white;
@@ -186,14 +187,16 @@ a {
     max-height: 90vh;
     max-width: 90vw;
     overflow-y: scroll;
-    .x-button{
+    .x-button {
       position: absolute;
       top: 5px;
       right: 5px;
-      svg{@include siStyles();
-      color: red;}
+      svg {
+        @include siStyles();
+        color: red;
+      }
     }
-    h4{
+    h4 {
       font-size: 24px;
       font-weight: bold;
       margin-top: 0px;
@@ -202,27 +205,27 @@ a {
   }
 }
 
-.ml5{
+.ml5 {
   margin-left: 5px;
 }
 
-header{
+header {
   padding: 0px 3vw;
   @include row();
   justify-content: space-between;
-  h1{
-      div{
-        margin: 0px;
-      }
-      #small-header{
-          font-size: 18px;
-          color: rgb(105, 105, 105)
-      }
-      #main-header{
-          font-size: 30px;
-      }
+  h1 {
+    div {
+      margin: 0px;
+    }
+    #small-header {
+      font-size: 18px;
+      color: rgb(105, 105, 105);
+    }
+    #main-header {
+      font-size: 30px;
+    }
   }
-  h2#map-title{
+  h2#map-title {
     @include row();
     padding: 7px 20px;
     font-size: 18px;
@@ -231,31 +234,31 @@ header{
     box-shadow: 3px 3px 5px lightgrey;
     color: var(--yellow);
     background-color: var(--green);
-    button{
+    button {
       margin-left: 5px;
       padding: 0px;
       color: var(--yellow);
       font-weight: bold;
-      &:hover{
+      &:hover {
         text-shadow: 0px 0px 3px var(--yellow);
       }
     }
   }
-  .account-button{
+  .account-button {
     border: none;
     background-color: lightgrey;
     border-radius: 10px;
     padding: 7px 20px;
     font-size: 16px;
     @include row();
-    .user-icon{
+    .user-icon {
       margin-right: 5px;
       font-size: 20px;
       height: 20px;
     }
   }
-  #save-and-import{
-    .save-button{
+  #save-and-import {
+    .save-button {
       background-color: var(--blue);
       border: none;
       padding: 8px 20px;
@@ -266,7 +269,7 @@ header{
       font-size: 16px;
       font-weight: bold;
       @include row();
-      .save-icon{
+      .save-icon {
         margin-right: 5px;
         font-size: 20px;
         height: 20px;
@@ -275,104 +278,104 @@ header{
   }
 }
 
-
-main{
+main {
   padding: 0px 3vw;
   min-height: 90vh;
 }
 
-#default-frontpage{
+#default-frontpage {
   width: 100%;
   height: 80vh;
   display: grid;
   grid-template-columns: 1fr auto;
   margin-bottom: 10vh;
   margin-top: 30px;
-  .left{
+  .left {
     height: 100%;
     background-color: rgb(230, 230, 230);
     padding: 20px 30px;
     overflow-y: scroll;
     margin-right: 30px;
   }
-  .right{
+  .right {
     height: 100%;
     padding: 0px 3vw;
     @include center();
   }
 }
 
-#auth{
-  h4{
+#auth {
+  h4 {
     font-size: 30px;
     margin: 0px;
     margin-bottom: 30px;
   }
-  input{
+  input {
     display: block;
     margin: 15px 0px;
   }
-  .error-message{
+  .error-message {
     font-size: 10px;
-    color:red;
+    color: red;
   }
-  .auth-buttons{
-    button:nth-child(1){
-      margin-right: 10px
+  .auth-buttons {
+    button:nth-child(1) {
+      margin-right: 10px;
     }
   }
-  
 }
 
-#account{
+#account {
   @include center();
   min-height: 70vh;
 }
 
-h3.mymaps{
+h3.mymaps {
   font-size: 30px;
   margin: 30px 0px;
 }
 
-#docs-list{
+#docs-list {
   padding: 0px;
   margin: 20px 0px;
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(5,1fr);
-  li.single-doc{
+  grid-template-columns: repeat(5, 1fr);
+  li.single-doc {
     width: auto;
     margin: 20px auto;
     border-radius: 10px;
     //background-color: lightgray;
     //box-shadow: 3px 3px 5px black;
     padding: 15px 20px;
-    .left{
-      font-size: 40px;
-      height: 40px;
+    .left {
+      .icon {
+        font-size: 40px;
+        height: 40px;
+      }
       @include center();
       padding: 20px 0px;
     }
-    .right{
-      h5{
+    .right {
+      h5 {
         margin: 0px;
-        font-size: 20px
+        font-size: 20px;
       }
-      p{
-        margin: 10px 0px ;
+      p {
+        margin: 10px 0px;
       }
     }
   }
 }
 
-#scaffold{
-  #first-row{
+#scaffold {
+  #first-row {
     display: flex;
     justify-content: space-between;
-    .right{
+    .right {
       @include col();
       align-items: flex-end;
-      .second-row{
+      .second-row {
         @include row();
         margin-top: 10px;
       }
@@ -380,17 +383,17 @@ h3.mymaps{
   }
 }
 
-.save-banner{
+.save-banner {
   position: fixed;
   top: 0px;
   left: 0px;
   padding: 10px;
   background-color: var(--blue);
-  color:white;
+  color: white;
   z-index: 20;
   font-weight: bold;
   border-bottom-right-radius: 8px;
-  span{
+  span {
     color: red;
     margin-right: 5px;
     text-shadow: 1px 1px 2px pink;
@@ -398,7 +401,7 @@ h3.mymaps{
   box-shadow: 2px 2px 3px grey;
 }
 
-.algorithm-button{
+.algorithm-button {
   @include buttonStyle();
   padding: 5px 10px;
   background-color: black;
@@ -408,37 +411,38 @@ h3.mymaps{
   margin-right: 10px;
 }
 
-.import-button{
+.import-button {
   padding: 7px 30px;
   background-color: red;
   @include buttonStyle();
   @include row();
-  .plus-icon{
+  .plus-icon {
     height: 16px;
     margin-left: 5px;
   }
 }
 
-#import-popup{
+#import-popup {
   padding: 20px;
   max-width: 500px;
-  h5{
+  h5 {
     margin: 0px;
     margin-bottom: 10px;
     font-size: 26px;
   }
-  .file-format, .line-example{
-    span{
+  .file-format,
+  .line-example {
+    span {
       font-weight: bold;
       margin-right: 5px;
     }
   }
-  .example-files .sample-files-link{
+  .example-files .sample-files-link {
     @include tbstyle();
     color: blue;
     text-decoration: underline;
   }
-  .order-box{
+  .order-box {
     border: 3px solid black;
     border-radius: 10px;
     padding: 10px;
@@ -446,7 +450,7 @@ h3.mymaps{
     background-color: lightgrey;
     position: relative;
     margin: 20px 0px;
-    p{
+    p {
       position: absolute;
       top: 0px;
       left: 0px;
@@ -458,37 +462,36 @@ h3.mymaps{
   }
 }
 
-.new-param{
+.new-param {
   max-width: 360px;
-  h4{
+  h4 {
     font-size: 24px;
     margin-bottom: 20px;
-    margin-top: 0px
+    margin-top: 0px;
   }
-  .sb{
+  .sb {
     padding: 5px 10px;
     font-weight: 100;
     margin-left: 5px;
   }
-  
 }
 
-#parameters{
-  .first-row{
+#parameters {
+  .first-row {
     @include row();
-    h4{
+    h4 {
       margin: 0px;
     }
     margin-bottom: 10px;
   }
-  #p-list{
+  #p-list {
     min-height: 30px;
     padding: 0px;
     @include row();
     flex-wrap: wrap;
     list-style: none;
     //overflow-x: scroll;
-    .param{
+    .param {
       min-width: 100px;
       padding: 4px 15px;
       margin-bottom: 15px;
@@ -497,25 +500,25 @@ h3.mymaps{
       border-radius: 5px;
       box-shadow: 3px 2px 5px lightgrey;
       margin-right: 20px;
-      .p-settings{
-        .cogs{
+      .p-settings {
+        .cogs {
           @include hoverer2();
           margin-left: 5px;
           font-size: 10px;
         }
         position: relative;
-        .p-settings-display{
+        .p-settings-display {
           z-index: 10;
           display: none;
           position: absolute;
           top: 20px;
           left: 0px;
           transform: translateX(-50%);
-          background-color:var(--green);
+          background-color: var(--green);
           padding: 5px 10px;
           border-radius: 5px;
         }
-        &:hover .p-settings-display{
+        &:hover .p-settings-display {
           @include row();
         }
       }
@@ -523,80 +526,79 @@ h3.mymaps{
   }
 }
 
-#body{
+#body {
   display: grid;
   grid-template-columns: 1fr auto;
 }
 
-
-.plus-button{
+.plus-button {
   background-color: transparent;
   border: none;
   font-size: 20px;
-  color:green;
+  color: green;
   @include hoverer1();
 }
 
-.x-button{
+.x-button {
   background-color: transparent;
   border: none;
   font-size: 20px;
-  color:red;
+  color: red;
   @include hoverer1();
 }
 
-.color-box{
+.color-box {
   display: block;
   height: 25px;
   width: 25px;
   box-shadow: 2px 2px 3px lightgray;
 }
 
-.districts-button{
+.districts-button {
   @include buttonStyle();
   background-color: rgb(53, 235, 53);
   font-weight: 100;
   font-size: 15px;
   padding: 6px 20px;
   @include row();
-  .icon{
+  .icon {
     margin-left: 5px;
     height: 16px;
   }
 }
 
-#districts-popup{
+#districts-popup {
   min-width: 300px;
-  .first-row{
-    input{
+  .first-row {
+    input {
       margin: 0px 5px;
       width: 40px;
     }
-    .sb{
+    .sb {
       margin-left: 5px;
     }
   }
-  #districts-list{
+  #districts-list {
     list-style: none;
     padding: 0px;
-    .single-district{
+    .single-district {
       @include row();
       padding: 5px 20px;
       border-radius: 10px;
       border: 2px solid black;
       box-shadow: 3px 3px 5px grey;
       margin: 10px 0px;
-      .color-box{
+      .color-box {
         margin: 0px 10px;
       }
-      select{
+      select {
         font-size: 18px;
         padding: 3px;
         border: none;
         border-bottom: 3px solid black;
         margin-right: 20px;
       }
-      .delete-district{
+      .delete-district {
         font-size: 18px;
         font-weight: bold;
         color: rgb(78, 78, 78);
@@ -608,7 +610,7 @@ h3.mymaps{
   }
 }
 
-#map{
+#map {
   border: 3px solid black;
   box-shadow: 3px 3px 5px grey;
   border-radius: 5px;
@@ -617,7 +619,7 @@ h3.mymaps{
   width: 100%;
 }
 
-#map-hovering{
+#map-hovering {
   background-color: black;
   color: white;
   padding: 5px 10px;
@@ -625,64 +627,63 @@ h3.mymaps{
   z-index: 10;
 }
 
-#focused-precinct{
+#focused-precinct {
   padding: 10px 20px;
   border: 2px solid black;
   box-shadow: 2px 2px 5px lightgrey;
   border-radius: 10px;
   margin: 10px 0px;
-  .precinct-name{
+  .precinct-name {
     font-size: 20px;
     font-weight: bold;
   }
-  .district{
+  .district {
     @include row();
     margin-top: 10px;
-    .show-district{
+    .show-district {
       @include row();
 
-      .color-box{
+      .color-box {
         margin-right: 5px;
       }
     }
-    .switch-button{
+    .switch-button {
       margin-left: 10px;
     }
   }
-  .population{
+  .population {
     font-size: 14px;
     color: grey;
     margin: 10px 0px;
   }
-  .params ul{
+  .params ul {
     list-style: none;
     padding: 0px;
-    li{
+    li {
       margin: 5px 0px;
-      .param-name{
+      .param-name {
         font-weight: bold;
         margin-right: 5px;
       }
-      .param-value{
+      .param-value {
         color: grey;
       }
     }
   }
-
 }
 
-.switch-button{
+.switch-button {
   @include hoverer1();
   font-size: 14px;
   font-weight: 100;
   background-color: lightgrey;
   box-shadow: 0px 0px 3px lightgrey;
   padding: 3px 10px;
-  border:none;
-  border-radius: 6px      
+  border: none;
+  border-radius: 6px;
 }
 
-.color-circle{
+.color-circle {
   display: block;
   height: 15px;
   width: 15px;
@@ -691,66 +692,66 @@ h3.mymaps{
   box-shadow: 2px 2px 3px grey;
 }
 
-#switch-popup{
+#switch-popup {
   min-width: 250px;
-  .current-district{
+  .current-district {
     font-size: 14px;
     @include row();
-    .color-circle{
+    .color-circle {
       margin: 0px 5px;
     }
   }
-  h5{
+  h5 {
     font-size: 18px;
     margin: 20px 0px;
   }
-  #switch-list{
+  #switch-list {
     list-style: none;
     padding: 0px;
-    li{
+    li {
       margin: 5px 0px;
       font-size: 16px;
-      .select-district{
+      .select-district {
         @include row();
-        .color-circle{
-          margin-right: 10px
+        .color-circle {
+          margin-right: 10px;
         }
       }
     }
   }
 }
 
-#view-container{
-  #menu{
+#view-container {
+  #menu {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    .menu-item{
+    .menu-item {
       background-color: transparent;
       border: none;
       @include col();
       @include hoverer2();
-      h6{
+      h6 {
         font-size: 20px;
         margin: 0px;
         margin-bottom: 10px;
       }
-      p{
+      p {
         margin: 0px;
         width: 50%;
         height: 5px;
         background-color: black;
         transition: all 0.2s;
       }
-      
-      &:hover{
-        p{
+
+      &:hover {
+        p {
           width: 70%;
         }
       }
 
-      &.focused{
+      &.focused {
         opacity: 1;
-        p{
+        p {
           width: 70%;
         }
       }
@@ -758,33 +759,32 @@ h3.mymaps{
   }
 }
 
-
-#list-view{
-    padding-left: 30px;
-    min-width: 30vw;
-  .edit-row{
+#list-view {
+  padding-left: 30px;
+  min-width: 30vw;
+  .edit-row {
     @include row();
     justify-content: space-between;
     margin: 0px 0px 5px 0px;
-    button:not(.x-button){
+    button:not(.x-button) {
       padding: 5px 10px;
       @include buttonStyle();
       font-weight: 100;
-      color:white;
+      color: white;
       font-size: 14px;
       background-color: black;
     }
   }
-  .select-row-two{
+  .select-row-two {
     @include row();
-    button{
+    button {
       @include tbstyle();
       color: var(--green);
       margin-left: 15px;
     }
     margin-bottom: 15px;
   }
-  .first-row{
+  .first-row {
     @include row();
     justify-content: space-between;
     font-size: 16px;
@@ -793,69 +793,69 @@ h3.mymaps{
     box-shadow: 2px 2px 5px grey;
     margin: 0px;
     margin-bottom: 20px;
-    .sort-by{
-      select{
+    .sort-by {
+      select {
         background-color: transparent;
         border: none;
         margin-left: 5px;
       }
     }
-    .search{
-      input{
+    .search {
+      input {
         width: 100px;
         background-color: transparent;
         border: none;
         border-bottom: 3px solid black;
-        &:focus{
+        &:focus {
           background-color: transparent;
           border-bottom: 5px solid black;
         }
       }
-      button{
+      button {
         margin-left: 5px;
         font-size: 18px;
         font-weight: bold;
       }
     }
-    .edit{
-      .icon{
+    .edit {
+      .icon {
         font-size: 16px;
         height: 16px;
         margin-left: 5px;
       }
     }
   }
-  #searchQuery{
+  #searchQuery {
     padding: 5px 15px;
     margin: 20px 0px;
     border: none;
     border-radius: 5px;
     background-color: lightgrey;
     box-shadow: 2px 2px 5px lightgrey;
-    .x-button{
+    .x-button {
       margin-left: 10px;
     }
   }
 }
 
-#precinct-list{
+#precinct-list {
   max-height: 60vh;
   overflow-y: scroll;
-  li.single-precinct{
+  li.single-precinct {
     padding: 10px 20px;
     border-radius: 15px;
     border: 2px solid black;
     box-shadow: 2px 2px 5px grey;
     margin: 10px 0px;
-    .main-row{
+    .main-row {
       @include row();
       justify-content: space-between;
-      .precinct-name{
+      .precinct-name {
         font-size: 18px;
       }
-      .district{
+      .district {
         margin: 0px 20px;
-        .show-district{
+        .show-district {
           @include row();
           @include hoverer1();
           font-size: 16px;
@@ -863,7 +863,7 @@ h3.mymaps{
           background-color: none;
           padding: 0px;
           background-color: transparent;
-          .color-box{
+          .color-box {
             margin-right: 7px;
           }
         }
@@ -871,21 +871,21 @@ h3.mymaps{
       // .switch-button{
       //     margin-left: 10;
       // }
-      .info-button{
+      .info-button {
         @include row();
         margin-left: 10px;
-        .icon{
+        .icon {
           height: 16px;
           margin-left: 5px;
         }
       }
     }
-    .params ul{
+    .params ul {
       margin: 20px 10px;
-      li.param-data{
+      li.param-data {
         margin-bottom: 5px;
         font-size: 14px;
-        .param-name{
+        .param-name {
           font-weight: bold;
           margin-right: 5px;
         }
@@ -894,24 +894,24 @@ h3.mymaps{
   }
 }
 
-.delete-precincts{
-  div{
+.delete-precincts {
+  div {
     @include row();
-    button:nth-child(1){
-      margin-right: 10px
+    button:nth-child(1) {
+      margin-right: 10px;
     }
   }
 }
 
-#algorithm-popup{
+#algorithm-popup {
   max-width: 300px;
-  h5{
+  h5 {
     font-size: 24px;
     margin-bottom: 10px;
     margin-top: 40px;
   }
-  .learn-more{
-    a{
+  .learn-more {
+    a {
       text-decoration: underline;
       @include hoverer1();
       color: rgb(0, 0, 99);
@@ -919,17 +919,16 @@ h3.mymaps{
   }
 }
 
-
-#analysis-container{
+#analysis-container {
   min-height: 50vh;
   padding-bottom: 10vh;
-  hr{
+  hr {
     margin: 5vh auto;
     width: 90vw;
   }
-  .recalc-button-container{
+  .recalc-button-container {
     @include center();
-    .recalc-button{
+    .recalc-button {
       padding: 8px 15px;
       font-size: 18px;
       border-radius: 10px;
@@ -940,67 +939,67 @@ h3.mymaps{
     }
   }
 
-  #analysis-main{
+  #analysis-main {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    #param-analysis{
-      .first-row{
+    #param-analysis {
+      .first-row {
         margin: 20px 0px;
-        select{
+        select {
           padding: 5px;
           border-radius: 5px;
           border: 2px solid grey;
           box-shadow: 2px 2px 5px lightgrey;
         }
       }
-      #param-info{
-        h3{
+      #param-info {
+        h3 {
           font-size: 30px;
           font-weight: bold;
           margin: 30px 0px;
           text-shadow: 1px 1px 3px grey;
         }
-        hr{
+        hr {
           width: 90%;
           margin-right: auto;
         }
-        .percent-bar{
+        .percent-bar {
           margin: 10px 0px;
         }
-        .values-list{
+        .values-list {
           margin: 30px 0px;
           font-size: 18px;
-          li{
+          li {
             @include row();
             margin: 20px 0px;
-            label{
+            label {
               font-weight: bold;
             }
-            p{
+            p {
               color: grey;
               margin: 0px;
               margin-left: 20px;
             }
           }
-          .allData{
+          .allData {
             @include buttonStyle();
             padding: 5px 15px;
             border-radius: 10px;
-            color:white;
+            color: white;
             font-weight: 100;
-            background-color: #004C93;
+            background-color: #004c93;
           }
         }
       }
     }
-    #district-analysis{
+    #district-analysis {
       padding: 30px 20px;
-      ul#districts-list{
-        li.single-district{
-          .district-name{
+      ul#districts-list {
+        li.single-district {
+          .district-name {
             @include row();
             font-size: 20px;
-            .color-box{
+            .color-box {
               margin-right: 10px;
             }
           }
@@ -1009,26 +1008,26 @@ h3.mymaps{
           padding: 10px 20px;
           border-radius: 10px;
           box-shadow: 3px 3px 5px grey;
-          .main-row{
+          .main-row {
             @include row();
             justify-content: space-between;
           }
-          .table{
-            li{
+          .table {
+            li {
               @include row();
               margin: 15px 0px;
-              div{
+              div {
                 width: 30%;
                 text-align: left;
                 color: rgb(95, 95, 95);
               }
-              .p-name{
+              .p-name {
                 color: black;
                 font-weight: bold;
               }
             }
-            .top-row{
-              font-weight: bolder
+            .top-row {
+              font-weight: bolder;
             }
           }
         }
@@ -1037,30 +1036,28 @@ h3.mymaps{
   }
 }
 
-.percent-bar{
+.percent-bar {
   border: 3px solid black;
   width: 100%;
   height: 30px;
   position: relative;
-  .inner-pb{
+  .inner-pb {
     height: 100%;
     background-color: lightgrey;
   }
-  label{
+  label {
     position: absolute;
     top: 50%;
     left: 50%;
     font-weight: bold;
     text-shadow: 1px 1px 2px grey;
-    transform:  translate(-50%,-50%);
+    transform: translate(-50%, -50%);
   }
 }
 
-
-
-footer{
+footer {
   @include center();
   background-color: black;
-  color:white;
+  color: white;
   padding: 15px 0px;
 }
