@@ -52,13 +52,13 @@ export default function DocsList(){
     return <div>
         <h3 className="mymaps">My Maps</h3>
         <div>
-            <button className="sb" onClick={()=>setCreatePopup(true)}><FontAwesomeIcon className="plus-icon" icon={faPlusCircle}></FontAwesomeIcon>New Map</button>
+            <button className="sb row" onClick={()=>setCreatePopup(true)}><FontAwesomeIcon className="plus-icon" icon={faPlusCircle}></FontAwesomeIcon>New Map</button>
         </div>
         <ul id="docs-list">
             {docs.map(doc=>{
                 return <li className="single-doc" key={doc.id}>
                     <div className="left">
-                        <FontAwesomeIcon icon={faMapMarkedAlt}></FontAwesomeIcon>
+                        <FontAwesomeIcon className="icon" icon={faMapMarkedAlt}></FontAwesomeIcon>
                     </div>
                     <div className="right">
                         <h5>{doc.name}</h5>
