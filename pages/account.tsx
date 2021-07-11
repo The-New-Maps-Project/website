@@ -1,8 +1,13 @@
 import { pAuth } from "../services/config";
 import {useRouter} from "next/router"
+import { useContext } from "react";
+import PContext from "../services/context";
 
 export default function Account(){
     const router = useRouter()
+    const {setDocId} = useContext(PContext);
+
+    setDocId(null); //exit out of editing a map mode when you go to the account page.
 
     const logout = async () =>{
         try{
