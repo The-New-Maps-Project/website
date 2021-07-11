@@ -172,7 +172,7 @@ export default function ListView(){
                 </button>
             </div>
             {<div className="edit">
-                <button className="tb" onClick={()=>setIsEditing(true)}>Edit<FontAwesomeIcon className="icon" icon={faEdit}></FontAwesomeIcon></button>
+                <button className="tb" onClick={()=>setIsEditing(!isEditing)}>Edit<FontAwesomeIcon className="icon" icon={faEdit}></FontAwesomeIcon></button>
             </div>}
         </div>
         {searchQuery&&<div id="searchQuery">
