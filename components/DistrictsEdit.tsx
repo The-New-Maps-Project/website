@@ -67,7 +67,7 @@ export default function DistrictsEdit(){
                 <ul id="districts-list">
                     {renderDistricts()}
                 </ul>
-                <button className="sb" onClick={saveChanges}>Save Changes</button>
+                <button className="sb" onClick={saveChanges}>Done</button>
             </div>
         </Popup>}
     </div>
