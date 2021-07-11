@@ -21,8 +21,7 @@ interface DocOption {
 export default function DocsRoot() {
     var {query:{id}} = useRouter();
     id = "/" + id;
-    console.log(id);
-  const {isMobile,setTitle} = useContext(PContext);
+  const {} = useContext(PContext);
   const [showMenu,setShowMenu] = useState<boolean>(false);
 
   //In order ("num" property  not actually used, just so you know what index it is")
@@ -68,16 +67,12 @@ export default function DocsRoot() {
   return (
     <div id="documentation">
       <div className="docs-header-container">
-        {isMobile&&<button className="tb docs-menu-button" onClick={()=>setShowMenu(!showMenu)}>Menu</button>}
         <h1 className="docs-header">Documentation</h1>
       </div>
       <div id="docs-container">
-        {(!isMobile||showMenu)&&<div className="docs-col1">
-          {isMobile&&<div className="row menu-header"><h6>Menu</h6>
-            <span className="tb" onClick={()=>setShowMenu(false)}>Close</span>
-          </div>}
+        <div className="docs-col1">
           <ul className="docs-options">{optionsArr}</ul>
-        </div>}
+        </div>
         <div className="docs-col2">
           <section id="docs-body"><ReactMarkdown>{text}</ReactMarkdown></section>
         </div>
