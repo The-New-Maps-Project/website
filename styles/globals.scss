@@ -63,6 +63,13 @@ button .plus-icon{
   @include tbstyle();
 }
 
+.grey-tb{
+  background-color: transparent;
+  border:none;
+  font-size: 15px;
+  @include hoverer2();
+}
+
 @mixin buttonStyle{
   border: none;
   border-radius: 5px;
@@ -81,6 +88,14 @@ button .plus-icon{
   &:focus{
     background-color: white;
   }
+}
+
+.ml15{
+  margin-left: 15px;
+}
+
+.mr15{
+  margin-right: 15px;
 }
 
 input{
