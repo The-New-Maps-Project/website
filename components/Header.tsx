@@ -46,7 +46,7 @@ export default function Header() {
         </div>
       )}
       <Link href="/documentation">
-        <a className="tb">Docs</a>
+        <a target="_blank" className="tb">Docs</a>
       </Link>
       {isAuth && (
         <div id="account-header">
