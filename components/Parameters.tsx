@@ -16,19 +16,19 @@ export default function Parameters(){
     }
 
     return <div id="parameters">
-        <div className="first-row"><h4>Parameters</h4><button className="plus-button" onClick={()=>setAddPopup(true)}><FontAwesomeIcon icon={faPlusCircle}></FontAwesomeIcon></button></div>
+        <div className="first-row"><h4>Parameters</h4><button className="plus-button" onClick={()=>setAddPopup(true)}><FontAwesomeIcon icon={faPlusCircle} className="si"></FontAwesomeIcon></button></div>
         <ul id="p-list">
             {parameters.map(p=>{
                 return <li className="param" key={p}>
                     {p}
                     <div className="p-settings">
-                        <FontAwesomeIcon className="cogs" icon={faCogs}></FontAwesomeIcon>
+                        <FontAwesomeIcon className="cogs si" icon={faCogs}></FontAwesomeIcon>
                         <div className="p-settings-display">
                             <button className="x-button" onClick={()=>{
                                 var newParams = [...parameters].filter(a=>a!=p);
                                 setParameters(newParams);
                             }}>
-                                <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+                                <FontAwesomeIcon className="si" icon={faTimes}></FontAwesomeIcon>
                             </button>
                             <button className="l-arrow" onClick={()=>{
                                 var i = parameters.indexOf(p);
@@ -40,7 +40,7 @@ export default function Parameters(){
                                     setParameters(arr);
                                 }
                                 
-                            }}><FontAwesomeIcon icon={faCaretLeft}></FontAwesomeIcon></button>
+                            }}><FontAwesomeIcon className="si" icon={faCaretLeft}></FontAwesomeIcon></button>
                             <button className="-arrow" onClick={()=>{
                                 var i = parameters.indexOf(p);
                                 if(i<parameters.length-1) {
@@ -49,7 +49,7 @@ export default function Parameters(){
                                     console.log(arr);
                                     setParameters(arr);
                                 }
-                            }}><FontAwesomeIcon icon={faCaretRight}></FontAwesomeIcon></button>
+                            }}><FontAwesomeIcon className="si" icon={faCaretRight}></FontAwesomeIcon></button>
                         </div>
                     </div>
                     </li>

@@ -50,6 +50,7 @@
 
 button .plus-icon{
   margin-right: 5px;
+  height: 16px;
 }
 
 @mixin tbstyle{
@@ -105,6 +106,14 @@ input{
 ul{
   list-style: none;
   padding: 0px;
+}
+
+@mixin siStyles(){
+  height: 16px
+}
+
+.si{
+  @include siStyles();
 }
 
 :root{
@@ -169,6 +178,8 @@ a {
       position: absolute;
       top: 5px;
       right: 5px;
+      svg{@include siStyles();
+      color: red;}
     }
     h4{
       font-size: 24px;
@@ -228,6 +239,7 @@ header{
     .user-icon{
       margin-right: 5px;
       font-size: 20px;
+      height: 20px;
     }
   }
   #save-and-import{
@@ -241,9 +253,11 @@ header{
       @include hoverer1();
       font-size: 16px;
       font-weight: bold;
+      @include row();
       .save-icon{
         margin-right: 5px;
         font-size: 20px;
+        height: 20px;
       }
     }
   }
@@ -385,7 +399,9 @@ h3.mymaps{
   padding: 7px 30px;
   background-color: red;
   @include buttonStyle();
+  @include row();
   .plus-icon{
+    height: 16px;
     margin-left: 5px;
   }
 }
@@ -528,8 +544,10 @@ h3.mymaps{
   font-weight: 100;
   font-size: 15px;
   padding: 6px 20px;
+  @include row();
   .icon{
     margin-left: 5px;
+    height: 16px;
   }
 }
 
@@ -788,6 +806,7 @@ h3.mymaps{
     .edit{
       .icon{
         font-size: 16px;
+        height: 16px;
         margin-left: 5px;
       }
     }
@@ -839,8 +858,10 @@ h3.mymaps{
       //     margin-left: 10;
       // }
       .info-button{
+        @include row();
         margin-left: 10px;
         .icon{
+          height: 16px;
           margin-left: 5px;
         }
       }
