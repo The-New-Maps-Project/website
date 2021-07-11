@@ -21,8 +21,8 @@ interface DocOption {
 export default function DocsRoot() {
     var {query:{id}} = useRouter();
     id = "/" + id;
-  const {} = useContext(PContext);
-  const [showMenu,setShowMenu] = useState<boolean>(false);
+  const {setDocId} = useContext(PContext);
+  setDocId(null);//exit out of edit map mode when on the docs page.
 
   //In order ("num" property  not actually used, just so you know what index it is")
   const docOptions: DocOption[] = [
