@@ -850,6 +850,8 @@ h3.mymaps {
     .main-row {
       @include row();
       justify-content: space-between;
+      max-width: 400px;
+      overflow-x: hidden;
       .precinct-name {
         font-size: 18px;
       }

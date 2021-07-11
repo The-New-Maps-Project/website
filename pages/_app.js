@@ -34,12 +34,11 @@ function MyApp({ Component, pageProps }) {
     if(user){
       setIsAuth(true);
     }
-    else setIsAuth(false);
+    else {
+      setIsAuth(false);
+      setDocId(null);
+    }
   })
-
-  useEffect(()=>{
-    console.log(data);
-  },[data])
 
   const getDocs = async (isRefresh) =>{
     if(!pAuth.currentUser) return;
