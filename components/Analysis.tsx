@@ -3,6 +3,7 @@ import calcData from "../calculate/calcData";
 import PContext from "../services/context";
 import writeNum from "../services/writeNum";
 import PercentBar from "./PercentBar";
+import Popup from "./Popup";
 
 export default function Analysis(){
     const {data,districts,parameters} = useContext(PContext);
@@ -11,6 +12,8 @@ export default function Analysis(){
     const [showInfo,setShowInfo] = useState<boolean[]>([]);
     const [res,setRes] = useState<object|null>(null);
     const [selectedParam,setSelectedParam] = useState<number>(0);
+    const [chartParam,setChartParam] = useState<string>(""); //the parameter (e.g. percent dem/rep)
+    const [chartValue,setChartValue] = useState<string|null>(null) //whether it is population or ASDPC or null, don't show popup
 
     //array of arrays of length 2: [name,property name on object]
     const paramPopInfo = [
@@ -161,6 +164,12 @@ export default function Analysis(){
                 </ul>
             </section>
         </div>}
+
+        {chartValue&&<Popup>
+            <div id="chart-popup">
+                
+            </div>
+        </Popup>}
         
     </div>
 }
