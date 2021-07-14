@@ -13,7 +13,7 @@ export default function DistrictsEdit(){
     const setNDistricts = () =>{
         var arr = [];
         for(var i = 0;i<addNum;i++) arr.push(colors[i%colors.length]);
-        setNewDistricts([...newDistricts]);
+        setNewDistricts([...arr]);
         setAddNum(1);
     }
 
@@ -62,7 +62,7 @@ export default function DistrictsEdit(){
                             placeholder="#"
                         ></input>Districts
                     </span>
-                    <button className="sb" onClick={setNDistricts}>Add</button>
+                    <button className="sb" onClick={setNDistricts}>Set</button>
                 </div>
                 <ul id="districts-list">
                     {renderDistricts()}
