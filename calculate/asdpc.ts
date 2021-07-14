@@ -25,6 +25,7 @@ export function innerAsdpc(data:object,param: number): number {
     avDist += paramPop*Math.pow(center.distTo(new Location(arr[2],arr[3])),2); //SQUARED distance
     n += paramPop;
   })
+  if(n==0) return 0;
   return (avDist/n);
 
   // //Then do so for each parameter
