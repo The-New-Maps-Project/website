@@ -1057,6 +1057,10 @@ h3.mymaps {
   }
 }
 
+.barchart-container{
+  overflow-x: scroll;
+}
+
 footer {
   @include center();
   background-color: black;

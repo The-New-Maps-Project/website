@@ -1,9 +1,12 @@
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react"
 import calcData from "../calculate/calcData";
 import PContext from "../services/context";
 import writeNum from "../services/writeNum";
 import PercentBar from "./PercentBar";
 import Popup from "./Popup";
+import {Bar, Chart} from "react-chartjs-2";
 
 export default function Analysis(){
     const {data,districts,parameters} = useContext(PContext);
@@ -12,8 +15,7 @@ export default function Analysis(){
     const [showInfo,setShowInfo] = useState<boolean[]>([]);
     const [res,setRes] = useState<object|null>(null);
     const [selectedParam,setSelectedParam] = useState<number>(0);
-    const [chartParam,setChartParam] = useState<string>(""); //the parameter (e.g. percent dem/rep)
-    const [chartValue,setChartValue] = useState<string|null>(null) //whether it is population or ASDPC or null, don't show popup
+    const [chartValue,setChartValue] = useState<string|null>(null) //whether it is pAllData, or cAllData, or null, don't show popup
 
     //array of arrays of length 2: [name,property name on object]
     const paramPopInfo = [
@@ -94,6 +96,65 @@ export default function Analysis(){
         return arr;
     } 
 
+    interface dataObj{
+        value:number,
+        index:number,
+    }
+
+    const renderChart = () =>{
+        console.log(chartValue);
+        console.log(res["params"])
+        let allData:number[] = res["params"][selectedParam][chartValue];
+        let totalPop = allData[0]; //must remove first element because it is the whole population
+        let dataObjs:dataObj[] = [];
+        for(let i = 1;i<allData.length;i++){
+            dataObjs.push({
+                index: i,
+                value: allData[i],
+            })
+        }
+        dataObjs.sort((a,b)=>a.value-b.value);
+        let colorVars = dataObjs.map(d=>String(`var(--${districts[d.index-1]}-icon)`));
+        const data = {
+            labels: dataObjs.map(d=>String(`District ${d.index}`)),
+            datasets: [
+                {
+                    label: chartValue=="pAllData"?"Population":"ASDPC (in km)",
+                    data: dataObjs.map(d=>d.value),
+                    backgroundColor: dataObjs.map(()=>"#004c93")
+                }
+            ]
+        }
+        const options = {
+            indexAxis: 'y',
+  // Elements options apply to all of the options unless overridden in a dataset
+  // In this case, we are setting the border of each horizontal bar to be 2px wide
+  elements: {
+    bar: {
+      borderWidth: 2,
+    },
+  },
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'right',
+    },
+    title: {
+      display: true,
+      text: 'Chart.js Horizontal Bar Chart',
+    },
+  },
+        }
+        return <div className="barchart-container"><Bar
+            type="bar"
+            data={data}
+            height={500}
+            width={Math.max(300,20*dataObjs.length)}
+            options={options}
+        ></Bar>
+        </div>
+    }
+
     return <div id="analysis-container">
         <hr></hr>
         <div className="recalc-button-container">
@@ -134,7 +195,7 @@ export default function Analysis(){
                             </li>
                         })}
                         <li key={"allData"}>
-                            <button className="allData">Graph Data</button>
+                            <button className="allData" onClick={()=>setChartValue("pAllData")}>Graph Data</button>
                         </li>
                     </ul>
                     <hr></hr>
@@ -152,7 +213,7 @@ export default function Analysis(){
                             </li>
                         })}
                         <li key={"allData"}>
-                            <button className="allData">Graph Data</button>
+                            <button className="allData"onClick={()=>setChartValue("cAllData")}>Graph Data</button>
                         </li>
                     </ul>
 
@@ -166,8 +227,11 @@ export default function Analysis(){
         </div>}
 
         {chartValue&&<Popup>
+            <button className="x-button" onClick={()=>setChartValue(null)}>
+                <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+            </button>
             <div id="chart-popup">
-                
+                {renderChart()}
             </div>
         </Popup>}
         
