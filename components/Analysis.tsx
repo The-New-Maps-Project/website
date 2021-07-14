@@ -147,13 +147,41 @@ export default function Analysis() {
         },
       ],
     };
+
+    //Calculate histogram data;
+    const buckets = 7;
+    let lowest = dataObjs[0].value;
+    let highest = dataObjs[dataObjs.length-1].value+1;//add one because you want the last object to fall into a bucket (a bucket being strictly less than the upper value)
+    let increment = Math.ceil((highest-lowest)/buckets);
+    let histogramDataObjs:dataObj[] = [...dataObjs];
+    let histogramNums:number[] = [];
+    let histogramLabels:string[] = [];
+    for(let i = 0;i<buckets;i++){
+        let count = 0;
+        let hi = lowest + (i+1)*increment;
+        while(histogramDataObjs.length>0&&histogramDataObjs[0].value<hi){
+            count += 1;
+            histogramDataObjs.shift();
+        }
+        histogramNums.push(count);
+        histogramLabels.push(`${hi-increment}-${hi}`);
+    }
+    const histogramData = {
+        labels: histogramLabels,
+      datasets: [
+        {
+          label: chartValue == "pAllData" ? "Population" : "ASDPC (in km)",
+          data: histogramNums,
+          backgroundColor: dataObjs.map(() => "#004c93"),
+        },
+      ],
+    }
     const options = {
       indexAxis: "x",
       // Elements options apply to all of the options unless overridden in a dataset
       // In this case, we are setting the border of each horizontal bar to be 2px wide
       elements: {
         bar: {
-          borderWidth: 2,
         },
       },
       responsive: false,
@@ -179,6 +207,18 @@ export default function Analysis() {
               data={data}
               height={500}
               width={Math.max(300, 30 * dataObjs.length)}
+              options={options}
+            ></Bar>
+          </div>
+        </li>
+        <li className="chart-area">
+          <h6 className="chart-title">Histogram - {title}</h6>
+          <div className="barchart-container">
+            <Bar
+              type="bar"
+              data={histogramData}
+              height={500}
+              width={Math.max(300, 30 * histogramDataObjs.length)}
               options={options}
             ></Bar>
           </div>
