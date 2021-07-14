@@ -156,19 +156,20 @@ export default function Analysis() {
           borderWidth: 2,
         },
       },
-      responsive: true,
+      responsive: false,
       plugins: {
         legend: {
           position: "top"
         },
         title: {
-          display: true,
-          text: `Every District - ${selectedParam==0?"Entire ":`\"${parameters[selectedParam]}\" `}${chartValue=="pAllData" ? "Population" : "ASDPC (in km)"}`,
+          display: false,
         },
       },
     };
+    const title = `Every District - ${selectedParam==0?"Entire ":`\"${parameters[selectedParam-1]}\" `}${chartValue=="pAllData" ? "Population" : "ASDPC (in km)"}`;
     return (
       <div className="barchart-container">
+        <h6 className="chart-title">{title}</h6>
         <Bar
           type="bar"
           data={data}
