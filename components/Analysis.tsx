@@ -206,7 +206,7 @@ export default function Analysis() {
               type="bar"
               data={data}
               height={500}
-              width={Math.max(300, 30 * dataObjs.length)}
+              width={Math.max(600, 30 * dataObjs.length)}
               options={options}
             ></Bar>
           </div>
@@ -218,7 +218,7 @@ export default function Analysis() {
               type="bar"
               data={histogramData}
               height={500}
-              width={Math.max(300, 30 * histogramDataObjs.length)}
+              width={Math.max(600, 30 * histogramDataObjs.length)}
               options={options}
             ></Bar>
           </div>
