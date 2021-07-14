@@ -6,7 +6,7 @@ import PContext from "../services/context";
 import writeNum from "../services/writeNum";
 import PercentBar from "./PercentBar";
 import Popup from "./Popup";
-import { Bar, Chart } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 
 export default function Analysis() {
   const { data, districts, parameters } = useContext(PContext);
@@ -170,7 +170,7 @@ export default function Analysis() {
         labels: histogramLabels,
       datasets: [
         {
-          label: chartValue == "pAllData" ? "Population" : "ASDPC (in km)",
+          label: "",
           data: histogramNums,
           backgroundColor: dataObjs.map(() => "#004c93"),
         },
