@@ -121,7 +121,7 @@ export default function Analysis() {
     index: number;
   }
 
-  const renderChart = () => {
+  const renderCharts = () => {
     console.log(chartValue);
     console.log(res["params"]);
     let allData: number[] = res["params"][selectedParam][chartValue];
@@ -159,25 +159,31 @@ export default function Analysis() {
       responsive: false,
       plugins: {
         legend: {
-          position: "top"
+          position: "top",
         },
         title: {
           display: false,
         },
       },
     };
-    const title = `Every District - ${selectedParam==0?"Entire ":`\"${parameters[selectedParam-1]}\" `}${chartValue=="pAllData" ? "Population" : "ASDPC (in km)"}`;
+    const title = `${
+      selectedParam == 0 ? "Entire " : `\"${parameters[selectedParam - 1]}\" `
+    }${chartValue == "pAllData" ? "Population" : "ASDPC (in km)"}`;
     return (
-      <div className="barchart-container">
-        <h6 className="chart-title">{title}</h6>
-        <Bar
-          type="bar"
-          data={data}
-          height={500}
-          width={Math.max(300, 30 * dataObjs.length)}
-          options={options}
-        ></Bar>
-      </div>
+      <ul className="all-charts">
+        <li className="chart-area">
+          <h6 className="chart-title">All Districts - {title}</h6>
+          <div className="barchart-container">
+            <Bar
+              type="bar"
+              data={data}
+              height={500}
+              width={Math.max(300, 30 * dataObjs.length)}
+              options={options}
+            ></Bar>
+          </div>
+        </li>
+      </ul>
     );
   };
 
@@ -290,7 +296,7 @@ export default function Analysis() {
           <button className="x-button" onClick={() => setChartValue(null)}>
             <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
           </button>
-          <div id="chart-popup">{renderChart()}</div>
+          <div id="chart-popup">{renderCharts()}</div>
         </Popup>
       )}
     </div>
