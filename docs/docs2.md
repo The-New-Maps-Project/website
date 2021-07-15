@@ -44,7 +44,9 @@ There are multiple ways to manually assign precincts to districts. You can click
 
 ### Auto Assign Precincts to Districts
 
-You can use The New Maps Project Algorithm, a simple way to group precincts into districts, on you map. Click the "NMP Algorithm" button near the districts button and the "Import Data" button to select a threshold and run the algorithm. Read more about how it works on [The New Maps Project website](https://thenewmapsproject.org/docs)
+You can use The New Maps Project Algorithm, a simple way to group precincts into districts, on you map. Click the "NMP Algorithm" button near the districts button and the "Import Data" button to select a threshold and run the algorithm. Read more about how it works on [The New Maps Project website](https://thenewmapsproject.org/docs).
+
+We suggest you initially run the algorithm on a set of precincts, then manually edit the map to get a desired result.
 
 ## Parameters
 
@@ -57,3 +59,15 @@ The order of the parameters matter if there are more than one parameters because
 You can analyze the representation, population, and compactness of each parameter when you calculate the map statistics.
 
 **Note:** Parameters MUST be percentage values between 0 and 1 for the calculations to work properly
+
+## Analysis
+
+To calculate the statistics of the current map drawing, click the grey "Calculate Stats" button below the map area. This button will show up every time changes are made. If this button shows, that means that the stats have either not been calculated yet, or are not up to date.
+
+**ASDPC:** Average Squared Distance to Population Center (a measure of compactness, measured in km).
+
+## Disticts List
+
+On the right side of the calculation results you will see a list of every district. Expand each to see some of it's statistics, for the whole district population as well as for specific parameters.
+
+## 
