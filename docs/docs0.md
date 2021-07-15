@@ -21,3 +21,7 @@ The map is very flexible and interactive and you can easily see the districts in
 You can calculate the stats of a map at any time. It will show some basic stats like mean, median and standard deviation of the district populations and compactness, as well as bar charts and histograms of the entire dataset. You can also select certain demographic parameters to specifically analyze district representation, population distribution, and compactness of that specific demographic. 
 
 If you are unsatisfied with these statistics, you are free to edit your map and recalculate the statistics until you find a map that has the statistics you desire.
+
+## Documentation
+
+Read the [detailed documentation](/documentation/maps) for a map drawing.
