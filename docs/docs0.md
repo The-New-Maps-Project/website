@@ -2,7 +2,7 @@
 
 The New Maps Project Map Analysis site is a web application to visualize, draw, and analyze congressional districts. Create an account to save the maps you draw. 
 
-For each map, import all the precinct data, with optional additional information like percent demographics. Draw the map by assigning precincts to districts. Calculate statistics regarding population distribution, compactness of the districts, and demographic representation for every map drawn. You can go back and edit your map, and then recalculate the statistics to get a desired map drawing.
+For each map, import all the precinct data, with optional additional information like percent demographics. Draw the district map by assigning precincts to districts. Calculate statistics regarding population distribution, compactness of the districts, and demographic representation for every map drawn. You can go back and edit your map, and then recalculate the statistics to get a desired map drawing.
 
 There will be an interactive map where you can visualize all your districts by color, as well as bar graphs to show the distribution of various statistics regarding the districts and population.
 
