@@ -70,4 +70,20 @@ To calculate the statistics of the current map drawing, click the grey "Calculat
 
 On the right side of the calculation results you will see a list of every district. Expand each to see some of it's statistics, for the whole district population as well as for specific parameters.
 
-## 
+## Population Statistics
+
+### Population Distribution
+
+You can see basic stats like the total population, average population per district, standard deviation across all districts, outlier districts, and median district population. Click the navy "Graph Data" button to see a bar chart of every district's population graphed, as well as a histogram.
+
+### Compactness (ASDPC)
+
+Average Squared Distance to Population Center (ASDPC) is measured for each district as a measure of compactness. You can once again see some basic statistics regarding the ASDPCs across districts: mean, median, standard deviation, and outliers. Click the "Graph Data" button to see a bar chart and histogram of the ASDPCs of all districts
+
+**Note:** Outliers are considered to be values that are more that two standard deviations from the mean.
+
+### Different Parameters and Representation
+
+At the top of the left side of the calculation results section there is a select menu where you can select either the "Population" or a specific parameter to show statistics for (if you define a parameter). You can view population and ASDPC distribution of each of the parameter demographics as well.
+
+It will also calculate the percent of the entire population of this parameter, as well as the percent of majority districts for the parameter. This difference can used to spot under or overrepresentation in a district mapping. 
