@@ -22,6 +22,8 @@ function MyApp({ Component, pageProps }) {
   const [lastDoc,setLastDoc] = useState(-1);
   const [appLoading,setAppLoading] = useState(false);
   const [needSave,setNeedSave] = useState(false);
+  const [round1Data,setRound1Data] = useState([]);
+  const [round2Data,setRound2Data] = useState([]);
   const saveTimes = useRef(0);
   const [mapZoom,setMapZoom] = useState({
     lat: 39.3433, 
@@ -29,7 +31,6 @@ function MyApp({ Component, pageProps }) {
     zoom: 4,
   })
   const colors = ["red","green","blue","yellow","orange","purple","pink","turquoise","black","white",]
-
   pAuth.onAuthStateChanged((user)=>{
     if(user){
       setIsAuth(true);
