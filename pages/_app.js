@@ -12,6 +12,7 @@ import Popup from "../components/Popup"
 
 function MyApp({ Component, pageProps }) {
   const batchSize = 10;
+  //data: {[precinctName]: [district,lat,lng,param1,param2...]}
   const [data,setData] = useState({});
   const [isAuth,setIsAuth] = useState(false);
   const [name,setName] = useState(""); //Name of the document
