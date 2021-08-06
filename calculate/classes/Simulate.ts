@@ -10,8 +10,8 @@ export default class Simulate{
     districtPops: number[];
     interval: number = 10;//time between iterations in milliseconds
     data: object;
-    round1Data: number[];
-    round2Data:number[];
+    round1Data: number[] = [];
+    round2Data:number[] = [];
     
     setData: (a) => void;
     setRound1Data: (a) => void;
@@ -46,8 +46,8 @@ export default class Simulate{
     }
 
     randomAssignmentIteration(townIndex:number): void{
-
-        //Step 1: assing to a distict
+        setTimeout(()=>{
+            //Step 1: assign to a distict
         var district:number = (townIndex % this.districts) + 1;
         this.assignData(this.towns[townIndex],district);
 
@@ -56,10 +56,12 @@ export default class Simulate{
 
         //Step 3: check if all precincts have been randomly assigned and move onto round one.
         if(townIndex>=this.towns.length){
-            this.roundOneSubiteration(0,0,0,0);
+            //this.roundOneSubiteration(0,0,0,0);
         }else{
             this.randomAssignmentIteration(townIndex);
         }
+        },this.interval)
+        
     }
 
     roundOneSubiteration(townIndex: number, unchangedCount: number, prevPU: number, secondPrevPU: number): void{
