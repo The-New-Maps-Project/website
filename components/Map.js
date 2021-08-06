@@ -122,6 +122,7 @@ export default function Map(){
 
   //Update marker colors function
   useEffect(()=>{
+    console.log("Data Changed")
     if(!mapObj) return;
     var changedPrecincts = [];
     var deletedPrecincts = [];

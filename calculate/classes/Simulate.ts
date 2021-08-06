@@ -48,18 +48,19 @@ export default class Simulate{
     randomAssignmentIteration(townIndex:number): void{
         setTimeout(()=>{
             //Step 1: assign to a distict
-        var district:number = (townIndex % this.districts) + 1;
-        this.assignData(this.towns[townIndex],district);
+            var district:number = (townIndex % this.districts) + 1;
+            this.assignData(this.towns[townIndex],district);
+            console.log(townIndex);
 
-        //Step 2: increment townIndex
-        townIndex++;
+            //Step 2: increment townIndex
+            townIndex++;
 
-        //Step 3: check if all precincts have been randomly assigned and move onto round one.
-        if(townIndex>=this.towns.length){
-            //this.roundOneSubiteration(0,0,0,0);
-        }else{
-            this.randomAssignmentIteration(townIndex);
-        }
+            //Step 3: check if all precincts have been randomly assigned and move onto round one.
+            if(townIndex>=this.towns.length){
+                //this.roundOneSubiteration(0,0,0,0);
+            }else{
+                this.randomAssignmentIteration(townIndex);
+            }
         },this.interval)
         
     }
@@ -161,10 +162,11 @@ export default class Simulate{
     assign(t:Town,district:number):void{
         t.district = district;
         this.data[t.name][0] = district;
+        console.log(t.name+ ": "+this.data[t.name]);
     }
 
     assignData(t:Town,district:number):void{
         this.assign(t,district); //first assign
-        this.setData(this.data); //then set data;
+        this.setData({...this.data}); //then set data;
     }
 }
