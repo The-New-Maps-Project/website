@@ -162,7 +162,6 @@ export default class Simulate{
     assign(t:Town,district:number):void{
         t.district = district;
         this.data[t.name][0] = district;
-        console.log(t.name+ ": "+this.data[t.name]);
     }
 
     assignData(t:Town,district:number):void{

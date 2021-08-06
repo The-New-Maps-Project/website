@@ -122,7 +122,6 @@ export default function Map(){
 
   //Update marker colors function
   useEffect(()=>{
-    console.log("Data Changed")
     if(!mapObj) return;
     var changedPrecincts = [];
     var deletedPrecincts = [];
@@ -139,8 +138,6 @@ export default function Map(){
     Object.keys(data).forEach(precinct=>{
       if(!markers[precinct]||!markers[precinct].getMap()) addedPrecincts.push(precinct)
     })
-
-    console.log("changed",changedPrecincts);
 
     //Change precincts
     changedPrecincts.forEach(precinct=>{
