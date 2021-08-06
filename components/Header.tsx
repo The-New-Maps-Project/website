@@ -3,6 +3,7 @@ import PContext from "../services/context";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faDownload,
   faPen,
   faSave,
   faTimes,
@@ -61,17 +62,15 @@ export default function Header() {
           </Link>
         </div>
       )}
-      {docId && (
         <div id="save-and-import">
           <button onClick={() => save()} className="save-button">
             <FontAwesomeIcon
               className="save-icon"
-              icon={faSave}
+              icon={faDownload}
             ></FontAwesomeIcon>
-            Save
+            Export
           </button>
         </div>
-      )}
 
       {changeNamePopup && (
         <Popup>

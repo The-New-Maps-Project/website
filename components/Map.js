@@ -94,17 +94,6 @@ export default function Map(){
 
   const changeMarkerColor = (precinctname, toColor) =>{
     markers[precinctname].setIcon(`images/${toColor}icon.png`)
-    //console.log(precinctname);
-    //console.log(markers[precinctname]);
-    // if(!markers[precinctname]) return;
-    // const lat = markers[precinctname].getPosition().lat();
-    // const lng = markers[precinctname].getPosition().lng();
-    // console.log("Changing",precinctname);
-    // markers[precinctname].setMap(null);//remove current marker;
-    // var marker = addMarker(precinctname,toColor,{lat: lat, lng: lng});
-    // var newObj = {...markers};
-    // newObj[precinctname] = marker;
-    // setMarkers(newObj);
   }
 
   //change the focused district
