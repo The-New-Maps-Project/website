@@ -123,7 +123,7 @@ export default class Simulate{
     stddev():number{
         let av:number = this.totalStatePop / this.districts;
         let res:number = 0;
-        this.districtPops.forEach(d => res += Math.pow(d,2));
+        this.districtPops.forEach(d => res += Math.pow(d-av,2));
         res /= this.districts;
         res = Math.sqrt(res);
         return res;
@@ -143,7 +143,7 @@ export default class Simulate{
         this.towns.forEach(t => {
             let districtIndex:number = t.district - 1;
             res[districtIndex].lat += t.location.lat;
-            res[defaultStatus].lng += t.location.lng;
+            res[districtIndex].lng += t.location.lng;
             counts[districtIndex] += 1;
         })
 
