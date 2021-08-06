@@ -7,14 +7,15 @@ import PContext from "../services/context";
 import Popup from "./Popup";
 
 export default function RunAlgorithm(){
-    const {districts,data,setData} = useContext(PContext); 
+    const {districts,data,setData,setAlgoState} = useContext(PContext); 
     const [showPopup,setShowPopup] = useState(false);
     const [tInput,setTInput] = useState<number>(95);
 
     const runAlgorithm = () =>{
         var n = districts.length;
-        var newObj = {...algorithm(data,n,tInput/100)};
-        setData(newObj);
+        //var newObj = {...algorithm(data,n,tInput/100)};
+        //setData(newObj);
+        setAlgoState(1);
         setShowPopup(false);
     }
 

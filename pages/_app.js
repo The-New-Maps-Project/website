@@ -23,8 +23,16 @@ function MyApp({ Component, pageProps }) {
   const [lastDoc,setLastDoc] = useState(-1);
   const [appLoading,setAppLoading] = useState(false);
   const [needSave,setNeedSave] = useState(false);
-  const [round1Data,setRound1Data] = useState([]);
-  const [round2Data,setRound2Data] = useState([]);
+
+  //For algorithm running
+  const [algoState,setAlgoState] = useState(0); // -1: not running, 1: round 1, 2: round 2, 3: done
+  const [algoFocus,setAlgoFocus] = useState(0);//same values as algoState, but the current round opened in the popup viewing the data and graphs
+  const [round1Data,setRound1Data] = useState([]); //bar graph, length of array is how many iterations, each element is the percent unchanged per iteration
+  const [round2Data,setRound2Data] = useState([]); //bar graph, length of array is how many iterations % 10 (or some number), each element is the RSD
+  const [algoSettings,setAlgoSettings] = useState([]);
+
+
+
   const saveTimes = useRef(0);
   const [mapZoom,setMapZoom] = useState({
     lat: 39.3433, 
@@ -106,6 +114,16 @@ function MyApp({ Component, pageProps }) {
     needSave,
     setNeedSave,
     saveTimes,
+    algoState,
+    setAlgoState,
+    round1Data,
+    setRound1Data,
+    round2Data,
+    setRound2Data,
+    algoSettings,
+    setAlgoSettings,
+    algoFocus,
+    setAlgoFocus,
   }
 
   return <PContext.Provider value={contextValue}>

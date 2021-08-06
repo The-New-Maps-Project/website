@@ -10,19 +10,24 @@ export default class Simulate{
     districtPops: number[];
     interval: number = 10;//time between iterations in milliseconds
     data: object;
+    round1Data: number[];
+    round2Data:number[];
+    
     setData: (a) => void;
-    setRound1Graph: (a) => void;
-    setRound2Graph: (a) => void;
+    setRound1Data: (a) => void;
+    setRound2Data: (a) => void;
     setAlgoState: (a:number) => void;
+    setAlgoFocus: (a:number) => void;
 
-    constructor(data: object, numDistricts: number, setData, setRound1Graph, setRound2Graph,setAlgoState){
+    constructor(data: object, numDistricts: number, setData, setRound1Data, setRound2Data,setAlgoState, setAlgoFocus){
         //Step 1: set fields
         this.districts = numDistricts;
         this.data = data;
         this.setData = setData;
-        this.setRound1Graph = setRound1Graph;
-        this.setRound2Graph = setRound2Graph;
+        this.setRound1Data = setRound1Data;
+        this.setRound2Data = setRound2Data;
         this.setAlgoState = setAlgoState;
+        this.setAlgoFocus = setAlgoFocus;
 
         //Step 2: set the towns
         var totalStatePop = 0;
@@ -35,7 +40,26 @@ export default class Simulate{
     }
 
     start(): void{
-        this.roundOneSubiteration(0,0,0,0);
+        this.randomAssignmentIteration(0);
+        this.setAlgoFocus(1);
+        this.setAlgoState(1);
+    }
+
+    randomAssignmentIteration(townIndex:number): void{
+
+        //Step 1: assing to a distict
+        var district:number = (townIndex % this.districts) + 1;
+        this.assignData(this.towns[townIndex],district);
+
+        //Step 2: increment townIndex
+        townIndex++;
+
+        //Step 3: check if all precincts have been randomly assigned and move onto round one.
+        if(townIndex>=this.towns.length){
+            this.roundOneSubiteration(0,0,0,0);
+        }else{
+            this.randomAssignmentIteration(townIndex);
+        }
     }
 
     roundOneSubiteration(townIndex: number, unchangedCount: number, prevPU: number, secondPrevPU: number): void{
@@ -64,22 +88,26 @@ export default class Simulate{
                 this.assignData(t,closestDistrictIndex + 1);
             }
 
-            //Step 3: check if one whole iteration is over and see if you need to keep going
+            //Step 3: increment townIndex
+            townIndex++;
+
+            //Step 4: check if one whole iteration is over and see if you need to keep going
             if(townIndex>=this.towns.length){
                 let pu:number = unchangedCount/this.towns.length;
                 if(pu==secondPrevPU){
                     //if alternating, STOP ROUND ONE, and go onto second round
                     this.roundTwoIteration(this.stddev(),0);
+                    this.setAlgoFocus(2);
+                    this.setAlgoState(2);
                     return;
                 }else{
+                    this.round1Data = [...this.round1Data,pu];
+                    this.setRound1Data(this.round1Data);
                     secondPrevPU = prevPU;
                     prevPU = pu;
                     townIndex = -1; //so it's zero on next subiteration, to start a new full iteration.
                 }
             }
-
-            //Step 4: increment townIndex
-            townIndex++;
 
             //Step 5: recurse and redo
             this.roundOneSubiteration(townIndex, unchangedCount,prevPU,secondPrevPU);

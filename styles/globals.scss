@@ -1074,6 +1074,36 @@ h3.mymaps {
   overflow-x: scroll;
 }
 
+#algorithm-container{
+  background-color: lightgray;
+  width: 400px;
+  z-index: 10;
+  position: absolute;
+  section{
+    padding: 15px 30px;
+    .round-header{
+      @include row();
+      justify-content: space-between;
+      h5{
+        margin: 0px;
+        font-size: 20px;
+      }
+      .roundStateIcon{
+        height: 20px;
+        &.green{color: green;}
+        &.black{color: black;}
+        &.grey{color: grey;}
+      }
+    }
+    .round-subheader{
+      font-size: 14px;
+      span{
+        margin-right: 20px
+      }
+    }
+  }
+}
+
 footer {
   @include center();
   background-color: black;

@@ -157,6 +157,7 @@ export default function Map(){
     addedPrecincts.forEach(precinct=>{
       let p = data[precinct].map(a=>Number(a));
       let color = districts[data[precinct][0]-1] || "grey";
+      console.log(color);
       let marker = addMarker(precinct,color,{lat: p[2], lng: p[3]});
       let newObj = {...markers};
       markers[precinct] = marker;

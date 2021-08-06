@@ -2,11 +2,12 @@ import { faCaretDown, faCaretUp, faEdit, faSearch, faTimes } from "@fortawesome/
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react"
 import PContext from "../services/context"
+import Algorithm from "./Algorithm";
 import Popup from "./Popup";
 import SwitchPopup from "./SwitchPopup";
 
 export default function ListView(){
-    const {districts,data,parameters,setData,setMapZoom} = useContext(PContext);
+    const {districts,data,parameters,setData,setMapZoom,algoState} = useContext(PContext);
     const [switchPopup,setSwitchPopup] = useState(false);
     const [precinctToSwitch,setPrecinctToSwitch] = useState("");
     const [showParams,setShowParams] = useState({}); //[name]: boolean
@@ -136,6 +137,8 @@ export default function ListView(){
     }
 
     return <div id="list-view">
+        {algoState>0&&<Algorithm></Algorithm>}
+
         {isEditing&&<div >
             <div className="edit-row">
                 <div className="num-selected" >{selectedNum} Selected</div>
