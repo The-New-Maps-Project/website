@@ -9,10 +9,20 @@ export default class Simulate{
     totalStatePop: number;
     districtPops: number[];
     interval: number = 10;//time between iterations in milliseconds
+    data: object;
+    setData: (a) => void;
+    setRound1Graph: (a) => void;
+    setRound2Graph: (a) => void;
+    setAlgoState: (a:number) => void;
 
-    constructor(data: object, numDistricts: number){
-        //Step 1: set districts
+    constructor(data: object, numDistricts: number, setData, setRound1Graph, setRound2Graph,setAlgoState){
+        //Step 1: set fields
         this.districts = numDistricts;
+        this.data = data;
+        this.setData = setData;
+        this.setRound1Graph = setRound1Graph;
+        this.setRound2Graph = setRound2Graph;
+        this.setAlgoState = setAlgoState;
 
         //Step 2: set the towns
         var totalStatePop = 0;
@@ -25,10 +35,10 @@ export default class Simulate{
     }
 
     start(): void{
-        this.roundOneSubiteration(0,0,0);
+        this.roundOneSubiteration(0,0,0,0);
     }
 
-    roundOneSubiteration(townIndex: number, unchangedCount: number, prevPercentUnchanged: number): void{
+    roundOneSubiteration(townIndex: number, unchangedCount: number, prevPU: number, secondPrevPU: number): void{
         setTimeout(()=>{
             let t:Town = this.towns[townIndex];
 
@@ -51,21 +61,44 @@ export default class Simulate{
             if(closestDistrictIndex + 1 == t.district){
                 unchangedCount += 1;
             }else{
-
+                this.assignData(t,closestDistrictIndex + 1);
             }
 
             //Step 3: check if one whole iteration is over and see if you need to keep going
             if(townIndex>=this.towns.length){
-
+                let pu:number = unchangedCount/this.towns.length;
+                if(pu==secondPrevPU){
+                    //if alternating, STOP ROUND ONE, and go onto second round
+                    this.roundTwoIteration(this.stddev(),0);
+                    return;
+                }else{
+                    secondPrevPU = prevPU;
+                    prevPU = pu;
+                    townIndex = -1; //so it's zero on next subiteration, to start a new full iteration.
+                }
             }
 
             //Step 4: increment townIndex
             townIndex++;
 
             //Step 5: recurse and redo
-
+            this.roundOneSubiteration(townIndex, unchangedCount,prevPU,secondPrevPU);
             
         },this.interval);
+    }
+
+    roundTwoIteration(prevRSD:number, secondPrevRSD:number):void{
+        
+    }
+
+    //use districtPops
+    stddev():number{
+        let av:number = this.totalStatePop / this.districts;
+        let res:number = 0;
+        this.districtPops.forEach(d => res += Math.pow(d,2));
+        res /= this.districts;
+        res = Math.sqrt(res);
+        return res;
     }
 
     getDistrictCenters(): Location[]{
@@ -97,9 +130,11 @@ export default class Simulate{
 
     assign(t:Town,district:number):void{
         t.district = district;
+        this.data[t.name][0] = district;
     }
 
     assignData(t:Town,district:number):void{
-
+        this.assign(t,district); //first assign
+        this.setData(this.data); //then set data;
     }
 }
