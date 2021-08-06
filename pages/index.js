@@ -14,7 +14,8 @@ export default function Home() {
 
   return (
     <div>
-      {isAuth?<div>
+      <Scaffold></Scaffold>
+      {/* {isAuth?<div>
         {!docId?<DocsList></DocsList>:<Scaffold></Scaffold>}
       </div>:<div id="default-frontpage">
         <div className="left">
@@ -25,7 +26,7 @@ export default function Home() {
         <div className="right">
           <Auth/>
         </div>
-      </div>}
+      </div>} */}
       
     </div>
   )
