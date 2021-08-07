@@ -24,8 +24,8 @@ export default function RunAlgorithm(){
             newAlgoSettings["interval1"] = Math.round(numPrecincts / 100) * 100; //ends up rounding to nearest hundred of ten times the number of precincts
         }
         newAlgoSettings["graphInterval1"] = 1;
-        newAlgoSettings["graphInteval2"] = 
-        setAlgoSettings["newAlgoSettings"] = numPrecincts < 300 ?1:Math.round(numPrecincts / 1000) * 10;
+        newAlgoSettings["graphInterval2"] = numPrecincts < 300 ?1:Math.round(numPrecincts / 1000) * 10;
+        setAlgoSettings(newAlgoSettings);
     },[data])
 
     const runAlgorithm = () =>{

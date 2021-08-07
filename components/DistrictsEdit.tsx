@@ -1,12 +1,12 @@
 import { faCog, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext, useState } from "react";
+import { useContext, useState,useEffect } from "react";
 import PContext from "../services/context";
 import Popup from "./Popup";
 
 export default function DistrictsEdit(){
     const {districts,setDistricts,colors} = useContext(PContext);
-    const [newDistricts,setNewDistricts] = useState(districts);
+    const [newDistricts,setNewDistricts] = useState(districts); //current districts displayed on popup
     const [showPopup,setShowPopup] = useState(false);
     const [addNum,setAddNum] = useState<number>(1);
 
@@ -16,6 +16,10 @@ export default function DistrictsEdit(){
         setNewDistricts([...arr]);
         setAddNum(1);
     }
+
+    useEffect(()=>{
+        setNewDistricts(districts);
+    },[districts])
 
     const renderDistricts = () =>{
         var arr = [];

@@ -14,7 +14,7 @@ export default function SwitchPopup(props){
             arr.push(<li key={i}>
                 <button className="select-district tb" onClick={()=>selectDistrict(i)}>
                     <span className="color-circle" style={{backgroundColor: i==0?"var(--grey-icon)":`var(--${districts[i]}-icon)`}}></span>
-                    {i==0?"Unassign":`District${i}`}
+                    {i==0?"Unassign":`District ${i}`}
                 </button>
             </li>)
         }
