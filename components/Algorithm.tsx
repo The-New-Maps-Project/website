@@ -61,7 +61,7 @@ export default function Algorithm(){
         let chartData = {
             labels: numbers,
             datasets: [{
-                data: data,
+                data: res,
                 backgroundColor: "#949010",
                 borderColor: "#000000"
             }],

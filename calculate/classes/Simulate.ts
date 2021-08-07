@@ -47,7 +47,7 @@ export default class Simulate{
         this.interval2 = Number(settings["interval2"]) || 20;
         this.useSubiterations = Boolean(settings["useSubiterations"]) || false;
         this.maxIterations1 = Number(settings["maxIterations1"]) || 100;
-        this.maxIterations2 = Number(settings["maxIterations2"]) || 1;
+        this.maxIterations2 = Number(settings["maxIterations2"]) || 2000;
         this.gridGranularity = Number(settings["gridGranularity"]) || 2000;
 
         //Step 2: set the towns (+ totalStatePop and av)
@@ -152,7 +152,7 @@ export default class Simulate{
             this.setRound1Data(this.round1Data);
             this.setData({...this.data}); //also update the map data
             if(prevRound1Data.includes(pu)||pu==1||this.round1Data.length > this.maxIterations1){ //if already had this pu value, then terminate
-                this.roundTwoIteration(this.stddev(),0);
+                this.roundTwoIteration(Number.MAX_VALUE);
                 this.setAlgoFocus(2);
                 this.setAlgoState(2);
                 return;
@@ -204,7 +204,7 @@ export default class Simulate{
                 this.setRound1Data(this.round1Data);
                 if(prevRound1Data.includes(pu)||pu==1||this.round1Data.length > this.maxIterations1){
                     //if alternating, STOP ROUND ONE, and go onto second round
-                    this.roundTwoIteration(this.stddev(),0);
+                    this.roundTwoIteration(Number.MAX_VALUE);
                     this.setAlgoFocus(2);
                     this.setAlgoState(2);
                     return;
@@ -222,7 +222,7 @@ export default class Simulate{
         },this.interval1);
     }
 
-    roundTwoIteration(prevRSD:number, secondPrevRSD:number):void{
+    roundTwoIteration(prevRSD:number):void{
         setTimeout(()=>{
             if(this.isTerminated) return;
 
@@ -266,14 +266,13 @@ export default class Simulate{
             this.setDistrictPops([...this.districtPops]);
 
             //Step 4: determine whether to end or keep recursing
-            if(prevRound2Data.includes(thisRSD)||this.round2Data.length>this.maxIterations2){
+            if(thisRSD > prevRSD||this.round2Data.length>this.maxIterations2){
                 //end round 2
                 this.setAlgoState(4);
                 this.setAlgoFocus(3);
             }else{
-                secondPrevRSD = prevRSD;
                 prevRSD = thisRSD;
-                this.roundTwoIteration(prevRSD,secondPrevRSD);
+                this.roundTwoIteration(prevRSD);
             }
 
         },this.interval2)
