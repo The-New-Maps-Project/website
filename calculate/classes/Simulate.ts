@@ -202,7 +202,7 @@ export default class Simulate{
     }
 
     districtsHash(t:Town){
-        return Math.max(t.district,t.secondDistrict) * this.districts + Math.min(t.district,t.secondDistrict) - 1;
+        return (Math.max(t.district,t.secondDistrict)-1) * this.districts + Math.min(t.district,t.secondDistrict) - 1;
     }
 
     //use districtPops
@@ -228,6 +228,7 @@ export default class Simulate{
         //Step 2: loop through all towns and add the new lat and lng
         this.towns.forEach(t => {
             let districtIndex:number = t.district - 1;
+            if(districtIndex<0||districtIndex>=this.districts) return;
             res[districtIndex].lat += t.location.lat;
             res[districtIndex].lng += t.location.lng;
             counts[districtIndex] += 1;
