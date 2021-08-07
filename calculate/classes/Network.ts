@@ -44,11 +44,8 @@ export default class Network{
 
         //Step 4: fill in every grid space with the townId closest to id
         this.towns.forEach(t=>{
-            console.log(t.name +": "+ t.id+ " | "+this.toGridSpace(t));
            this.grid[this.toGridSpace(t)] = t.id;
         })
-
-        this.printGrid();
 
         //Step 5: fill in areas not within state boundaries with "-2".
 
@@ -104,7 +101,6 @@ export default class Network{
                 else if(this.grid[i]==-1) countEmpty++;
                 else this.floodFill(i);
             }
-            console.log(countEmpty);
         }while(countEmpty > 0);
 
 
@@ -171,9 +167,6 @@ export default class Network{
     }
 
     toGridSpaceLocation(lat:number,lng:number):number{
-        console.log(lat,lng);
-        console.log(this.minLat,this.minLng,this.incLat,this.incLng)
-        console.log((lat - this.minLat) / this.incLat,(lng - this.minLng) / this.incLng)
         var rowNum:number = Math.floor((lat - this.minLat) / this.incLat);
         var colNum:number = Math.floor((lng - this.minLng) / this.incLng);
         if(rowNum == this.rows) rowNum--;
