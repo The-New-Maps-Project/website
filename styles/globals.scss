@@ -1114,6 +1114,10 @@ h3.mymaps {
   z-index: 10;
   position: absolute;
 
+  hr{
+    margin: 0px;
+  }
+
   #algorithm-header{
     @include row();
     justify-content:  space-between;
