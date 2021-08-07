@@ -29,7 +29,11 @@ function MyApp({ Component, pageProps }) {
   const [algoFocus,setAlgoFocus] = useState(0);//same values as algoState, but the current round opened in the popup viewing the data and graphs
   const [round1Data,setRound1Data] = useState([]); //bar graph, length of array is how many iterations, each element is the percent unchanged per iteration
   const [round2Data,setRound2Data] = useState([]); //bar graph, length of array is how many iterations % 10 (or some number), each element is the RSD
-  const [algoSettings,setAlgoSettings] = useState([]);
+  const [algoSettings,setAlgoSettings] = useState({
+    useSubiterations: true,
+    interval1: 10,
+    interval2: 20,
+  });
 
 
 

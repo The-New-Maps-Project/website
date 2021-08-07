@@ -1,7 +1,7 @@
 import Network from "./Network";
 import Town from "./Town";
 import Location from "./Location"
-import { faCommentsDollar } from "@fortawesome/free-solid-svg-icons";
+
 
 export default class Simulate{
     towns: Town[];
@@ -10,7 +10,6 @@ export default class Simulate{
     totalStatePop: number = 0;
     av:number;
     districtPops: number[] = [];
-    interval: number = 10;//time between iterations in milliseconds
     data: object;
     round1Data: number[] = [];
     round2Data:number[] = [];
@@ -21,7 +20,14 @@ export default class Simulate{
     setAlgoState: (a:number) => void;
     setAlgoFocus: (a:number) => void;
 
-    constructor(data: object, numDistricts: number, setData, setRound1Data, setRound2Data,setAlgoState, setAlgoFocus){
+    //settings
+    interval1:number = 10; //round one
+    useSubiterations:boolean = true; //for round one only
+    interval2:number = 20;//round two
+    
+    
+
+    constructor(data: object, numDistricts: number, setData, setRound1Data, setRound2Data,setAlgoState, setAlgoFocus,settings:object){
         //Step 1: set fields
         this.districts = numDistricts;
         for(let i:number = 0;i<this.districts;i++) this.districtPops.push(0);
@@ -31,6 +37,9 @@ export default class Simulate{
         this.setRound2Data = setRound2Data;
         this.setAlgoState = setAlgoState;
         this.setAlgoFocus = setAlgoFocus;
+        this.interval1 = settings["interval1"];
+        this.interval2 = settings["inteval2"];
+        this.useSubiterations = settings["useSubiterations"];
         
 
         //Step 2: set the towns (+ totalStatePop and av)
@@ -61,7 +70,13 @@ export default class Simulate{
         setTimeout(()=>{
             //Step 1: assign to a distict
             var district:number = Math.floor(Math.random()*this.districts)+1;// (townIndex % this.districts) + 1;
-            if(this.towns[townIndex].district<=0) this.assignData(this.towns[townIndex],district);
+            if(this.towns[townIndex].district<=0){
+                if(this.useSubiterations){
+                    this.assignData(this.towns[townIndex],district);
+                }else{
+                    this.assign(this.towns[townIndex],district);
+                }
+            }
             //console.log(townIndex);
 
             //Step 2: increment townIndex
@@ -73,8 +88,7 @@ export default class Simulate{
             }else{
                 this.randomAssignmentIteration(townIndex);
             }
-        },this.interval)
-        
+        },this.useSubiterations?0:this.interval1)
     }
 
     roundOneSubiteration(townIndex: number, unchangedCount: number, prevPU: number, secondPrevPU: number): void{
@@ -90,7 +104,7 @@ export default class Simulate{
             //B: loop through them to see which one is closest
             for(let i:number = 0;i<centers.length;i++){
                 if(centers[i]==null) continue;
-                let dist:number = t.location.distTo(centers[i]);
+                let dist:number = t.location.distTo(centers[i]) * this.districtPops[i];
                 if(dist<minDist){
                     minDist = dist;
                     closestDistrictIndex = i;
@@ -129,7 +143,7 @@ export default class Simulate{
             //Step 5: recurse and redo
             this.roundOneSubiteration(townIndex, unchangedCount,prevPU,secondPrevPU);
             
-        },this.interval);
+        },this.useSubiterations||townIndex == this.towns.length -1?this.interval1:0);
     }
 
     roundTwoIteration(prevRSD:number, secondPrevRSD:number):void{
@@ -174,9 +188,9 @@ export default class Simulate{
             this.setRound2Data(this.round2Data);
 
             //Step 4: determine whether to end or keep recursing
-            if(thisRSD==secondPrevRSD){
+            if(thisRSD> prevRSD){
                 //end round 2
-                this.setAlgoState(3);
+                this.setAlgoState(4);
                 this.setAlgoFocus(3);
             }else{
                 secondPrevRSD = prevRSD;
@@ -184,7 +198,7 @@ export default class Simulate{
                 this.roundTwoIteration(prevRSD,secondPrevRSD);
             }
 
-        },this.interval)
+        },this.interval2)
     }
 
     getDiff(t:Town):number{

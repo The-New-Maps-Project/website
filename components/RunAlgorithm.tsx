@@ -7,7 +7,7 @@ import PContext from "../services/context";
 import Popup from "./Popup";
 
 export default function RunAlgorithm(){
-    const {districts,data,setData,setAlgoState} = useContext(PContext); 
+    const {districts,data,setData,setAlgoState,algoSettings,setAlgoSettings} = useContext(PContext); 
     const [showPopup,setShowPopup] = useState(false);
     const [tInput,setTInput] = useState<number>(95);
 
@@ -35,13 +35,44 @@ export default function RunAlgorithm(){
                 </p>
                 <p className="learn-more">Learn More: <a className="link" target="_blank" href="https://thenewmapsproject.org/docs">The New Maps Project Website</a></p>
                 <div className="algo-area">
-                    {!(districts.length<2)&&<p className="threshold"><input
-                        type="number"
-                        min={0}
-                        max={100}
-                        value={tInput}
-                        onChange={e=>setTInput(Number(e.target.value))}
-                    ></input>% Threshold</p>}
+
+
+                    {!(districts.length<2)&&
+                        <section id="algo-settings">
+                            <h6>Config</h6>
+                            <p className="threshold">
+                                <input
+                                    type="number"
+                                    min={0}
+                                    max={100}
+                                    value={algoSettings["interval1"]}
+                                    onChange={e=>setAlgoSettings({...algoSettings, interval1: e.target.value})}
+                                ></input>Time between Round One {algoSettings["useSubiterations"]?"subiterations":"iterations"}
+                            </p>
+                            <div className="toggle-buttons">
+                                <button onChange={e=>setAlgoSettings({...algoSettings,useSubiterations: true})} className={algoSettings["useSubiterations"]?"focus":""}>
+                                    Subiterations
+                                </button>
+                                <button onChange={e=>setAlgoSettings({...algoSettings,useSubiterations: false})} className={algoSettings["useSubiterations"]?"":"focus"}>
+                                    Full Iterations
+                                </button>
+                            </div>
+                            <p>
+                                {algoSettings["useSubiterations"]?"Using subiterations for Round One, assigning one precinct at a time":"Using full iterations for Round One, assigning batches of precincts"}
+                            </p>
+                            <p className="threshold">
+                                <input
+                                    type="number"
+                                    min={0}
+                                    max={100}
+                                    value={algoSettings["interval2"]}
+                                    onChange={e=>setAlgoSettings({...algoSettings, interval2: e.target.value})}
+                                ></input>Time between Round Two iterations
+                            </p>
+                        </section>
+                    }
+                    
+                    
                     <p>{districts.length} districts created</p>
                     {districts.length<2?
                         <p>Must have 2 or more districts to run algorithm</p>:
