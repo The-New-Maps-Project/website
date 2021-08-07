@@ -42,7 +42,9 @@ export default function SaveImport(){
                     setParameters(elements);
                 }else{
                     let precinctName = elements.shift();//remove the precinct name
-                    // elements[0] = 0;//then set district to zero
+                    // next, move the population to index 1 from index 3 (how it used to be when input files were inserted)
+                    let population = elements.splice(3,1);
+                    elements.splice(1,0,population);
                     obj[precinctName] = [...elements].map(a=>Number(a));//then add the entire array
                 }
             })
