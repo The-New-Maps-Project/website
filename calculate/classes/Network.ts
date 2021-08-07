@@ -15,14 +15,15 @@ export default class Network{
     constructor(townsParam: Town[], granularity:number){
 
         //Step 1: initialize graph, towns, and grid
-        for(let i:number;i<townsParam.length;i++) this.graph.push([]);
+        for(let i:number=0;i<townsParam.length;i++) this.graph.push([]);
+        console.log('Graphlength: '+this.graph.length);
         this.towns = townsParam; //pass by REFERENCE
         this.rows = granularity;
         this.cols = granularity;
-        for(let i:number;i<this.rows*this.cols;i++) this.grid[i] = -1;
+        for(let i:number=0;i<this.rows*this.cols;i++) this.grid[i] = -1;
 
         //Step 2: set townIds
-        for(let i:number;i<this.towns.length;i++) this.towns[i].id = i;
+        for(let i:number=0;i<this.towns.length;i++) this.towns[i].id = i;
     
 
         //Step 3: find min and max lat and lng and set the fields
@@ -38,13 +39,18 @@ export default class Network{
             if(thisLat > maxLat) maxLat = thisLat;
             if(thisLng > maxLng) maxLng = thisLng;
         })
+        console.log(this.minLat,maxLat,this.minLng,maxLng)
         this.incLat = (maxLat - this.minLat) / this.rows;
         this.incLng = (maxLng - this.minLng) / this.cols;
+        console.log(this.incLat,this.incLng);
 
         //Step 4: fill in every grid space with the townId closest to id
         this.towns.forEach(t=>{
+            console.log(t.name +": "+ t.id+ " | "+this.toGridSpace(t));
            this.grid[this.toGridSpace(t)] = t.id;
         })
+
+        this.printGrid();
 
         //Step 5: fill in areas not within state boundaries with "-2".
 
@@ -60,6 +66,7 @@ export default class Network{
                 c++;
             }
             leftMax = c;
+            console.log(c);
 
             //start from right
             c = this.cols -1;
@@ -68,6 +75,7 @@ export default class Network{
                 c--;
             }
             rightMin = c;
+            console.log(c);
         }
 
         leftMax = this.cols - 1;
@@ -79,6 +87,7 @@ export default class Network{
                 this.grid[this.hash(r,c)] = -2;
                 c++;
             }
+            console.log(c);
             leftMax = c;
 
             //start from right
@@ -87,6 +96,7 @@ export default class Network{
                 this.grid[this.hash(r,c)] = -2;
                 c--;
             }
+            console.log(c);
             rightMin = c;
         }
 
@@ -102,6 +112,8 @@ export default class Network{
             }
             console.log(countEmpty);
         }while(countEmpty > 0);
+
+        this.printGrid();
 
 
         //Testing
@@ -141,7 +153,12 @@ export default class Network{
                 }
 
                 //connect the two precincts if not already
-                if(!this.isConnected(townId,otherTownId)) this.connect(townId,otherTownId);
+                if(!this.isConnected(townId,otherTownId)) {
+                    this.connect(townId,otherTownId);
+                }else{
+
+                    console.log("connected already");
+                }
             }
         })
     }
@@ -151,6 +168,7 @@ export default class Network{
         if(this.isConnected(a,b)) return;
         this.graph[a].push(b);
         this.graph[b].push(a);
+        console.log("Connecting: "+a+" - "+b);
     }
 
     isConnected(a:number,b:number):boolean{
@@ -164,11 +182,15 @@ export default class Network{
         return this.toGridSpaceLocation(t.location.lat,t.location.lng); 
     }
 
-    toGridSpaceLocation(lng:number,lat:number):number{
+    toGridSpaceLocation(lat:number,lng:number):number{
+        console.log(lat,lng);
+        console.log(this.minLat,this.minLng,this.incLat,this.incLng)
+        console.log((lat - this.minLat) / this.incLat,(lng - this.minLng) / this.incLng)
         var rowNum:number = Math.floor((lat - this.minLat) / this.incLat);
         var colNum:number = Math.floor((lng - this.minLng) / this.incLng);
         if(rowNum == this.rows) rowNum--;
         if(colNum == this.cols) colNum--;
+        console.log(rowNum,colNum);
         return this.hash(rowNum,colNum); //rowNum and colNum range from 0 to rows/cols -1
     }
 
@@ -189,5 +211,16 @@ export default class Network{
         if(hashedIndex>=this.cols) res.push(hashedIndex-this.cols); //prev row
         if(hashedIndex<(this.cols-1)*this.rows) res.push(hashedIndex + this.cols); //next row
         return res;
+    }
+
+    printGrid():void{
+        var str:string = ""
+        for(let i:number=0;i<this.grid.length;i++){
+            if(i%this.rows==0){
+                console.log(str);
+                str = "";
+            }
+            str += String(this.grid[i]);
+        }
     }
 }
