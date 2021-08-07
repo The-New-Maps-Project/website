@@ -45,7 +45,6 @@ export default class Network{
         //Step 4: fill in every grid space with the townId closest to id
         this.towns.forEach(t=>{
            this.grid[this.toGridSpace(t)] = t.id;
-           if(!t.id) console.log(t.id);
         })
 
         //Step 5: fill in areas not within state boundaries with "-2".
@@ -106,14 +105,14 @@ export default class Network{
 
 
         //Testing
-        var index:number = 179;
-        console.log(this.towns[index].name);
-        console.log("Connected to:");
-        console.log(this.graph.length);
-        console.log(this.getAdjacents(index).length);
-        this.getAdjacents(index).forEach(i=>{
-            console.log(this.towns[i]);
-        })
+        // var index:number = 179;
+        // console.log(this.towns[index].name);
+        // console.log("Connected to:");
+        // console.log(this.graph.length);
+        // console.log(this.getAdjacents(index).length);
+        // this.getAdjacents(index).forEach(i=>{
+        //     console.log(this.towns[i]);
+        // })
     }
 
     getAdjacents(townId:number):number[]{
