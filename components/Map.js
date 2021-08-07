@@ -115,7 +115,6 @@ export default function Map(){
   //re-zoom on map
   useEffect(()=>{
     if(mapObj==null) return;
-    console.log(mapZoom);
     mapObj.setCenter({lat: Number(mapZoom.lat), lng: Number(mapZoom.lng)});
     mapObj.setZoom(Number(mapZoom.zoom));
   },[mapObj,mapZoom])
@@ -155,7 +154,6 @@ export default function Map(){
     addedPrecincts.forEach(precinct=>{
       let p = data[precinct].map(a=>Number(a));
       let color = districts[data[precinct][0]-1] || "grey";
-      console.log(color);
       let marker = addMarker(precinct,color,{lat: p[2], lng: p[3]});
       let newObj = {...markers};
       markers[precinct] = marker;
@@ -165,10 +163,6 @@ export default function Map(){
     //reset prevData;
     prevData.current = createDistrictMapping();
   },[data]);
-
-  // useEffect(()=>{
-  //   console.log("Changing PrevData",prevData);
-  // },[prevData])
 
   const renderParams = (precinctname) =>{
     var arr = [];
@@ -183,18 +177,6 @@ export default function Map(){
     }
     return arr;
   }
-
-  useEffect(()=>{
-    //console.log(markers);
-  },[markers])
-
-  // const setMousePos = (e) =>{
-  //   console.log(e);
-  //   console.log(e.clientX)
-  //   setMousePosX(e.clientX);
-  //   setMousePosY(e.clientY);
-  //   console.log(mousePosX,mousePosY);
-  // }
 
   return (
     <div>
