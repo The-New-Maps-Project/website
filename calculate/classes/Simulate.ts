@@ -78,22 +78,22 @@ export default class Simulate{
     randomAssignment(){
         var count:number = 0;
         this.towns.forEach(t=>{
-            var district:number = Math.floor(Math.random()*this.districts)+1;// (townIndex % this.districts) + 1;
-            this.assign(t,district);
+            var district:number = (count % this.districts) + 1;
+            if(t.district<=0||t.district>this.districts){
+                this.assign(t,district);
+            }
             count++;
         })
         this.setData({...this.data});
-        console.log("random assignment");
         this.roundOneIteration(0,0);
     }
 
     randomAssignmentIteration(townIndex:number): void{
         setTimeout(()=>{
             //Step 1: assign to a distict
-            var district:number = Math.floor(Math.random()*this.districts)+1;// (townIndex % this.districts) + 1;
+            var district:number = (townIndex % this.districts) + 1;
             if(this.towns[townIndex].district<=0||this.towns[townIndex].district>this.districts){
-                
-                    this.assignData(this.towns[townIndex],district);
+                this.assignData(this.towns[townIndex],district);
             }
 
             //Step 2: increment townIndex
