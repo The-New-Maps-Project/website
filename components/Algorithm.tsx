@@ -31,6 +31,12 @@ export default function Algorithm(){
 
 
     useEffect(()=>{
+        window.onmouseup = ()=>{
+            setIsDragging(false);
+        }
+    },[])
+
+    useEffect(()=>{
         var data:number[] = []; 
         setRound1Graph(renderLineGraph(round1Data,algoSettings["graphInterval1"]));
     },[round1Data])
