@@ -1,6 +1,6 @@
 import { faCheckCircle, faCircle, faEllipsisH } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import { Line } from "react-chartjs-2"
 import Simulate from "../calculate/classes/Simulate"
 import PContext from "../services/context"
@@ -9,6 +9,7 @@ export default function Algorithm(){
     const {algoState,algoFocus,round1Data,round2Data,setAlgoState,setRound1Data,setRound2Data,algoSettings,data,districts,setData,setAlgoFocus} = useContext(PContext)
     const [round1Graph,setRound1Graph] = useState<any>(null);
     const [round2Graph,setRound2Graph] = useState<any>(null);
+    const simulate = useRef<Simulate|null>(null);
 
     useEffect(()=>{
 
@@ -17,8 +18,8 @@ export default function Algorithm(){
         setRound2Data([]);
 
         //then start the simulation
-        var simulate:Simulate = new Simulate(data,districts.length,setData,setRound1Data,setRound2Data,setAlgoState,setAlgoFocus,algoSettings);
-        simulate.start();
+        simulate.current = new Simulate(data,districts.length,setData,setRound1Data,setRound2Data,setAlgoState,setAlgoFocus,algoSettings);
+        simulate.current.start();
     },[])//IMPORTANT that it is an empty array, must only run this ONCE, and NOT on every re-render
 
 
@@ -125,6 +126,8 @@ export default function Algorithm(){
             </div>
         </section>
         <button onClick={()=>{
+            simulate.current.terminate();
+            simulate.current = null;
             setAlgoState(0)
         }}>Terminate</button>
     </div>

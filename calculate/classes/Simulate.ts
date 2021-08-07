@@ -5,6 +5,7 @@ import Location from "./Location"
 
 export default class Simulate{
     towns: Town[];
+    shuffledTowns: Town[];
     network: Network;
     districts: number;
     totalStatePop: number = 0;
@@ -26,9 +27,8 @@ export default class Simulate{
     maxIterations1 = Number.MAX_VALUE;
     maxIterations2 = Number.MAX_VALUE;
     gridGranularity = 2000;
-    
-    
-    
+
+    isTerminated:boolean = false;
 
     constructor(data: object, numDistricts: number, setData, setRound1Data, setRound2Data,setAlgoState, setAlgoFocus,settings:object){
         //Step 1: set fields
@@ -40,12 +40,12 @@ export default class Simulate{
         this.setRound2Data = setRound2Data;
         this.setAlgoState = setAlgoState;
         this.setAlgoFocus = setAlgoFocus;
-        this.interval1 = settings["interval1"] || 10;
-        this.interval2 = settings["inteval2"] || 20;
-        this.useSubiterations = settings["useSubiterations"] || false;
-        this.maxIterations1 = settings["maxIterations1"] || 100;
-        this.maxIterations2 = settings["maxIterations2"] || 3000;
-        this.gridGranularity = settings["gridGranularity"] || 2000;
+        this.interval1 = Number(settings["interval1"]) || 10;
+        this.interval2 = Number(settings["inteval2"]) || 20;
+        this.useSubiterations = Boolean(settings["useSubiterations"]) || false;
+        this.maxIterations1 = Number(settings["maxIterations1"]) || 100;
+        this.maxIterations2 = 1; //Number(settings["maxIterations2"]) || 1;
+        this.gridGranularity = Number(settings["gridGranularity"]) || 2000;
 
         //Step 2: set the towns (+ totalStatePop and av)
         this.towns = Object.keys(data).map(key=>{
@@ -59,14 +59,16 @@ export default class Simulate{
             return t;
         });
         this.av = this.totalStatePop /this.districts;
+        this.shuffledTowns = [...this.towns];
+        this.shuffle(this.towns);
 
         //Step 3: create the network
         this.network = new Network(this.towns,this.gridGranularity);
     }
 
     start(): void{
+        if(this.isTerminated) return;
         if(this.districts==0||Object.keys(this.data).length==0) return;
-        this.shuffle(this.towns); //shuffle the order of the towns
         if(this.useSubiterations) {
             this.randomAssignmentIteration(0);
         }else{ 
@@ -77,8 +79,9 @@ export default class Simulate{
     }
 
     randomAssignment(){
+        if(this.isTerminated) return;
         var count:number = 0;
-        this.towns.forEach(t=>{
+        this.shuffledTowns.forEach(t=>{
             var district:number = (count % this.districts) + 1;
             if(t.district<=0||t.district>this.districts){
                 this.assign(t,district);
@@ -91,10 +94,12 @@ export default class Simulate{
 
     randomAssignmentIteration(townIndex:number): void{
         setTimeout(()=>{
+            if(this.isTerminated) return;
             //Step 1: assign to a distict
             var district:number = (townIndex % this.districts) + 1;
-            if(this.towns[townIndex].district<=0||this.towns[townIndex].district>this.districts){
-                this.assignData(this.towns[townIndex],district);
+            var t:Town = this.shuffledTowns[townIndex];
+            if(t.district<=0||t.district>this.districts){
+                this.assignData(t,district);
             }
 
             //Step 2: increment townIndex
@@ -106,11 +111,12 @@ export default class Simulate{
             }else{
                 this.randomAssignmentIteration(townIndex);
             }
-        },this.useSubiterations?0:this.interval1)
+        },this.interval1)
     }
 
     roundOneIteration(prevPU:number, secondPrevPU):void{
         setTimeout(()=>{
+            if(this.isTerminated) return;
             var unchangedCount:number = 0;
             this.towns.forEach(t=>{
                 //Step 1: find closest district
@@ -160,6 +166,8 @@ export default class Simulate{
 
     roundOneSubiteration(townIndex: number, unchangedCount: number, prevPU: number, secondPrevPU: number): void{
         setTimeout(()=>{
+            if(this.isTerminated) return;
+
             let t:Town = this.towns[townIndex];
 
             //Step 1: find closest district
@@ -215,6 +223,8 @@ export default class Simulate{
 
     roundTwoIteration(prevRSD:number, secondPrevRSD:number):void{
         setTimeout(()=>{
+            if(this.isTerminated) return;
+
             var centers:Location[] = this.getDistrictCenters();
 
             var hashedNum:number = 0;
@@ -227,6 +237,11 @@ export default class Simulate{
                 let diff:number = this.getDiff(t);
                 if(diff > 1) diff = 1/diff; //just trying to find the pair of districts, so either order is fine;
                 if(diff < maxPopDiff){
+                    console.log(t.name+": "+ t.district +" & " + t.secondDistrict+" id:"+t.id);
+                    var adj:number[] = this.network.getAdjacents(t.id);
+                    adj.forEach(i=>{
+                        console.log(this.towns[i].name,this.towns[i].district);
+                    })
                     maxPopDiff = diff;
                     hashedNum = this.districtsHash(t);
                 }
@@ -251,13 +266,14 @@ export default class Simulate{
             //Step 3: recalculate rsd
             console.log(this.districtPops);
             console.log(this.stddev(),this.av);
-            var thisRSD:number = this.stddev() / this.av;
+            var thisRSD:number = Number((this.stddev() / this.av).toFixed(5));
             console.log(thisRSD);
+            var prevRound2Data:number[] = [...this.round2Data];
             this.round2Data = [...this.round2Data,thisRSD];
             this.setRound2Data(this.round2Data);
 
             //Step 4: determine whether to end or keep recursing
-            if(thisRSD> prevRSD){
+            if(prevRound2Data.includes(thisRSD)||this.round2Data.length>this.maxIterations2){
                 //end round 2
                 this.setAlgoState(4);
                 this.setAlgoFocus(3);
@@ -276,13 +292,16 @@ export default class Simulate{
 
     //also sets it as secondDistrict of the town
     findClosestDistrictBorder(t:Town):number{
+        //console.log("------"+t.name);
         var adj:number[] = this.network.getAdjacents(t.id);
         var minDist:number = Number.MAX_VALUE;
         var district:number = -1;
         adj.forEach(i=>{
             var borderingTown:Town = this.towns[i];
+            //console.log(borderingTown.name);
             if(t.distTo(borderingTown)<minDist&&t.district!=borderingTown.district){
-                district = this.towns[i].district;
+                //console.log("Adding this!!", borderingTown.district);
+                district = borderingTown.district;
                 minDist = t.distTo(borderingTown);
             }
         })
@@ -366,5 +385,9 @@ export default class Simulate{
     assignData(t:Town,district:number):void{
         this.assign(t,district); //first assign
         this.setData({...this.data}); //then set data;
+    }
+
+    terminate(){
+        this.isTerminated = true;
     }
 }

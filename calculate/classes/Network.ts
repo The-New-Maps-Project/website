@@ -19,7 +19,7 @@ export default class Network{
         this.towns = townsParam; //pass by REFERENCE
         this.rows = granularity;
         this.cols = granularity;
-        for(let i:number=0;i<this.rows*this.cols;i++) this.grid[i] = -1;
+        for(let i:number=0;i<this.rows*this.cols;i++) this.grid.push(-1);
 
         //Step 2: set townIds
         for(let i:number=0;i<this.towns.length;i++) this.towns[i].id = i;
@@ -45,6 +45,7 @@ export default class Network{
         //Step 4: fill in every grid space with the townId closest to id
         this.towns.forEach(t=>{
            this.grid[this.toGridSpace(t)] = t.id;
+           if(!t.id) console.log(t.id);
         })
 
         //Step 5: fill in areas not within state boundaries with "-2".
@@ -105,14 +106,14 @@ export default class Network{
 
 
         //Testing
-        // var index:number = 30;
-        // console.log(this.towns[index].name);
-        // console.log("Connected to:");
-        // console.log(this.graph.length);
-        // console.log(this.getAdjacents(index).length);
-        // this.getAdjacents(index).forEach(i=>{
-        //     console.log(this.towns[i]);
-        // })
+        var index:number = 179;
+        console.log(this.towns[index].name);
+        console.log("Connected to:");
+        console.log(this.graph.length);
+        console.log(this.getAdjacents(index).length);
+        this.getAdjacents(index).forEach(i=>{
+            console.log(this.towns[i]);
+        })
     }
 
     getAdjacents(townId:number):number[]{

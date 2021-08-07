@@ -62,7 +62,7 @@ export default function RunAlgorithm(){
                                 <input
                                     type="number"
                                     value={algoSettings["interval1"]}
-                                    onChange={e=>setAlgoSettings({...algoSettings, interval1: e.target.value})}
+                                    onChange={e=>setAlgoSettings({...algoSettings, interval1: Number(e.target.value)})}
                                 ></input>ms between Round One {algoSettings["useSubiterations"]?"subiterations":"iterations"}
                             </p>
                             <div className="toggle-buttons">
@@ -80,7 +80,7 @@ export default function RunAlgorithm(){
                                 <input
                                     type="number"
                                     value={algoSettings["interval2"]}
-                                    onChange={e=>setAlgoSettings({...algoSettings, interval2: e.target.value})}
+                                    onChange={e=>setAlgoSettings({...algoSettings, interval2: Number(e.target.value)})}
                                 ></input>ms between Round Two iterations
                             </p>
                             <p className="numberInputArea">
@@ -89,7 +89,7 @@ export default function RunAlgorithm(){
                                     type="number"
                                     className="ml15"
                                     value={algoSettings["gridGranularity"]}
-                                    onChange={e=>setAlgoSettings({...algoSettings, gridGranularity: e.target.value})}
+                                    onChange={e=>setAlgoSettings({...algoSettings, gridGranularity: Number(e.target.value)})}
                                 ></input>
                             </p>
                             <p className="numberInputArea">
@@ -98,7 +98,7 @@ export default function RunAlgorithm(){
                                     type="number"
                                     className="mr15 ml15"
                                     value={algoSettings["graphInterval1"]}
-                                    onChange={e=>setAlgoSettings({...algoSettings, graphInterval1: e.target.value})}
+                                    onChange={e=>setAlgoSettings({...algoSettings, graphInterval1: Number(e.target.value)})}
                                 ></input> iterations
                             </p>
                             <p className="numberInputArea">
@@ -107,7 +107,7 @@ export default function RunAlgorithm(){
                                     type="number"
                                     className="mr15 ml15"
                                     value={algoSettings["graphInterval2"]}
-                                    onChange={e=>setAlgoSettings({...algoSettings, graphInterval2: e.target.value})}
+                                    onChange={e=>setAlgoSettings({...algoSettings, graphInterval2: Number(e.target.value)})}
                                 ></input> iterations
                             </p>
                         </section>
