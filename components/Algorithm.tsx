@@ -13,6 +13,11 @@ export default function Algorithm(){
     const [barGraph,setBarGraph] = useState<any>(null);
     const simulate = useRef<Simulate|null>(null);
 
+    const [diffX,setDiffX] = useState<number>(0);
+    const [diffY,setDiffY] = useState<number>(0);
+    const [isDragging,setIsDragging] = useState<boolean>(false);
+    const [dragStyles,setDragStyles] = useState<object>({})
+
     useEffect(()=>{
 
         //clean up all data
@@ -130,8 +135,29 @@ export default function Algorithm(){
         if(algoFocus!=n) setAlgoFocus(n);
     }
 
-    return  <div id="algorithm-container">
-        <div id="algorithm-header">
+    const dragStart = (e) =>{
+        setDiffX(e.screenX - e.target.getBoundingClientRect().left)
+        setDiffY(e.screenY - e.target.getBoundingClientRect().top)
+        setIsDragging(true);
+    }
+
+    const dragging = (e) => {
+        if(!isDragging) return;
+        var left = e.screenX - diffX;
+        var top = e.screenY - diffY;
+
+        setDragStyles({
+            top: top,
+            left: left,
+        })
+    }
+
+    const dragEnd = () => {
+        setIsDragging(false);
+    }
+
+    return  <div id="algorithm-container"  style={dragStyles}>
+        <div id="algorithm-header" onMouseDown={dragStart} onMouseMove={dragging} onMouseUp={dragEnd}>
             <h4><FontAwesomeIcon icon={faMapMarkedAlt} className="icon"></FontAwesomeIcon>Algorithm <Link href="/documentation/algorithm"><a className="link" target="_blank">how it works</a></Link></h4>
             <button className="terminate-button" onClick={()=>{
                 simulate.current.terminate();
