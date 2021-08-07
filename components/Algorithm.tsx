@@ -62,7 +62,7 @@ export default function Algorithm(){
                 <h5>Round One</h5>
                 {renderRoundStateIcon(1)}
             </div>
-            {algoFocus==1?<div className="round-subheader">
+            {algoFocus!==1?<div className="round-subheader">
                 <span>Iterations: {round1Data.length}</span>
                 <span>Percent Unchanged: {round1Data.length==0?0:(round1Data[round1Data.length-1]*100).toFixed(2)} </span>
             </div>:<div className="round-body">
@@ -79,7 +79,7 @@ export default function Algorithm(){
                 <h5>Round Two</h5>
                 {renderRoundStateIcon(2)}
             </div>
-            {algoFocus==2?<div className="round-subheader">
+            {algoFocus!==2?<div className="round-subheader">
                 <span>Iterations: {round2Data.length}</span>
                 <span>RSD: {round2Data.length==0?"N/A":(round2Data[round2Data.length-1]*100).toFixed(2)} </span>
             </div>:<div className="round-body">

@@ -6,7 +6,8 @@ export default class Simulate{
     towns: Town[];
     network: Network;
     districts: number;
-    totalStatePop: number;
+    totalStatePop: number = 0;
+    av:number;
     districtPops: number[] = [];
     interval: number = 10;//time between iterations in milliseconds
     data: object;
@@ -31,14 +32,13 @@ export default class Simulate{
         this.setAlgoFocus = setAlgoFocus;
         
 
-        //Step 2: set the towns
-        var totalStatePop = 0;
-        var totalStatePop = 0;
+        //Step 2: set the towns (+ totalStatePop and av)
         this.towns = Object.keys(data).map(key=>{
             var p:number[] = data[key].map(n=>Number(n));
-            totalStatePop += p[1];
+            this.totalStatePop += p[1];
             return new Town(key,p[1],p[2],p[3]);
         });
+        this.av = this.totalStatePop /this.districts;
 
         //Step 3: create the network
         this.network = new Network(this.towns,2000);
@@ -104,7 +104,6 @@ export default class Simulate{
             //Step 4: check if one whole iteration is over and see if you need to keep going
             if(townIndex>=this.towns.length){
                 let pu:number = unchangedCount/this.towns.length;
-                console.log("PU: "+pu)
                 this.round1Data = [...this.round1Data,pu];
                 this.setRound1Data(this.round1Data);
                 if(pu==secondPrevPU||pu==1){
@@ -128,20 +127,83 @@ export default class Simulate{
     }
 
     roundTwoIteration(prevRSD:number, secondPrevRSD:number):void{
-        var centers:Location[] = this.getDistrictCenters();
+        setTimeout(()=>{
+            var centers:Location[] = this.getDistrictCenters();
 
-        var hashedNum:number = 0;
-        var maxPopDiff:number = Number.MAX_VALUE;
+            var hashedNum:number = 0;
+            var maxPopDiff:number = Number.MAX_VALUE;
+    
+            //Step 1: find the two connected distrits with the biggest population difference
+            this.towns.forEach(t=>{
+                let secondDistrict:number = this.findClosestDistrictBorder(t);
+                if(secondDistrict==-1) return; //if not on the border
+                let diff:number = this.getDiff(t);
+                if(diff > 1) diff = 1/diff; //just trying to find the pair of districts, so either order is fine;
+                if(diff < maxPopDiff){
+                    maxPopDiff = diff;
+                    hashedNum = this.districtsHash(t);
+                }
+            })
+    
+            //Step 2: find the town in the bigger district closest to the smaller district
+            var minDist:number = Number.MAX_VALUE;
+            var biggerDistrict:number = this.unHash(hashedNum)[1];
+            var smallerDistrict:number = this.unHash(hashedNum)[0];
+            var res:Town = this.towns[0];
+            this.towns.forEach(t=>{
+                if(t.district!=biggerDistrict||!this.isBordering(t.id,smallerDistrict)) return; //must be in the bigger district and bordering the smaller one
+                var thisDist:number = t.location.distTo(centers[smallerDistrict -1 ]);
+                if(thisDist < minDist){
+                    minDist = thisDist;
+                    res = t;
+                }
+            })
+            console.log(res.name + ": "+biggerDistrict+" --> " +smallerDistrict);
+            this.assignData(res,smallerDistrict);
+            
+            //Step 3: recalculate rsd
+            var thisRSD:number = this.stddev() / this.av;
+            console.log(thisRSD);
+            this.round2Data = [...this.round2Data,thisRSD];
+            this.setRound2Data(this.round2Data);
 
-        //Step 1: find the two connected distrits with the biggest population difference
-        this.towns.forEach(t=>{
-            //var secondDistrict = 
-        })
+            //Step 4: determine whether to end or keep recursing
+            if(thisRSD==secondPrevRSD){
+                //end round 2
+                this.setAlgoState(3);
+                this.setAlgoFocus(3);
+            }else{
+                secondPrevRSD = prevRSD;
+                prevRSD = thisRSD;
+                this.roundTwoIteration(prevRSD,secondPrevRSD);
+            }
+
+        },this.interval)
     }
 
-    // findClosestDistrictBorder(t:Town):number{
-    //     var adj:number[] = 
-    // }
+    getDiff(t:Town):number{
+        return this.districtPops[t.secondDistrict - 1] / this.districtPops[t.secondDistrict - 1];
+    }
+
+    //also sets it as secondDistrict of the town
+    findClosestDistrictBorder(t:Town):number{
+        var adj:number[] = this.network.getAdjacents(t.id);
+        var minDist:number = Number.MAX_VALUE;
+        var district:number = -1;
+        adj.forEach(i=>{
+            var borderingTown:Town = this.towns[i];
+            if(t.distTo(borderingTown)<minDist&&t.district!=borderingTown.district){
+                district = this.towns[i].district;
+                minDist = t.distTo(borderingTown);
+            }
+        })
+        t.secondDistrict = district;
+        return district;
+    }
+
+    districtsHash(t:Town){
+        return Math.max(t.district,t.secondDistrict) * this.districts + Math.min(t.district,t.secondDistrict) - 1;
+    }
 
     //use districtPops
     stddev():number{
@@ -179,6 +241,23 @@ export default class Simulate{
 
         return res;
     }
+
+    isBordering(townId:number,district:number):boolean{
+        var adj:number[] = this.network.getAdjacents(townId);
+        adj.forEach(i=>{
+            if(this.towns[i].district == district) return true;
+        })
+        return false;
+    }
+
+    //outputs two district number, always smaller first, bigger second (in terms of population)
+    unHash(hashNumber:number):number[]{
+        var a:number = Math.floor(hashNumber / this.districts) + 1
+        var b:number = (hashNumber % this.districts) + 1;
+        if(this.districtPops[a-1] > this.districtPops[b-1]) return [b,a];
+        return [a,b]
+    }
+
 
     assign(t:Town,district:number):void{
         if(t.district!=null&&t.district>0) this.districtPops[t.district - 1] -= t.population;
