@@ -35,9 +35,11 @@ export default class Simulate{
 
         //Step 2: set the towns (+ totalStatePop and av)
         this.towns = Object.keys(data).map(key=>{
-            var p:number[] = data[key].map(n=>Number(n));
+            let p:number[] = data[key].map(n=>Number(n));
             this.totalStatePop += p[1];
-            return new Town(key,p[1],p[2],p[3]);
+            let t:Town = new Town(key,p[1],p[2],p[3]);
+            if(p[0]>0) t.district = p[0];
+            return t;
         });
         this.av = this.totalStatePop /this.districts;
 
@@ -56,7 +58,7 @@ export default class Simulate{
         setTimeout(()=>{
             //Step 1: assign to a distict
             var district:number = (townIndex % this.districts) + 1;
-            this.assignData(this.towns[townIndex],district);
+            if(this.towns[townIndex].district<=0) this.assignData(this.towns[townIndex],district);
             //console.log(townIndex);
 
             //Step 2: increment townIndex
@@ -152,13 +154,8 @@ export default class Simulate{
             var smallerDistrict:number = this.unHash(hashedNum)[0];
             var res:Town = this.towns[0];
             this.towns.forEach(t=>{
-                console.log(t.name);
-                console.log(t.district == biggerDistrict);
-                console.log(this.isBordering(t.id,smallerDistrict))
                 if(t.district!=biggerDistrict||!this.isBordering(t.id,smallerDistrict)) return; //must be in the bigger district and bordering the smaller one
-                console.log("second check");
                 var thisDist:number = t.location.distTo(centers[smallerDistrict -1 ]);
-                console.log(thisDist);
                 if(thisDist < minDist){
                     minDist = thisDist;
                     res = t;
