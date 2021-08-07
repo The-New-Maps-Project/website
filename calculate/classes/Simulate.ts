@@ -66,6 +66,7 @@ export default class Simulate{
 
     start(): void{
         if(this.districts==0||Object.keys(this.data).length==0) return;
+        this.shuffle(this.towns); //shuffle the order of the towns
         if(this.useSubiterations) {
             this.randomAssignmentIteration(0);
         }else{ 
@@ -348,7 +349,7 @@ export default class Simulate{
         return [a,b]
     }
 
-    shuffle(arr:number[]):void{
+    shuffle(arr:any[]):void{
         arr.sort(()=>Math.random()-0.5);
     }
 
