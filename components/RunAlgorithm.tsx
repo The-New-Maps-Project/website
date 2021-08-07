@@ -1,7 +1,7 @@
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import algorithm from "../calculate/algorithm";
 import PContext from "../services/context";
 import Popup from "./Popup";
@@ -10,6 +10,21 @@ export default function RunAlgorithm(){
     const {districts,data,setData,setAlgoState,algoSettings,setAlgoSettings} = useContext(PContext); 
     const [showPopup,setShowPopup] = useState(false);
     const [tInput,setTInput] = useState<number>(95);
+
+    useEffect(()=>{
+        var newAlgoSettings:object = {...algoSettings};
+
+        //set the suggested values
+        var numPrecincts:number = Object.keys(data).length;
+        if(numPrecincts < 300){
+            newAlgoSettings["useSubiterations"] = true;
+            newAlgoSettings["interval1"] = 10;
+        }else {
+            newAlgoSettings["useSubiterations"] = false;
+            newAlgoSettings["interval1"] = Math.round(numPrecincts / 100) * 100; //ends up rounding to nearest hundred of ten times the number of precincts
+        }
+        setAlgoSettings(newAlgoSettings);
+    },[data])
 
     const runAlgorithm = () =>{
         var n = districts.length;
@@ -40,11 +55,10 @@ export default function RunAlgorithm(){
                     {!(districts.length<2)&&
                         <section id="algo-settings">
                             <h6>Config</h6>
+                            <p className="description-note">Suggested values filled in</p>
                             <p className="numberInputArea">
                                 <input
                                     type="number"
-                                    min={0}
-                                    max={100}
                                     value={algoSettings["interval1"]}
                                     onChange={e=>setAlgoSettings({...algoSettings, interval1: e.target.value})}
                                 ></input>ms between Round One {algoSettings["useSubiterations"]?"subiterations":"iterations"}
@@ -63,8 +77,6 @@ export default function RunAlgorithm(){
                             <p className="numberInputArea">
                                 <input
                                     type="number"
-                                    min={0}
-                                    max={100}
                                     value={algoSettings["interval2"]}
                                     onChange={e=>setAlgoSettings({...algoSettings, interval2: e.target.value})}
                                 ></input>ms between Round Two iterations

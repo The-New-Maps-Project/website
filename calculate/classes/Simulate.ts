@@ -139,18 +139,17 @@ export default class Simulate{
             //Step 3: calculate pu and see if you need to terminate
             var pu:number = unchangedCount / this.towns.length;
             console.log(pu);
+            var prevRound1Data = [...this.round1Data];
             this.round1Data = [...this.round1Data,pu];
             this.setRound1Data(this.round1Data);
             this.setData({...this.data}); //also update the map data
             console.log(secondPrevPU,prevPU,pu);
-            if(pu==secondPrevPU||pu==1||this.round1Data.length > this.maxIterations1){
-                console.log("Ending Round One");
+            if(prevRound1Data.includes(pu)||pu==1||this.round1Data.length > this.maxIterations1){ //if already had this pu value, then terminate
                 this.roundTwoIteration(this.stddev(),0);
                 this.setAlgoFocus(2);
                 this.setAlgoState(2);
                 return;
             }else{
-                console.log("R1 iteration next");
                 secondPrevPU = prevPU;
                 prevPU = pu;
                 //Step 4: recurse
@@ -191,9 +190,10 @@ export default class Simulate{
             //Step 4: check if one whole iteration is over and see if you need to keep going
             if(townIndex>=this.towns.length){
                 let pu:number = unchangedCount/this.towns.length;
+                var prevRound1Data = [...this.round1Data];
                 this.round1Data = [...this.round1Data,pu];
                 this.setRound1Data(this.round1Data);
-                if(pu==secondPrevPU||pu==1||this.round1Data.length > this.maxIterations1){
+                if(prevRound1Data.includes(pu)||pu==1||this.round1Data.length > this.maxIterations1){
                     //if alternating, STOP ROUND ONE, and go onto second round
                     this.roundTwoIteration(this.stddev(),0);
                     this.setAlgoFocus(2);

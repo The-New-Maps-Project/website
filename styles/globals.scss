@@ -948,7 +948,7 @@ h3.mymaps {
       margin-top: 10px;
       margin-bottom: 20px;
       font-size: 14px;
-      
+
     }
   }
 }
@@ -1112,6 +1112,9 @@ h3.mymaps {
   position: absolute;
   section{
     padding: 15px 30px;
+    &.clickable{
+      @include hoverer1();
+    }
     .round-header{
       @include row();
       justify-content: space-between;
@@ -1145,7 +1148,13 @@ h3.mymaps {
       }
     }
   }
+
+  .linegraph{
+    width: 100%;
+    height: 250px;
+  }
 }
+
 
 footer {
   @include center();
