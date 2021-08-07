@@ -13,9 +13,6 @@ export default class Simulate{
     data: object;
     round1Data: number[] = [];
     round2Data:number[] = [];
-    maxIterations1 = Number.MAX_VALUE;
-    maxIterations2 = Number.MAX_VALUE
-    
     setData: (a) => void;
     setRound1Data: (a) => void;
     setRound2Data: (a) => void;
@@ -26,6 +23,10 @@ export default class Simulate{
     interval1:number = 10; //round one
     useSubiterations:boolean = true; //for round one only
     interval2:number = 20;//round two
+    maxIterations1 = Number.MAX_VALUE;
+    maxIterations2 = Number.MAX_VALUE;
+    gridGranularity = 2000;
+    
     
     
 
@@ -39,11 +40,12 @@ export default class Simulate{
         this.setRound2Data = setRound2Data;
         this.setAlgoState = setAlgoState;
         this.setAlgoFocus = setAlgoFocus;
-        this.interval1 = settings["interval1"];
-        this.interval2 = settings["inteval2"];
-        this.useSubiterations = settings["useSubiterations"];
-        this.maxIterations1 = settings["maxIterations1"];
-        this.maxIterations2 = settings["maxIterations2"];
+        this.interval1 = settings["interval1"] || 10;
+        this.interval2 = settings["inteval2"] || 20;
+        this.useSubiterations = settings["useSubiterations"] || false;
+        this.maxIterations1 = settings["maxIterations1"] || 100;
+        this.maxIterations2 = settings["maxIterations2"] || 3000;
+        this.gridGranularity = settings["gridGranularity"] || 2000;
 
         //Step 2: set the towns (+ totalStatePop and av)
         this.towns = Object.keys(data).map(key=>{
@@ -59,7 +61,7 @@ export default class Simulate{
         this.av = this.totalStatePop /this.districts;
 
         //Step 3: create the network
-        this.network = new Network(this.towns,2000);
+        this.network = new Network(this.towns,this.gridGranularity);
     }
 
     start(): void{
@@ -89,12 +91,9 @@ export default class Simulate{
         setTimeout(()=>{
             //Step 1: assign to a distict
             var district:number = Math.floor(Math.random()*this.districts)+1;// (townIndex % this.districts) + 1;
-            if(this.towns[townIndex].district<=0){
-                if(this.useSubiterations){
+            if(this.towns[townIndex].district<=0||this.towns[townIndex].district>this.districts){
+                
                     this.assignData(this.towns[townIndex],district);
-                }else{
-                    this.assign(this.towns[townIndex],district);
-                }
             }
 
             //Step 2: increment townIndex
@@ -347,6 +346,10 @@ export default class Simulate{
         var b:number = (hashNumber % this.districts) + 1;
         if(this.districtPops[a-1] > this.districtPops[b-1]) return [b,a];
         return [a,b]
+    }
+
+    shuffle(arr:number[]):void{
+        arr.sort(()=>Math.random()-0.5);
     }
 
 

@@ -23,7 +23,9 @@ export default function RunAlgorithm(){
             newAlgoSettings["useSubiterations"] = false;
             newAlgoSettings["interval1"] = Math.round(numPrecincts / 100) * 100; //ends up rounding to nearest hundred of ten times the number of precincts
         }
-        setAlgoSettings(newAlgoSettings);
+        newAlgoSettings["graphInterval1"] = 1;
+        newAlgoSettings["graphInteval2"] = 
+        setAlgoSettings["newAlgoSettings"] = numPrecincts < 300 ?1:Math.round(numPrecincts / 1000) * 10;
     },[data])
 
     const runAlgorithm = () =>{
@@ -80,6 +82,33 @@ export default function RunAlgorithm(){
                                     value={algoSettings["interval2"]}
                                     onChange={e=>setAlgoSettings({...algoSettings, interval2: e.target.value})}
                                 ></input>ms between Round Two iterations
+                            </p>
+                            <p className="numberInputArea">
+                                Grid Granularity: 
+                                <input
+                                    type="number"
+                                    className="ml15"
+                                    value={algoSettings["gridGranularity"]}
+                                    onChange={e=>setAlgoSettings({...algoSettings, gridGranularity: e.target.value})}
+                                ></input>
+                            </p>
+                            <p className="numberInputArea">
+                                Round One: Graph every
+                                <input
+                                    type="number"
+                                    className="mr15 ml15"
+                                    value={algoSettings["graphInterval1"]}
+                                    onChange={e=>setAlgoSettings({...algoSettings, graphInterval1: e.target.value})}
+                                ></input> iterations
+                            </p>
+                            <p className="numberInputArea">
+                                Round Two: Graph every
+                                <input
+                                    type="number"
+                                    className="mr15 ml15"
+                                    value={algoSettings["graphInterval2"]}
+                                    onChange={e=>setAlgoSettings({...algoSettings, graphInterval2: e.target.value})}
+                                ></input> iterations
                             </p>
                         </section>
                     }

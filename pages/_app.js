@@ -35,6 +35,9 @@ function MyApp({ Component, pageProps }) {
     interval2: 20,
     maxIterations1: 100,
     maxIterations2: 2000,
+    graphInterval1: 1,
+    graphInterval2: 1,
+    gridGranularity: 2000,
   });
 
 

@@ -25,7 +25,7 @@ export default function Algorithm(){
     useEffect(()=>{
         setRound1Graph(renderLineGraph(round1Data));
     },[round1Data])
-
+ 
     useEffect(()=>{
         setRound2Graph(renderLineGraph(round2Data))
     },[round2Data]);
