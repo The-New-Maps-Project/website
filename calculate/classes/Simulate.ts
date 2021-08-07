@@ -52,7 +52,7 @@ export default class Simulate{
             let p:number[] = data[key].map(n=>Number(n));
             this.totalStatePop += p[1];
             let t:Town = new Town(key,p[1],p[2],p[3]);
-            if(p[0]>0) { //if already assing a district
+            if(p[0]>0&&p[0]<=this.districts) { //if already assing a district
                 t.district = p[0]; //assign it to the Town instance
                 this.districtPops[t.district-1] += t.population; //and add it to districtPops
             }
@@ -249,6 +249,8 @@ export default class Simulate{
             this.assignData(res,smallerDistrict);
             
             //Step 3: recalculate rsd
+            console.log(this.districtPops);
+            console.log(this.stddev(),this.av);
             var thisRSD:number = this.stddev() / this.av;
             console.log(thisRSD);
             this.round2Data = [...this.round2Data,thisRSD];
