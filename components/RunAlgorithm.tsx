@@ -40,34 +40,34 @@ export default function RunAlgorithm(){
                     {!(districts.length<2)&&
                         <section id="algo-settings">
                             <h6>Config</h6>
-                            <p className="threshold">
+                            <p className="numberInputArea">
                                 <input
                                     type="number"
                                     min={0}
                                     max={100}
                                     value={algoSettings["interval1"]}
                                     onChange={e=>setAlgoSettings({...algoSettings, interval1: e.target.value})}
-                                ></input>Time between Round One {algoSettings["useSubiterations"]?"subiterations":"iterations"}
+                                ></input>ms between Round One {algoSettings["useSubiterations"]?"subiterations":"iterations"}
                             </p>
                             <div className="toggle-buttons">
-                                <button onChange={e=>setAlgoSettings({...algoSettings,useSubiterations: true})} className={algoSettings["useSubiterations"]?"focus":""}>
+                                <button onClick={e=>setAlgoSettings({...algoSettings,useSubiterations: true})} className={algoSettings["useSubiterations"]?"focus":""}>
                                     Subiterations
                                 </button>
-                                <button onChange={e=>setAlgoSettings({...algoSettings,useSubiterations: false})} className={algoSettings["useSubiterations"]?"":"focus"}>
+                                <button onClick={e=>setAlgoSettings({...algoSettings,useSubiterations: false})} className={algoSettings["useSubiterations"]?"":"focus"}>
                                     Full Iterations
                                 </button>
                             </div>
-                            <p>
-                                {algoSettings["useSubiterations"]?"Using subiterations for Round One, assigning one precinct at a time":"Using full iterations for Round One, assigning batches of precincts"}
+                            <p className="description-note">
+                                {algoSettings["useSubiterations"]?"Using subiterations for Round One, assigning one precinct at a time. NOT recommended for large amounts of data":"Using full iterations for Round One, assigning batches of precincts. Recommended for large amounts of data"}
                             </p>
-                            <p className="threshold">
+                            <p className="numberInputArea">
                                 <input
                                     type="number"
                                     min={0}
                                     max={100}
                                     value={algoSettings["interval2"]}
                                     onChange={e=>setAlgoSettings({...algoSettings, interval2: e.target.value})}
-                                ></input>Time between Round Two iterations
+                                ></input>ms between Round Two iterations
                             </p>
                         </section>
                     }

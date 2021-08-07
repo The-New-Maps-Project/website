@@ -13,6 +13,8 @@ export default class Simulate{
     data: object;
     round1Data: number[] = [];
     round2Data:number[] = [];
+    maxIterations1 = Number.MAX_VALUE;
+    maxIterations2 = Number.MAX_VALUE
     
     setData: (a) => void;
     setRound1Data: (a) => void;
@@ -40,7 +42,8 @@ export default class Simulate{
         this.interval1 = settings["interval1"];
         this.interval2 = settings["inteval2"];
         this.useSubiterations = settings["useSubiterations"];
-        
+        this.maxIterations1 = settings["maxIterations1"];
+        this.maxIterations2 = settings["maxIterations2"];
 
         //Step 2: set the towns (+ totalStatePop and av)
         this.towns = Object.keys(data).map(key=>{
@@ -60,10 +63,26 @@ export default class Simulate{
     }
 
     start(): void{
-        this.randomAssignmentIteration(0);
         if(this.districts==0||Object.keys(this.data).length==0) return;
+        if(this.useSubiterations) {
+            this.randomAssignmentIteration(0);
+        }else{ 
+            this.randomAssignment();
+        }
         this.setAlgoFocus(1);
         this.setAlgoState(1);
+    }
+
+    randomAssignment(){
+        var count:number = 0;
+        this.towns.forEach(t=>{
+            var district:number = Math.floor(Math.random()*this.districts)+1;// (townIndex % this.districts) + 1;
+            this.assign(t,district);
+            count++;
+        })
+        this.setData({...this.data});
+        console.log("random assignment");
+        this.roundOneIteration(0,0);
     }
 
     randomAssignmentIteration(townIndex:number): void{
@@ -77,7 +96,6 @@ export default class Simulate{
                     this.assign(this.towns[townIndex],district);
                 }
             }
-            //console.log(townIndex);
 
             //Step 2: increment townIndex
             townIndex++;
@@ -91,10 +109,59 @@ export default class Simulate{
         },this.useSubiterations?0:this.interval1)
     }
 
+    roundOneIteration(prevPU:number, secondPrevPU):void{
+        setTimeout(()=>{
+            var unchangedCount:number = 0;
+            this.towns.forEach(t=>{
+                //Step 1: find closest district
+                let minDist:number = Number.MAX_VALUE;
+                let closestDistrictIndex:number = 0;
+                //A: get the centers of each district
+                let centers: Location[] = this.getDistrictCenters();
+                //B: loop through them to see which one is closest
+                for(let i:number = 0;i<centers.length;i++){
+                    if(centers[i]==null) continue;
+                    let dist:number = t.location.distTo(centers[i]) * this.districtPops[i];
+                    if(dist<minDist){
+                        minDist = dist;
+                        closestDistrictIndex = i;
+                    }
+                }
+
+                //Step 2: assign to that district or increment unchangedCount
+                if(closestDistrictIndex + 1 == t.district){
+                    unchangedCount += 1;
+                }else{
+                    this.assign(t,closestDistrictIndex + 1);
+                }
+            })
+
+            //Step 3: calculate pu and see if you need to terminate
+            var pu:number = unchangedCount / this.towns.length;
+            console.log(pu);
+            this.round1Data = [...this.round1Data,pu];
+            this.setRound1Data(this.round1Data);
+            this.setData({...this.data}); //also update the map data
+            console.log(secondPrevPU,prevPU,pu);
+            if(pu==secondPrevPU||pu==1||this.round1Data.length > this.maxIterations1){
+                console.log("Ending Round One");
+                this.roundTwoIteration(this.stddev(),0);
+                this.setAlgoFocus(2);
+                this.setAlgoState(2);
+                return;
+            }else{
+                console.log("R1 iteration next");
+                secondPrevPU = prevPU;
+                prevPU = pu;
+                //Step 4: recurse
+                this.roundOneIteration(prevPU,secondPrevPU);
+            }
+        },this.interval1);
+    }
+
     roundOneSubiteration(townIndex: number, unchangedCount: number, prevPU: number, secondPrevPU: number): void{
         setTimeout(()=>{
             let t:Town = this.towns[townIndex];
-            //console.log(t.name);
 
             //Step 1: find closest district
             let minDist:number = Number.MAX_VALUE;
@@ -126,7 +193,7 @@ export default class Simulate{
                 let pu:number = unchangedCount/this.towns.length;
                 this.round1Data = [...this.round1Data,pu];
                 this.setRound1Data(this.round1Data);
-                if(pu==secondPrevPU||pu==1){
+                if(pu==secondPrevPU||pu==1||this.round1Data.length > this.maxIterations1){
                     //if alternating, STOP ROUND ONE, and go onto second round
                     this.roundTwoIteration(this.stddev(),0);
                     this.setAlgoFocus(2);
@@ -143,7 +210,7 @@ export default class Simulate{
             //Step 5: recurse and redo
             this.roundOneSubiteration(townIndex, unchangedCount,prevPU,secondPrevPU);
             
-        },this.useSubiterations||townIndex == this.towns.length -1?this.interval1:0);
+        },this.interval1);
     }
 
     roundTwoIteration(prevRSD:number, secondPrevRSD:number):void{

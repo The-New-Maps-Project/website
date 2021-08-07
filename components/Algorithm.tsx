@@ -9,7 +9,13 @@ export default function Algorithm(){
     const {algoState,algoFocus,round1Data,round2Data,setAlgoState,setRound1Data,setRound2Data,algoSettings,data,districts,setData,setAlgoFocus} = useContext(PContext)
 
     useEffect(()=>{
-        var simulate:Simulate = new Simulate(data,districts.length,setData,setRound1Data,setRound2Data,setAlgoState,setAlgoFocus);
+
+        //clean up all data
+        setRound1Data([]);
+        setRound2Data([]);
+
+        //then start the simulation
+        var simulate:Simulate = new Simulate(data,districts.length,setData,setRound1Data,setRound2Data,setAlgoState,setAlgoFocus,algoSettings);
         simulate.start();
     },[])//IMPORTANT that it is an empty array, must only run this ONCE, and NOT on every re-render
 
@@ -97,5 +103,8 @@ export default function Algorithm(){
                 {renderRoundStateIcon(3)}
             </div>
         </section>
+        <button onClick={()=>{
+            setAlgoState(0)
+        }}>Terminate</button>
     </div>
 }

@@ -33,6 +33,8 @@ function MyApp({ Component, pageProps }) {
     useSubiterations: true,
     interval1: 10,
     interval2: 20,
+    maxIterations1: 100,
+    maxIterations2: 2000,
   });
 
 
