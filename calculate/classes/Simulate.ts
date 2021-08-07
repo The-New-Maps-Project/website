@@ -1,6 +1,7 @@
 import Network from "./Network";
 import Town from "./Town";
 import Location from "./Location"
+import { faCommentsDollar } from "@fortawesome/free-solid-svg-icons";
 
 export default class Simulate{
     towns: Town[];
@@ -151,8 +152,13 @@ export default class Simulate{
             var smallerDistrict:number = this.unHash(hashedNum)[0];
             var res:Town = this.towns[0];
             this.towns.forEach(t=>{
+                console.log(t.name);
+                console.log(t.district == biggerDistrict);
+                console.log(this.isBordering(t.id,smallerDistrict))
                 if(t.district!=biggerDistrict||!this.isBordering(t.id,smallerDistrict)) return; //must be in the bigger district and bordering the smaller one
+                console.log("second check");
                 var thisDist:number = t.location.distTo(centers[smallerDistrict -1 ]);
+                console.log(thisDist);
                 if(thisDist < minDist){
                     minDist = thisDist;
                     res = t;
@@ -245,9 +251,10 @@ export default class Simulate{
 
     isBordering(townId:number,district:number):boolean{
         var adj:number[] = this.network.getAdjacents(townId);
-        adj.forEach(i=>{
-            if(this.towns[i].district == district) return true;
-        })
+        for(let i:number = 0;i<adj.length;i++){
+            var d:number = adj[i];
+            if(this.towns[d].district == district) return true;
+        }
         return false;
     }
 
