@@ -41,7 +41,7 @@ export default class Simulate{
         });
 
         //Step 3: create the network
-        this.network = new Network(this.towns,30);
+        this.network = new Network(this.towns,2000);
     }
 
     start(): void{

@@ -16,7 +16,6 @@ export default class Network{
 
         //Step 1: initialize graph, towns, and grid
         for(let i:number=0;i<townsParam.length;i++) this.graph.push([]);
-        console.log('Graphlength: '+this.graph.length);
         this.towns = townsParam; //pass by REFERENCE
         this.rows = granularity;
         this.cols = granularity;
@@ -39,10 +38,9 @@ export default class Network{
             if(thisLat > maxLat) maxLat = thisLat;
             if(thisLng > maxLng) maxLng = thisLng;
         })
-        console.log(this.minLat,maxLat,this.minLng,maxLng)
         this.incLat = (maxLat - this.minLat) / this.rows;
         this.incLng = (maxLng - this.minLng) / this.cols;
-        console.log(this.incLat,this.incLng);
+      
 
         //Step 4: fill in every grid space with the townId closest to id
         this.towns.forEach(t=>{
@@ -66,7 +64,6 @@ export default class Network{
                 c++;
             }
             leftMax = c;
-            console.log(c);
 
             //start from right
             c = this.cols -1;
@@ -75,7 +72,6 @@ export default class Network{
                 c--;
             }
             rightMin = c;
-            console.log(c);
         }
 
         leftMax = this.cols - 1;
@@ -87,7 +83,6 @@ export default class Network{
                 this.grid[this.hash(r,c)] = -2;
                 c++;
             }
-            console.log(c);
             leftMax = c;
 
             //start from right
@@ -95,8 +90,7 @@ export default class Network{
             while(this.grid[this.hash(r,c)]<0&&c>rightMin){
                 this.grid[this.hash(r,c)] = -2;
                 c--;
-            }
-            console.log(c);
+            } 
             rightMin = c;
         }
 
@@ -112,8 +106,6 @@ export default class Network{
             }
             console.log(countEmpty);
         }while(countEmpty > 0);
-
-        this.printGrid();
 
 
         //Testing
@@ -155,9 +147,6 @@ export default class Network{
                 //connect the two precincts if not already
                 if(!this.isConnected(townId,otherTownId)) {
                     this.connect(townId,otherTownId);
-                }else{
-
-                    console.log("connected already");
                 }
             }
         })
@@ -168,7 +157,6 @@ export default class Network{
         if(this.isConnected(a,b)) return;
         this.graph[a].push(b);
         this.graph[b].push(a);
-        console.log("Connecting: "+a+" - "+b);
     }
 
     isConnected(a:number,b:number):boolean{
@@ -190,7 +178,6 @@ export default class Network{
         var colNum:number = Math.floor((lng - this.minLng) / this.incLng);
         if(rowNum == this.rows) rowNum--;
         if(colNum == this.cols) colNum--;
-        console.log(rowNum,colNum);
         return this.hash(rowNum,colNum); //rowNum and colNum range from 0 to rows/cols -1
     }
 
@@ -220,7 +207,7 @@ export default class Network{
                 console.log(str);
                 str = "";
             }
-            str += String(this.grid[i]);
+            str += String(this.grid[i]) + " , ";
         }
     }
 }
