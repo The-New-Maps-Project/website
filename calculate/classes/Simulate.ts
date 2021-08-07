@@ -38,7 +38,10 @@ export default class Simulate{
             let p:number[] = data[key].map(n=>Number(n));
             this.totalStatePop += p[1];
             let t:Town = new Town(key,p[1],p[2],p[3]);
-            if(p[0]>0) t.district = p[0];
+            if(p[0]>0) { //if already assing a district
+                t.district = p[0]; //assign it to the Town instance
+                this.districtPops[t.district-1] += t.population; //and add it to districtPops
+            }
             return t;
         });
         this.av = this.totalStatePop /this.districts;
@@ -57,7 +60,7 @@ export default class Simulate{
     randomAssignmentIteration(townIndex:number): void{
         setTimeout(()=>{
             //Step 1: assign to a distict
-            var district:number = (townIndex % this.districts) + 1;
+            var district:number = Math.floor(Math.random()*this.districts)+1;// (townIndex % this.districts) + 1;
             if(this.towns[townIndex].district<=0) this.assignData(this.towns[townIndex],district);
             //console.log(townIndex);
 
@@ -185,7 +188,7 @@ export default class Simulate{
     }
 
     getDiff(t:Town):number{
-        return this.districtPops[t.secondDistrict - 1] / this.districtPops[t.secondDistrict - 1];
+        return this.districtPops[t.secondDistrict - 1] / this.districtPops[t.district - 1];
     }
 
     //also sets it as secondDistrict of the town
@@ -210,11 +213,13 @@ export default class Simulate{
 
     //use districtPops
     stddev():number{
-        let av:number = this.totalStatePop / this.districts;
         let res:number = 0;
-        this.districtPops.forEach(d => res += Math.pow(d-av,2));
+        console.log(this.av);
+        this.districtPops.forEach(d => res += Math.pow((d-this.av),2));
         res /= this.districts;
         res = Math.sqrt(res);
+        console.log(this.districtPops);
+        console.log(res);
         return res;
     }
 
