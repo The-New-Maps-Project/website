@@ -29,6 +29,7 @@ export default class Simulate{
         this.setRound2Data = setRound2Data;
         this.setAlgoState = setAlgoState;
         this.setAlgoFocus = setAlgoFocus;
+        
 
         //Step 2: set the towns
         var totalStatePop = 0;
@@ -38,6 +39,9 @@ export default class Simulate{
             totalStatePop += p[1];
             return new Town(key,p[1],p[2],p[3]);
         });
+
+        //Step 3: create the network
+        this.network = new Network(this.towns,2000);
     }
 
     start(): void{
@@ -124,8 +128,20 @@ export default class Simulate{
     }
 
     roundTwoIteration(prevRSD:number, secondPrevRSD:number):void{
-        
+        var centers:Location[] = this.getDistrictCenters();
+
+        var hashedNum:number = 0;
+        var maxPopDiff:number = Number.MAX_VALUE;
+
+        //Step 1: find the two connected distrits with the biggest population difference
+        this.towns.forEach(t=>{
+            //var secondDistrict = 
+        })
     }
+
+    // findClosestDistrictBorder(t:Town):number{
+    //     var adj:number[] = 
+    // }
 
     //use districtPops
     stddev():number{

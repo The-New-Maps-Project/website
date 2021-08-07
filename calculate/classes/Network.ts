@@ -99,6 +99,7 @@ export default class Network{
             }
         }while(countEmpty > 0);
 
+        //Testing
         var index:number = 104;
         console.log(this.towns[index].name);
         console.log("Connected to:");
