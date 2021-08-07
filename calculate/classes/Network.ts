@@ -23,7 +23,8 @@ export default class Network{
 
         //Step 2: set townIds
         for(let i:number;i<this.towns.length;i++) this.towns[i].id = i;
-        
+    
+
         //Step 3: find min and max lat and lng and set the fields
         this.minLat = Number.MAX_VALUE;
         this.minLng = Number.MAX_VALUE;
@@ -40,13 +41,13 @@ export default class Network{
         this.incLat = (maxLat - this.minLat) / this.rows;
         this.incLng = (maxLng - this.minLng) / this.cols;
 
-
         //Step 4: fill in every grid space with the townId closest to id
         this.towns.forEach(t=>{
            this.grid[this.toGridSpace(t)] = t.id;
         })
 
         //Step 5: fill in areas not within state boundaries with "-2".
+
 
         //Going up rows
         var leftMax:number = this.cols - 1;
@@ -71,7 +72,7 @@ export default class Network{
 
         leftMax = this.cols - 1;
         rightMin = 0;
-        for(let r:number = this.rows -1; r>=0;r++){
+        for(let r:number = this.rows -1; r>=0;r--){
             //start from left
             var c:number = 0;
             while(this.grid[this.hash(r,c)]<0&&c<leftMax){
@@ -89,20 +90,26 @@ export default class Network{
             rightMin = c;
         }
 
+
         //Step 6: floodfill empty spaces
         var countEmpty:number = 0;
         do{
+            countEmpty = 0;
             for(let i = 0;i<this.grid.length;i++){
                 if(this.grid[i]==-2) continue;
                 else if(this.grid[i]==-1) countEmpty++;
                 else this.floodFill(i);
             }
+            console.log(countEmpty);
         }while(countEmpty > 0);
+
 
         //Testing
         var index:number = 104;
         console.log(this.towns[index].name);
         console.log("Connected to:");
+        console.log(this.graph.length);
+        console.log(this.getAdjacents(index).length);
         this.getAdjacents(index).forEach(i=>{
             console.log(this.towns[i]);
         })

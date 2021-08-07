@@ -56,7 +56,7 @@ export default class Simulate{
             //Step 1: assign to a distict
             var district:number = (townIndex % this.districts) + 1;
             this.assignData(this.towns[townIndex],district);
-            console.log(townIndex);
+            //console.log(townIndex);
 
             //Step 2: increment townIndex
             townIndex++;
@@ -74,7 +74,7 @@ export default class Simulate{
     roundOneSubiteration(townIndex: number, unchangedCount: number, prevPU: number, secondPrevPU: number): void{
         setTimeout(()=>{
             let t:Town = this.towns[townIndex];
-            console.log(t.name);
+            //console.log(t.name);
 
             //Step 1: find closest district
             let minDist:number = Number.MAX_VALUE;
@@ -105,6 +105,8 @@ export default class Simulate{
             if(townIndex>=this.towns.length){
                 let pu:number = unchangedCount/this.towns.length;
                 console.log("PU: "+pu)
+                this.round1Data = [...this.round1Data,pu];
+                this.setRound1Data(this.round1Data);
                 if(pu==secondPrevPU||pu==1){
                     //if alternating, STOP ROUND ONE, and go onto second round
                     this.roundTwoIteration(this.stddev(),0);
@@ -112,8 +114,6 @@ export default class Simulate{
                     this.setAlgoState(2);
                     return;
                 }else{
-                    this.round1Data = [...this.round1Data,pu];
-                    this.setRound1Data(this.round1Data);
                     secondPrevPU = prevPU;
                     prevPU = pu;
                     townIndex = 0; //zero on next subiteration, to start a new full iteration.
