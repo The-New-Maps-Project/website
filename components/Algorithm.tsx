@@ -1,5 +1,6 @@
-import { faCheckCircle, faCircle, faEllipsisH } from "@fortawesome/free-solid-svg-icons"
+import { faCheckCircle, faCircle, faEllipsisH, faMapMarkedAlt, faTimes } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import Link from "next/link"
 import { useContext, useEffect, useRef, useState } from "react"
 import { Bar, Line } from "react-chartjs-2"
 import Simulate from "../calculate/classes/Simulate"
@@ -130,6 +131,14 @@ export default function Algorithm(){
     }
 
     return  <div id="algorithm-container">
+        <div id="algorithm-header">
+            <h4><FontAwesomeIcon icon={faMapMarkedAlt} className="icon"></FontAwesomeIcon>Algorithm <Link href="/documentation/algorithm"><a className="link">how it works</a></Link></h4>
+            <button className="terminate-button" onClick={()=>{
+                simulate.current.terminate();
+                simulate.current = null;
+                setAlgoState(0)
+            }}>{algoState>=3?<FontAwesomeIcon icon={faTimes} className="sir"></FontAwesomeIcon>:"Terminate"}</button>
+        </div>
         <section id="roundone" className={algoFocus==1?"focused":"clickable"} onClick={()=>setAlgoFocusIfNotSet(1)}>
             <div className="round-header">
                 <h5>Round One</h5>
@@ -171,10 +180,5 @@ export default function Algorithm(){
                 {renderRoundStateIcon(3)}
             </div>
         </section>
-        <button onClick={()=>{
-            simulate.current.terminate();
-            simulate.current = null;
-            setAlgoState(0)
-        }}>Terminate</button>
     </div>
 }
