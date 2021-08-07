@@ -7,7 +7,7 @@ export default class Simulate{
     network: Network;
     districts: number;
     totalStatePop: number;
-    districtPops: number[];
+    districtPops: number[] = [];
     interval: number = 10;//time between iterations in milliseconds
     data: object;
     round1Data: number[] = [];
@@ -22,6 +22,7 @@ export default class Simulate{
     constructor(data: object, numDistricts: number, setData, setRound1Data, setRound2Data,setAlgoState, setAlgoFocus){
         //Step 1: set fields
         this.districts = numDistricts;
+        for(let i:number = 0;i<this.districts;i++) this.districtPops.push(0);
         this.data = data;
         this.setData = setData;
         this.setRound1Data = setRound1Data;
@@ -41,6 +42,7 @@ export default class Simulate{
 
     start(): void{
         this.randomAssignmentIteration(0);
+        if(this.districts==0||Object.keys(this.data).length==0) return;
         this.setAlgoFocus(1);
         this.setAlgoState(1);
     }
@@ -57,7 +59,7 @@ export default class Simulate{
 
             //Step 3: check if all precincts have been randomly assigned and move onto round one.
             if(townIndex>=this.towns.length){
-                //this.roundOneSubiteration(0,0,0,0);
+                this.roundOneSubiteration(0,0,0,0);
             }else{
                 this.randomAssignmentIteration(townIndex);
             }
@@ -68,6 +70,7 @@ export default class Simulate{
     roundOneSubiteration(townIndex: number, unchangedCount: number, prevPU: number, secondPrevPU: number): void{
         setTimeout(()=>{
             let t:Town = this.towns[townIndex];
+            console.log(t.name);
 
             //Step 1: find closest district
             let minDist:number = Number.MAX_VALUE;
@@ -97,7 +100,8 @@ export default class Simulate{
             //Step 4: check if one whole iteration is over and see if you need to keep going
             if(townIndex>=this.towns.length){
                 let pu:number = unchangedCount/this.towns.length;
-                if(pu==secondPrevPU){
+                console.log("PU: "+pu)
+                if(pu==secondPrevPU||pu==1){
                     //if alternating, STOP ROUND ONE, and go onto second round
                     this.roundTwoIteration(this.stddev(),0);
                     this.setAlgoFocus(2);
@@ -108,7 +112,8 @@ export default class Simulate{
                     this.setRound1Data(this.round1Data);
                     secondPrevPU = prevPU;
                     prevPU = pu;
-                    townIndex = -1; //so it's zero on next subiteration, to start a new full iteration.
+                    townIndex = 0; //zero on next subiteration, to start a new full iteration.
+                    unchangedCount = 0;
                 }
             }
 
@@ -160,7 +165,9 @@ export default class Simulate{
     }
 
     assign(t:Town,district:number):void{
+        if(t.district!=null&&t.district>0) this.districtPops[t.district - 1] -= t.population;
         t.district = district;
+        this.districtPops[t.district - 1] += t.population;
         this.data[t.name][0] = district;
     }
 

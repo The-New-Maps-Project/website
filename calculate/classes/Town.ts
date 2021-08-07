@@ -5,6 +5,7 @@ export default class Town{
   population: number;
   location: Location;
   district: number;
+  id:number;
 
     constructor(name:string,population:number,lat:number,lng:number){
         this.name = name;
