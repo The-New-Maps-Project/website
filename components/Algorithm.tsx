@@ -132,7 +132,7 @@ export default function Algorithm(){
 
     return  <div id="algorithm-container">
         <div id="algorithm-header">
-            <h4><FontAwesomeIcon icon={faMapMarkedAlt} className="icon"></FontAwesomeIcon>Algorithm <Link href="/documentation/algorithm"><a className="link">how it works</a></Link></h4>
+            <h4><FontAwesomeIcon icon={faMapMarkedAlt} className="icon"></FontAwesomeIcon>Algorithm <Link href="/documentation/algorithm"><a className="link" target="_blank">how it works</a></Link></h4>
             <button className="terminate-button" onClick={()=>{
                 simulate.current.terminate();
                 simulate.current = null;
