@@ -6,9 +6,10 @@ import Simulate from "../calculate/classes/Simulate"
 import PContext from "../services/context"
 
 export default function Algorithm(){
-    const {algoState,algoFocus,round1Data,round2Data,setAlgoState,setRound1Data,setRound2Data,algoSettings,data,districts,setData,setAlgoFocus,setDistrictPops} = useContext(PContext)
+    const {algoState,algoFocus,round1Data,round2Data,setAlgoState,setRound1Data,setRound2Data,districtPops,algoSettings,data,districts,setData,setAlgoFocus,setDistrictPops} = useContext(PContext)
     const [round1Graph,setRound1Graph] = useState<any>(null);
     const [round2Graph,setRound2Graph] = useState<any>(null);
+    const [barGraph,setBarGraph] = useState<any>(null);
     const simulate = useRef<Simulate|null>(null);
 
     useEffect(()=>{
@@ -32,6 +33,10 @@ export default function Algorithm(){
         setRound2Graph(renderLineGraph(round2Data,algoSettings["graphInterval2"]))
     },[round2Data]);
 
+    useEffect(()=>{
+        setBarGraph(renderBarGraph(districtPops));
+    },[districtPops])
+
     const renderRoundStateIcon = (round:number) => {
         if(round < algoState) return <FontAwesomeIcon className="roundStateIcon green" icon={faCheckCircle}></FontAwesomeIcon>
         if(round == algoState) return <FontAwesomeIcon className="roundStateIcon black" icon={faEllipsisH}></FontAwesomeIcon>
@@ -42,12 +47,16 @@ export default function Algorithm(){
         if(data.length==0) return;
         let numbers:string[] = [];
         let res:number[] = [];
+        let lastNum:number = 0;
         for(let i:number=0;i<data.length;i+=interval){
             numbers.push(String(i+1));
             res.push(data[i]);
+            lastNum = i;
         }
-        numbers.push(String(data.length));
-        res.push(data[data.length-1]);
+        if(lastNum <data.length-1){
+            numbers.push(String(data.length));
+            res.push(data[data.length-1]);
+        }
 
         let chartData = {
             labels: numbers,
@@ -90,11 +99,12 @@ export default function Algorithm(){
 
     const renderBarGraph = (data:number[]) => {
         if(data.length==0) return;
-        let numbers:string[] = [];
-        numbers.push("District "+String(data.length));
+        let labels:string[] = [];
+        //start at 1
+        for(let i:number=1;i<=data.length;i++) labels.push("District "+String((i)));
 
         let chartData = {
-            labels: numbers,
+            labels: labels,
             datasets: [{
                 data: data,
                 backgroundColor: "#949010",
@@ -127,12 +137,12 @@ export default function Algorithm(){
             </div>
             {algoFocus!==1?<div className="round-subheader">
                 <span>Iterations: {round1Data.length}</span>
-                <span>Percent Unchanged: {round1Data.length==0?0:(round1Data[round1Data.length-1]*100).toFixed(2)} </span>
+                <span>% Unchanged: {round1Data.length==0?0:(round1Data[round1Data.length-1]*100).toFixed(2)}% </span>
             </div>:<div className="round-body">
                 {round1Graph}
                 <div className="round-footer">
                     <span className="iterations">Iterations: {round1Data.length}</span>
-                    <span className="main-value">% Unchanged: {round1Data.length==0?0:(round1Data[round1Data.length-1]*100).toFixed(2)} </span>
+                    <span className="main-value">% Unchanged: {round1Data.length==0?0:(round1Data[round1Data.length-1]*100).toFixed(2)}%</span>
                 </div>
             </div>}
         </section>
@@ -144,12 +154,13 @@ export default function Algorithm(){
             </div>
             {algoFocus!==2?<div className="round-subheader">
                 <span>Iterations: {round2Data.length}</span>
-                <span>RSD: {round2Data.length==0?"N/A":(round2Data[round2Data.length-1]*100).toFixed(2)} </span>
+                <span>RSD: {round2Data.length==0?"N/A":(round2Data[round2Data.length-1]*100).toFixed(2)+"%"} </span>
             </div>:<div className="round-body">
                 {round2Graph}
+                {barGraph}
                 <div className="round-footer">
                     <span className="iterations">Iterations: {round2Data.length}</span>
-                    <span className="main-value">RSD: {round2Data.length==0?"N/A":(round2Data[round2Data.length-1]*100).toFixed(2)} </span>
+                    <span className="main-value">RSD: {round2Data.length==0?"N/A":(round2Data[round2Data.length-1]*100).toFixed(2)+"%"} </span>
                 </div>
             </div>}
         </section>

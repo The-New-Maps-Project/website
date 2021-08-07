@@ -44,7 +44,7 @@ export default class Simulate{
         this.setAlgoFocus = setAlgoFocus;
         this.setDistrictPops = setDistrictPops;
         this.interval1 = Number(settings["interval1"]) || 10;
-        this.interval2 = Number(settings["inteval2"]) || 20;
+        this.interval2 = Number(settings["interval2"]) || 20;
         this.useSubiterations = Boolean(settings["useSubiterations"]) || false;
         this.maxIterations1 = Number(settings["maxIterations1"]) || 100;
         this.maxIterations2 = Number(settings["maxIterations2"]) || 1;
