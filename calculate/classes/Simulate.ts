@@ -44,7 +44,7 @@ export default class Simulate{
         this.interval2 = Number(settings["inteval2"]) || 20;
         this.useSubiterations = Boolean(settings["useSubiterations"]) || false;
         this.maxIterations1 = Number(settings["maxIterations1"]) || 100;
-        this.maxIterations2 = 1; //Number(settings["maxIterations2"]) || 1;
+        this.maxIterations2 = Number(settings["maxIterations2"]) || 1;
         this.gridGranularity = Number(settings["gridGranularity"]) || 2000;
 
         //Step 2: set the towns (+ totalStatePop and av)
@@ -144,12 +144,10 @@ export default class Simulate{
 
             //Step 3: calculate pu and see if you need to terminate
             var pu:number = unchangedCount / this.towns.length;
-            console.log(pu);
             var prevRound1Data = [...this.round1Data];
             this.round1Data = [...this.round1Data,pu];
             this.setRound1Data(this.round1Data);
             this.setData({...this.data}); //also update the map data
-            console.log(secondPrevPU,prevPU,pu);
             if(prevRound1Data.includes(pu)||pu==1||this.round1Data.length > this.maxIterations1){ //if already had this pu value, then terminate
                 this.roundTwoIteration(this.stddev(),0);
                 this.setAlgoFocus(2);
@@ -237,11 +235,6 @@ export default class Simulate{
                 let diff:number = this.getDiff(t);
                 if(diff > 1) diff = 1/diff; //just trying to find the pair of districts, so either order is fine;
                 if(diff < maxPopDiff){
-                    console.log(t.name+": "+ t.district +" & " + t.secondDistrict+" id:"+t.id);
-                    var adj:number[] = this.network.getAdjacents(t.id);
-                    adj.forEach(i=>{
-                        console.log(this.towns[i].name,this.towns[i].district);
-                    })
                     maxPopDiff = diff;
                     hashedNum = this.districtsHash(t);
                 }
@@ -260,14 +253,10 @@ export default class Simulate{
                     res = t;
                 }
             })
-            console.log(res.name + ": "+biggerDistrict+" --> " +smallerDistrict);
             this.assignData(res,smallerDistrict);
             
             //Step 3: recalculate rsd
-            console.log(this.districtPops);
-            console.log(this.stddev(),this.av);
             var thisRSD:number = Number((this.stddev() / this.av).toFixed(5));
-            console.log(thisRSD);
             var prevRound2Data:number[] = [...this.round2Data];
             this.round2Data = [...this.round2Data,thisRSD];
             this.setRound2Data(this.round2Data);
@@ -292,15 +281,12 @@ export default class Simulate{
 
     //also sets it as secondDistrict of the town
     findClosestDistrictBorder(t:Town):number{
-        //console.log("------"+t.name);
         var adj:number[] = this.network.getAdjacents(t.id);
         var minDist:number = Number.MAX_VALUE;
         var district:number = -1;
         adj.forEach(i=>{
             var borderingTown:Town = this.towns[i];
-            //console.log(borderingTown.name);
             if(t.distTo(borderingTown)<minDist&&t.district!=borderingTown.district){
-                //console.log("Adding this!!", borderingTown.district);
                 district = borderingTown.district;
                 minDist = t.distTo(borderingTown);
             }
@@ -316,12 +302,9 @@ export default class Simulate{
     //use districtPops
     stddev():number{
         let res:number = 0;
-        console.log(this.av);
         this.districtPops.forEach(d => res += Math.pow((d-this.av),2));
         res /= this.districts;
         res = Math.sqrt(res);
-        console.log(this.districtPops);
-        console.log(res);
         return res;
     }
 
