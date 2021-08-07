@@ -105,14 +105,14 @@ export default class Network{
 
 
         //Testing
-        var index:number = 104;
-        console.log(this.towns[index].name);
-        console.log("Connected to:");
-        console.log(this.graph.length);
-        console.log(this.getAdjacents(index).length);
-        this.getAdjacents(index).forEach(i=>{
-            console.log(this.towns[i]);
-        })
+        // var index:number = 30;
+        // console.log(this.towns[index].name);
+        // console.log("Connected to:");
+        // console.log(this.graph.length);
+        // console.log(this.getAdjacents(index).length);
+        // this.getAdjacents(index).forEach(i=>{
+        //     console.log(this.towns[i]);
+        // })
     }
 
     getAdjacents(townId:number):number[]{

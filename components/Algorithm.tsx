@@ -69,7 +69,7 @@ export default function Algorithm(){
                 {/* {renderLineGraph(round1Data)} */}
                 <div className="round-footer">
                     <span className="iterations">Iterations: {round1Data.length}</span>
-                    <span className="main-value">Percent Unchanged: {round1Data.length==0?0:(round1Data[round1Data.length-1]*100).toFixed(2)} </span>
+                    <span className="main-value">% Unchanged: {round1Data.length==0?0:(round1Data[round1Data.length-1]*100).toFixed(2)} </span>
                 </div>
             </div>}
         </section>

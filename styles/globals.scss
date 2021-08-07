@@ -1101,6 +1101,18 @@ h3.mymaps {
         margin-right: 20px
       }
     }
+    .round-footer{
+      margin-top: 20px;
+      @include row();
+      justify-content: space-between;
+      .main-value{
+        background-color: black;
+        padding: 5px;
+        border-radius: 5px;
+        color: white;
+        font-weight: bold
+      }
+    }
   }
 }
 

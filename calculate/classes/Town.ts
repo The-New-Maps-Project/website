@@ -18,6 +18,10 @@ export default class Town{
       this.district = district;
     }
 
+    distTo(that:Town):number{
+      return this.location.distTo(that.location);
+    }
+
     toString(): string{
       return this.name + ","+this.district+","+this.location.lat+","+this.location.lng+","+this.population;
     }
