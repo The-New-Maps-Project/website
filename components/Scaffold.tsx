@@ -15,9 +15,9 @@ export default function Scaffold(){
 
     return <div id="scaffold">
         <section id="first-row">
-            {needSave&&<div className="save-banner">
+            {/* {needSave&&<div className="save-banner">
                 <span>WARNING</span> Unsaved Changes
-            </div>}
+            </div>} */}
             <div className="left">
                 <Parameters></Parameters>
             </div>

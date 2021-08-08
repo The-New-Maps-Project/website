@@ -25,7 +25,7 @@ function MyApp({ Component, pageProps }) {
   const [needSave,setNeedSave] = useState(false);
 
   //For algorithm running
-  const [algoState,setAlgoState] = useState(4); // -1: not running, 1: round 1, 2: round 2, 3: done
+  const [algoState,setAlgoState] = useState(0); // -1: not running, 1: round 1, 2: round 2, 3: done
   const [algoFocus,setAlgoFocus] = useState(0);//same values as algoState, but the current round opened in the popup viewing the data and graphs
   const [round1Data,setRound1Data] = useState([]); //bar graph, length of array is how many iterations, each element is the percent unchanged per iteration
   const [round2Data,setRound2Data] = useState([]); //bar graph, length of array is how many iterations % 10 (or some number), each element is the RSD
