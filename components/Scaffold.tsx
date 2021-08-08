@@ -24,8 +24,9 @@ export default function Scaffold(){
             </div>
             <div className="right">
                 <div className="row">
-                    <ImportFile></ImportFile>
+                    
                     <ExportFile></ExportFile>
+                    <ImportFile></ImportFile>
                 </div>
                 <div className="second-row">
                     <RunAlgorithm></RunAlgorithm>

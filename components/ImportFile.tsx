@@ -33,6 +33,7 @@ export default function SaveImport(){
                 count++;
                 line.replace("\r","");
                 let elements: any[] = line.split(",");
+                if(elements.length==0) return;
 
                 if(count==1){
                     let d:string[] = [];
