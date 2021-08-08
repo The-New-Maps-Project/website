@@ -39,15 +39,15 @@ export default function RunAlgorithm(){
 
     return <div>
         <button className="algorithm-button" onClick={()=>setShowPopup(true)}>
-            NMP Algorithm
+            Run Algorithm
         </button>
         
         {showPopup&&<Popup>
             <div id="algorithm-popup">
                 <button className="x-button" onClick={()=>setShowPopup(false)}><FontAwesomeIcon icon={faTimes}></FontAwesomeIcon></button>
-                <h5>Run NMP Algorithm</h5>
+                <h5>Run Algorithm</h5>
                 <p>The New Maps Project Algorithm - A good way to get started with creating a map</p>
-                <p className="disclaimer"><span>Disclaimer:</span> The purpose of New Maps Project Algorithm is not to guarantee perfect maps
+                <p className="disclaimer"><span>Disclaimers:</span> The purpose of New Maps Project Algorithm is not to guarantee perfect maps
                     or optimize all possible statitics, rather it is a flexible tool to quickly draw first draft maps. Final maps should be edited to be 
                     optimized for each different scenario.
                 </p>

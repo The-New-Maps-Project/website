@@ -213,7 +213,11 @@ header {
   padding: 0px 3vw;
   @include row();
   justify-content: space-between;
+  margin-bottom: 60px;
+  background-color: white;
+  //box-shadow: 0px 5px 10px darkgrey;
   h1 {
+    font-size: 24px;
     div {
       margin: 0px;
     }
@@ -255,6 +259,24 @@ header {
       margin-right: 5px;
       font-size: 20px;
       height: 20px;
+    }
+  }
+
+  #header-links{
+    @include row();
+    button.menu-button{
+      padding: 0px; // 5px 8px;
+      border: none;
+      background-color: transparent;
+      @include center();
+      .icon{
+        color: black;
+        font-weight: bold;
+        font-size: 30px;
+        height: 30px;
+      }
+      @include hoverer1();
+      margin-left: 30px;
     }
   }
 }
