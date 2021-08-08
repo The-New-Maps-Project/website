@@ -40,6 +40,8 @@ export default function Header() {
           <FontAwesomeIcon className="icon" icon={faBars}></FontAwesomeIcon>
         </button>
       </div>
+
+      
     </header>
   );
 }
