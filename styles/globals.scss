@@ -375,7 +375,7 @@ header {
 
 .export-popup{
   max-width: 500px;
-  padding: 20px;
+  padding: 20px 0px;
   h5{
     margin: 30px 0px;
     font-size: 26px;
@@ -386,6 +386,7 @@ header {
   @include sbstyle();
   display: block;
   margin: 20px 0px;
+  width: 250px;
 }
 
 main {
@@ -533,7 +534,7 @@ h3.mymaps {
   }
 }
 
-#import-popup {
+#import-popup, #export-popup {
   padding: 20px;
   max-width: 500px;
   h5 {
@@ -543,9 +544,15 @@ h3.mymaps {
   }
   .file-format,
   .line-example {
-    span {
+    strong{
       font-weight: bold;
       margin-right: 5px;
+    }
+    section{
+      padding: 10px;
+    }
+    p {
+      margin: 0px;
     }
   }
   .example-files .sample-files-link {

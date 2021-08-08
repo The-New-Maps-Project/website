@@ -75,9 +75,16 @@ export default function SaveImport(){
             <div id="import-popup">
                 <button className="x-button" onClick={()=>setShowPopup(false)}><FontAwesomeIcon icon={faTimes}></FontAwesomeIcon></button>
                 <h5>Import A File</h5>
-                <p className="file-format"><span>FILE FORMAT</span> Plain text file (.txt), each line with comma separated values (CSV). For the first line, the order is: amount of districts, followed by all precincts listed in order.
-                For subsequent lines, the order is: precinct name, then assigned district, then latitude, then longitude, then population, followed by all parameter values IN ORDER.</p>
-                <div className="line-example"><span>EXAMPLE</span>Springfield,3451,40.1243,-78.5478,0.54,0.23,0.67 (last three are parameter values)</div>
+                <p className="file-format"><strong>FILE FORMAT</strong> Plain text file (.txt), each line with comma separated values (CSV). For the first line, the order is: amount of districts, followed by all parameters listed in order.
+                For subsequent lines, list data for each precinct, one precinct per line. The order is: precinct name, then assigned district, then latitude, then longitude, then population, followed by all parameter values IN ORDER.</p>
+                <div className="line-example">
+                    <strong>EXAMPLE</strong>
+                    <section>
+                        <p>8,Percent Democrat,Percent Republican,Percent Minority</p>
+                        <p>Springfield,3451,40.1243,-78.5478,0.46,0.45,0.27</p>
+                        <p>...</p>
+                    </section>
+                    </div>
                 <div className="example-files">
                     <p>This is the same file format as the exported files. Find example files in The New Maps Project's Datastore. Please note that these files are purely for demonstrative purposes that the accuracy of the information cannot be guaranteed.
                     </p>
