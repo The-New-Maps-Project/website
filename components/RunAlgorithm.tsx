@@ -25,7 +25,7 @@ export default function RunAlgorithm(){
         }
         newAlgoSettings["interval2"] = 30;
         newAlgoSettings["graphInterval1"] = 1;
-        newAlgoSettings["graphInterval2"] = numPrecincts < 300 ?1:Math.round(numPrecincts / 1000) * 10;
+        newAlgoSettings["graphInterval2"] = numPrecincts < 300 ?1:Math.round(numPrecincts / 100);
         setAlgoSettings(newAlgoSettings);
     },[data])
 
@@ -35,6 +35,13 @@ export default function RunAlgorithm(){
         //setData(newObj);
         setAlgoState(1);
         setShowPopup(false);
+    }
+
+    const setSingleAlgoSetting = (algoSetting:string,val:any)=>{
+        var res:object = {...algoSettings};
+        res[algoSetting] = val;
+        setAlgoSettings(res);
+
     }
 
     return <div>
@@ -63,14 +70,14 @@ export default function RunAlgorithm(){
                                 <input
                                     type="number"
                                     value={algoSettings["interval1"]}
-                                    onChange={e=>setAlgoSettings({...algoSettings, interval1: Number(e.target.value)})}
+                                    onChange={e=>setSingleAlgoSetting("interval1",Number(e.target.value))}
                                 ></input>ms between Round One {algoSettings["useSubiterations"]?"subiterations":"iterations"}
                             </p>
                             <div className="toggle-buttons">
-                                <button onClick={e=>setAlgoSettings({...algoSettings,useSubiterations: true})} className={algoSettings["useSubiterations"]?"focus":""}>
+                                <button onClick={e=>setSingleAlgoSetting("useSubiterations",true)} className={algoSettings["useSubiterations"]?"focus":""}>
                                     Subiterations
                                 </button>
-                                <button onClick={e=>setAlgoSettings({...algoSettings,useSubiterations: false})} className={algoSettings["useSubiterations"]?"":"focus"}>
+                                <button onClick={e=>setSingleAlgoSetting("useSubiterations",false)} className={algoSettings["useSubiterations"]?"":"focus"}>
                                     Full Iterations
                                 </button>
                             </div>
@@ -81,7 +88,7 @@ export default function RunAlgorithm(){
                                 <input
                                     type="number"
                                     value={algoSettings["interval2"]}
-                                    onChange={e=>setAlgoSettings({...algoSettings, interval2: Number(e.target.value)})}
+                                    onChange={e=>e=>setSingleAlgoSetting("interval2",Number(e.target.value))}
                                 ></input>ms between Round Two iterations
                             </p>
                             <p className="numberInputArea">
@@ -90,7 +97,7 @@ export default function RunAlgorithm(){
                                     type="number"
                                     className="ml15"
                                     value={algoSettings["gridGranularity"]}
-                                    onChange={e=>setAlgoSettings({...algoSettings, gridGranularity: Number(e.target.value)})}
+                                    onChange={e=>setSingleAlgoSetting("gridGranularity",Number(e.target.value))}
                                 ></input>
                             </p>
                             <p className="numberInputArea">
@@ -99,7 +106,7 @@ export default function RunAlgorithm(){
                                     type="number"
                                     className="mr15 ml15"
                                     value={algoSettings["graphInterval1"]}
-                                    onChange={e=>setAlgoSettings({...algoSettings, graphInterval1: Number(e.target.value)})}
+                                    onChange={e=>setSingleAlgoSetting("graphInterval1",Number(e.target.value))}
                                 ></input> iterations
                             </p>
                             <p className="numberInputArea">
@@ -108,7 +115,7 @@ export default function RunAlgorithm(){
                                     type="number"
                                     className="mr15 ml15"
                                     value={algoSettings["graphInterval2"]}
-                                    onChange={e=>setAlgoSettings({...algoSettings, graphInterval2: Number(e.target.value)})}
+                                    onChange={e=>setSingleAlgoSetting("graphInterval2",Number(e.target.value))}
                                 ></input> iterations
                             </p>
                         </section>
