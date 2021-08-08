@@ -62,7 +62,7 @@ export default function Header() {
           </Link>
         </div>
       )}
-        <div id="save-and-import">
+        {/* <div id="save-and-import">
           <button onClick={() => save()} className="save-button">
             <FontAwesomeIcon
               className="save-icon"
@@ -70,7 +70,7 @@ export default function Header() {
             ></FontAwesomeIcon>
             Export
           </button>
-        </div>
+        </div> */}
 
       {changeNamePopup && (
         <Popup>

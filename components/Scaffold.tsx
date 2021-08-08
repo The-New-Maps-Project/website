@@ -9,6 +9,7 @@ import RunAlgorithm from "./RunAlgorithm";
 import ListView from "./ListView";
 import Analysis from "./Analysis";
 import PContext from "../services/context";
+import ExportFile from "./ExportFile";
 
 export default function Scaffold(){
     const {needSave} = useContext(PContext);
@@ -22,8 +23,10 @@ export default function Scaffold(){
                 <Parameters></Parameters>
             </div>
             <div className="right">
-                <div className="row"><ImportFile></ImportFile></div>
-                
+                <div className="row">
+                    <ImportFile></ImportFile>
+                    <ExportFile></ExportFile>
+                </div>
                 <div className="second-row">
                     <RunAlgorithm></RunAlgorithm>
                     <DistrictsEdit></DistrictsEdit>
