@@ -68,8 +68,16 @@ export default function ExportFile(){
                     <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
                 </button>  
                 <section>
-                    <p>Export data in a plain text file to import next time</p>
-                    {url&&<a id="download-link" href={url} download={filename}>Download</a>}
+                <h5>Export to a File</h5>
+                <p>Download a file with all the data to save changes and import next time</p>
+                <p className="file-format"><span>FILE FORMAT</span> Plain text file (.txt), each line with comma separated values (CSV). For the first line, the order is: amount of districts, followed by all precincts listed in order.
+                For subsequent lines, the order is: precinct name, then assigned district, then latitude, then longitude, then population, followed by all parameter values IN ORDER.</p>
+                <div className="line-example"><span>EXAMPLE</span>Springfield,3451,40.1243,-78.5478,0.54,0.23,0.67 (last three are parameter values)</div>
+                <div className="example-files">
+                    <p>This is the same file format as the imported files. You can import this file next time to save your data
+                    </p>
+                </div>
+                    {url&&<a id="download-link" href={url} download={filename}>Download File (plain text)</a>}
                 </section>
             </div>
         </Popup>}

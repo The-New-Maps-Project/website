@@ -79,11 +79,9 @@ export default function SaveImport(){
                 For subsequent lines, the order is: precinct name, then assigned district, then latitude, then longitude, then population, followed by all parameter values IN ORDER.</p>
                 <div className="line-example"><span>EXAMPLE</span>Springfield,3451,40.1243,-78.5478,0.54,0.23,0.67 (last three are parameter values)</div>
                 <div className="example-files">
-                    <p>This is the same file format as the NMP Algorithm ouput. Find example files on the New Maps Project Website. Please note that 
-                        these are just sample files and do NOT have up to date data. These files also don't have any parameter values. It is 
-                        recommended that you import your own data.
+                    <p>This is the same file format as the exported files. Find example files in The New Maps Project's Datastore. Please note that these files are purely for demonstrative purposes that the accuracy of the information cannot be guaranteed.
                     </p>
-                    <div><a target="_blank" className="sample-files-link" href="https://thenewmapsproject.org/datastore">Sample Files</a> Look under "Sample Input Output" for the algorithm.</div>
+                    <div><a target="_blank" className="sample-files-link" href="/datastore">Datastore - Sample Files</a></div>
                 </div>
                 {parameters.length>1&&<div className="order-box">
                     <p>Param Order:</p>

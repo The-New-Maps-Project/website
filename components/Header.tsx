@@ -15,7 +15,25 @@ import Popup from "./Popup";
 export default function Header() {
   const { isAuth, docId, setDocId, name, save, setName } = useContext(PContext);
   const [changeNamePopup, setChangeNamePopup] = useState(false);
-  const [nameInput, setNameInput] = useState(name);
+  const [nameInput, setNameInput] = useState<boolean>(name);
+  const [showMenu,setShowMenu] = useState<boolean>(false);
+  const links = [{
+    name: "About",
+    path: "/about",
+    description: "Learn about what The New Maps Project is and the purpose it serves"
+  },{
+    name: "News",
+    path: "/news",
+    description: "News from The New Maps Project"
+  },{
+    name: "Documentation",
+    path: "/documentation",
+    description: "Full length documentation for The New Maps Project's resources"
+  },{
+    name: "Datastore",
+    path: "/datastore",
+    description: "Example data to use with The New Maps Project's resources"
+  }]
 
   const changeName = () => {
     setName(nameInput);
@@ -36,12 +54,25 @@ export default function Header() {
         <Link href="/documentation">
           <a target="_blank" className="tb">Docs</a>
         </Link>
-        <button className="menu-button">
+        <button className="menu-button" onClick={()=>setShowMenu(!showMenu)}>
           <FontAwesomeIcon className="icon" icon={faBars}></FontAwesomeIcon>
         </button>
       </div>
 
-      
+      {<div id="side-menu" className={showMenu?"shown":"hidden"}>
+        <div className="menu-header">
+          <h6><FontAwesomeIcon className="icon" icon={faBars}></FontAwesomeIcon>Menu</h6>
+          <button className="x-menu-button" onClick={()=>{setShowMenu(false)}}><FontAwesomeIcon className="icon" icon={faTimes}></FontAwesomeIcon></button>
+        </div>
+        <ul>
+          {links.map(l=>{
+            return <li>
+              <Link href={l.path}><a className="single-link" target="_blank">{l.name}</a></Link>
+            </li>
+          })}
+        </ul>
+      </div>}
+
     </header>
   );
 }
