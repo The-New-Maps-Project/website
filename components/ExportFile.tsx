@@ -7,7 +7,7 @@ import Popup from "./Popup";
 export default function ExportFile(){
     const {data,districts,parameters} = useContext(PContext);
     const [showPopup,setShowPopup] = useState<boolean>(false);
-    const [filename,setFilename] = useState<string>("NMPMap");
+    const [filename,setFilename] = useState<string>("thenewmapsprojectmap");
     const [url,setUrl] = useState<string>("");
 
     const setFile = () =>{
@@ -80,12 +80,18 @@ export default function ExportFile(){
                     </section>
                     </div>
                 <div className="example-files">
-                    <p>This is the same file format as the exported files. Find example files in The New Maps Project's Datastore. Please note that these files are purely for demonstrative purposes that the accuracy of the information cannot be guaranteed.
-                    </p>
-                    <div><a target="_blank" className="sample-files-link" href="/datastore">Datastore - Sample Files</a></div>
+                    <p>This is the same file format you can import files with. Store this file so you can save your changes and import the data in next time</p>
+                </div>
+                <div className="row filename">File name:
+                    <input
+                        placeholder="thenewmapsprojectmap"
+                        value={filename}
+                        onChange={(e)=>setFilename(e.target.value)}
+                        className="ml15"
+                    ></input>.txt
                 </div>
              
-                {url&&<a id="download-link" href={url} download={filename}>Download File (plain text)</a>}
+                {url&&<a id="download-link" href={url} download={filename||"thenewmapsprojectmap"}>Download File (plain text)</a>}
                 </section>
             </div>
         </Popup>}

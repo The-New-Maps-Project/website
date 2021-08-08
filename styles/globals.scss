@@ -373,12 +373,10 @@ header {
   }
 }
 
-.export-popup{
-  max-width: 500px;
-  padding: 20px 0px;
-  h5{
-    margin: 30px 0px;
-    font-size: 26px;
+#export-popup{
+  .filename{
+    margin: 20px 0px;
+    input{text-align: right;}
   }
 }
 
