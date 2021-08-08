@@ -22,7 +22,8 @@ export default function Scaffold(){
                 <Parameters></Parameters>
             </div>
             <div className="right">
-                <ImportFile></ImportFile>
+                <div className="row"><ImportFile></ImportFile></div>
+                
                 <div className="second-row">
                     <RunAlgorithm></RunAlgorithm>
                     <DistrictsEdit></DistrictsEdit>

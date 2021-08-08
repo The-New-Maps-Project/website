@@ -142,15 +142,15 @@ export default function Algorithm(){
     }
 
     const dragStart = (e) =>{
-        setDiffX(e.screenX - e.target.getBoundingClientRect().left)
-        setDiffY(e.screenY - e.target.getBoundingClientRect().top)
+        setDiffX(e.pageX - e.target.getBoundingClientRect().left)
+        setDiffY(e.pageY - e.target.getBoundingClientRect().top)
         setIsDragging(true);
     }
 
     const dragging = (e) => {
         if(!isDragging) return;
-        var left = e.screenX - diffX;
-        var top = e.screenY - diffY;
+        var left = window.scrollX + e.pageX - diffX;
+        var top = window.scrollY + e.pageY - diffY;
 
         setDragStyles({
             top: top,
@@ -162,7 +162,7 @@ export default function Algorithm(){
         setIsDragging(false);
     }
 
-    return  <div id="algorithm-container"  style={dragStyles}>
+    return  <div id="algorithm-container"  style={dragStyles} >
         <div id="algorithm-header" onMouseDown={dragStart} onMouseMove={dragging} onMouseUp={dragEnd}>
             <h4><FontAwesomeIcon icon={faMapMarkedAlt} className="icon"></FontAwesomeIcon>Algorithm <Link href="/documentation/algorithm"><a className="link" target="_blank">how it works</a></Link></h4>
             <button className="terminate-button" onClick={()=>{
