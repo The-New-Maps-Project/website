@@ -19,7 +19,7 @@ export function innerAsdpc(data:object,param: number): number {
   var avDist:number = 0;
   var n:number = 0;
   Object.keys(data).forEach(p=>{
-    let arr:number[] = data[p].map(a=>Number(a));
+    let arr:number[] = data[p].map(a=>Number.isNaN(Number(a))?0:Number(a));
     let paramPop = arr[1] * arr[3+param];
     if(param==0) paramPop = arr[1];
     avDist += paramPop*Math.pow(center.distTo(new Location(arr[2],arr[3])),2); //SQUARED distance
@@ -50,7 +50,7 @@ export function centerOfPop(data:object,param:number): Location{
   var cLng:number = 0;
   var n:number = 0;
   Object.keys(data).forEach((p)=>{
-    let arr = data[p].map(a=>Number(a));;
+    let arr = data[p].map(a=>Number.isNaN(Number(a))?0:Number(a));
     let paramPop = arr[1] * arr[3+param]; //whole population * percentage of this that is [param]
     if(param==0) paramPop = arr[1]; //for whole population
     cLat += paramPop*Number(arr[2]);
