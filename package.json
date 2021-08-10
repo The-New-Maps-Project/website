@@ -17,7 +17,6 @@
     "@googlemaps/js-api-loader": "^1.11.4",
     "@react-google-maps/api": "^2.2.0",
     "chart.js": "^3.4.1",
-    "firebase": "^8.6.8",
     "jest": "^27.0.5",
     "js-stats": "^1.0.5",
     "next": "11.0.0",

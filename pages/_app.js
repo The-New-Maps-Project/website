@@ -6,7 +6,6 @@ import Footer from "../components/Footer";
 import CustomHead from "../components/CustomHead"
 import PContext from '../services/context';
 import {useEffect, useState, useRef} from "react";
-import { pAuth, pDatabase } from '../services/config';
 import Loading from "../components/Loading"
 import Popup from "../components/Popup"
 
