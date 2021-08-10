@@ -1,7 +1,7 @@
 const options = [
     {
-        name: "Connecticut",
-        districts: "5 congressional districts",
+        name: "Illinois",
+        districts: "18 congressional districts",
         parameters: [],
         info: "ZIP codes as precincts",
         fileName: "connecticut.txt",

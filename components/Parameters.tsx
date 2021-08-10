@@ -54,6 +54,7 @@ export default function Parameters(){
                     </div>
                     </li>
             })}
+            {(!parameters||parameters.length==0)&&<div className="no-params-text">No Parameters Yet</div>}
         </ul>
 
         {addPopup&&<Popup><div className="new-param">

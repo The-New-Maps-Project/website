@@ -1,5 +1,6 @@
 import '../styles/globals.scss'
 import '../styles/docs.scss'
+import '../styles/dev.scss'
 
 import Header from "../components/Header";
 import Footer from "../components/Footer";
