@@ -21,7 +21,6 @@ function MyApp({ Component, pageProps }) {
   const [docs,setDocs] = useState([]);
   const [lastDoc,setLastDoc] = useState(-1);
   const [appLoading,setAppLoading] = useState(false);
-  const [needSave,setNeedSave] = useState(false);
 
   //For algorithm running
   const [algoState,setAlgoState] = useState(0); // -1: not running, 1: round 1, 2: round 2, 3: done
@@ -49,55 +48,6 @@ function MyApp({ Component, pageProps }) {
     zoom: 4,
   })
   const colors = ["red","green","blue","yellow","orange","purple","pink","turquoise","black","white",]
-  pAuth.onAuthStateChanged((user)=>{
-    if(user){
-      setIsAuth(true);
-    }
-    else {
-      setIsAuth(false);
-      setDocId(null);
-    }
-  })
-
-  const getDocs = async (isRefresh) =>{
-    if(!pAuth.currentUser) return;
-    if(lastDoc==null&&!isRefresh) return;
-    try{
-      var query = pDatabase.collection("users").doc(pAuth.currentUser.uid).collection("maps").orderBy("date","desc").limit(batchSize);
-      if(lastDoc!=-1&&lastDoc!=null&&!isRefresh) query = query.startAfter(lastDoc);
-      var res = await query.get();
-      var arr = res.docs.map(doc=>({...doc.data(),id:doc.id}));
-      if(!isRefresh) arr = [...docs,...arr];
-      setLastDoc(res.docs.length<batchSize?null:res.docs[res.docs.length-1])
-      setDocs(arr);
-    }catch(e){
-      console.error(e);
-    }
-  }
-
-  const save = async () =>{
-    if(!pAuth.currentUser||!docId) return;
-    setAppLoading(true);
-    try{
-      var res = await pDatabase.collection("users").doc(pAuth.currentUser.uid).collection("maps").doc(docId).update({
-        data: data,
-        name: name,
-        parameters: parameters,
-        date: (new Date()).getTime(),
-        districts: districts
-      })
-    }catch(e){
-      console.error(e);
-    }
-    setAppLoading(false);
-    setNeedSave(false);
-  }
-
-  useEffect(()=>{
-    if(saveTimes.current>0) setNeedSave(true);
-    saveTimes.current = saveTimes.current+1;
-  },[data,districts,parameters,name])
-
 
   const contextValue = {
     data,
@@ -120,8 +70,6 @@ function MyApp({ Component, pageProps }) {
     colors,
     mapZoom,
     setMapZoom,
-    needSave,
-    setNeedSave,
     saveTimes,
     algoState,
     setAlgoState,

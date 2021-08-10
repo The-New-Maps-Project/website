@@ -8,17 +8,12 @@ import { useContext } from "react";
 import RunAlgorithm from "./RunAlgorithm";
 import ListView from "./ListView";
 import Analysis from "./Analysis";
-import PContext from "../services/context";
 import ExportFile from "./ExportFile";
 
 export default function Scaffold(){
-    const {needSave} = useContext(PContext);
 
     return <div id="scaffold">
         <section id="first-row">
-            {/* {needSave&&<div className="save-banner">
-                <span>WARNING</span> Unsaved Changes
-            </div>} */}
             <div className="left">
                 <Parameters></Parameters>
             </div>
