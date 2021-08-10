@@ -1,6 +1,7 @@
 import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useContext, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import readFileText from "../services/readFileText";
 import Popup from "./Popup";
 import Loading from "./Loading";
 import PContext from "../services/context";
@@ -26,29 +27,7 @@ export default function SaveImport(){
         //Declare functions inside this function, so fr exists
 
         const readFile = () =>{
-            var obj = {};
-            var lines:string[] = String(fr.result).split("\n");
-            var count:number = 0;
-            lines.forEach(line=>{
-                count++;
-                line.replace("\r","");
-                let elements: any[] = line.split(",");
-                if(elements.length==0) return;
-
-                if(count==1){
-                    let d:string[] = [];
-                    let n:number = Math.round(Number(elements.shift()));
-                    for(let i:number=0;i<n;i++) d.push(colors[i%colors.length]);
-                    setDistricts(d);
-                    setParameters(elements);
-                }else{
-                    let precinctName = elements.shift();//remove the precinct name
-                    // next, move the population to index 1 from index 3 (how it used to be when input files were inserted)
-                    let population = elements.splice(3,1);
-                    elements.splice(1,0,population);
-                    obj[precinctName] = [...elements].map(a=>Number(a));//then add the entire array
-                }
-            })
+            var obj:object = readFileText(String(fr.result.toString()),colors,setDistricts,setParameters);
             setData({...data,...obj});
             setIsImporting(false);
             setShowPopup(false);

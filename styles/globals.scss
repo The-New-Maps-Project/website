@@ -211,7 +211,10 @@ a {
 }
 
 header {
-  padding: 0px 3vw;
+  margin: 0px 3vw;
+  box-sizing: border-box;
+  width: 94vw;
+  border-bottom: 1px solid black;
   @include row();
   justify-content: space-between;
   margin-bottom: 60px;

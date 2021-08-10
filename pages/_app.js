@@ -63,8 +63,6 @@ function MyApp({ Component, pageProps }) {
     setLastDoc,
     docId,
     setDocId,
-    getDocs,
-    save,
     districts,
     setDistricts,
     colors,
