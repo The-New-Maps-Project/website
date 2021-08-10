@@ -1,10 +1,11 @@
 import { useContext } from "react";
 import PContext from "../services/context";
 import options from "../services/datastoreOptions"
+import getSuggestedAlgoSettings from "../services/getSuggestedAlgoSettings";
 import readFileText from "../services/readFileText";
 
 export default function HomeOptions(){
-    const {colors,setDistricts,setParameters,setData,setMapZoom} = useContext(PContext);
+    const {colors,setDistricts,setParameters,setData,setMapZoom,algoSettings,setAlgoSettings,setAlgoState} = useContext(PContext);
 
     const selectMap = async (fileName:string,zoom:object,runAlgo:boolean) => {
         //Step 1: set data
@@ -18,6 +19,10 @@ export default function HomeOptions(){
 
         if(runAlgo){
             //Step 3: set suggested algorithm settings automatically
+            setAlgoSettings(getSuggestedAlgoSettings(dataObj,algoSettings))
+
+            //Step 4: Run the algorithm
+            setAlgoState(1);
         }
     }
 
@@ -28,8 +33,12 @@ export default function HomeOptions(){
                 <div className="map-name">{d.name}</div>
                 <div className="map-districts">{d.districts}</div>
                 <div className="buttons">
-                    <button className="draw-district">Draw the Districts</button>
-                    <button className="view-map">view the map</button>
+                    <button className="draw-district"
+                        onClick={()=>selectMap(d.fileName,d.zoom,true)}
+                    >Draw the Districts</button>
+                    <button className="view-map"
+                        onClick={()=>selectMap(d.fileName,d.zoom,false)}
+                    >view the map</button>
                 </div>
                 <div className="map-info">{d.info}</div>
             </li>

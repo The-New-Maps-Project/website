@@ -88,6 +88,7 @@ function MyApp({ Component, pageProps }) {
     <Header></Header>
     <main>
       <Component {...pageProps} />
+
     </main>
     <Footer></Footer>
 
