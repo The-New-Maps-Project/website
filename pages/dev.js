@@ -8,10 +8,11 @@ export default function Dev(){
     const [resText,setResText] = useState([]);
     const [progress,setProgress] = useState("");
     const list = useRef([]);
-    const interval = 500;
+    const [interval,setInterval1] = useState(500);
     const [googleApiKey,setGoogle] = useState("");
     const [censusApiKey,setCensus] = useState("");
     const [stateName,setStateName] = useState("");
+    const [errorMessage,setErrorMessage] = useState("");
     const params = ["B01001_002E","B01001_026E","B01001A_001E","B01001B_001E","B01001C_001E","B01001D_001E","B01001E_001E","B01001I_001E","B06012_002E","B07009_005E"];
     const paramNames = ["% Male","% Female","% White","% Black","% Native American","% Asian","% Pacific Islander","% Hispanic or Latino","% in Poverty","% College Graduate"] //in ORDER
 
@@ -52,7 +53,7 @@ export default function Dev(){
         console.log(objectsArr)
 
         var index = 0;
-        var length = 10
+        var length = objectsArr.length;
         setInterval(async ()=>{
             if(index > length) return;
             if(index == length){
@@ -71,8 +72,10 @@ export default function Dev(){
                 var blob = new Blob([blobText], {type: 'text/plain'});
                 var url = window.URL.createObjectURL(blob);
                 setUrl(url);
+                return;
             }
             var thisObj = objectsArr[index];
+            if(!thisObj) return;
 
             //Step 1: get the data from google
             var geocodingRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${thisObj["name"]}&key=${googleApiKey}`);
@@ -93,14 +96,14 @@ export default function Dev(){
             var arr = []
             list.current.forEach(l=>arr.push(l));
             setResText(arr);
-            setProgress(""+list.current.length + " / "+objectsArr.length);
+            setProgress(""+list.current.length + " / "+ length);
 
 
 
             index++;
         },interval)
         }catch(e){
-            console.error(e);
+            setErrorMessage(e.message);
         }
     }
 
@@ -178,9 +181,16 @@ export default function Dev(){
                 placeholder="Google Cloud API Key"
                 className="zcs"
             ></input>
+            <input
+                onChange={(e)=>setInterval1(e.target.value)}
+                value={interval}
+                placeholder="Time between calls"
+                className="zcs"
+            ></input>
         </section>
         <h3>{progress}</h3>
         <p>State Name: {stateName}</p>
+        <p style={{color: "red", fontWeight: "bold"}}>{errorMessage}</p>
         <a download={fileName+".txt"} href={url} className={url==null?"unready":"ready"}>Download File</a>
         <section>
             <ul>{resText.map(l=>{return<li>{l}</li>})}</ul>
