@@ -22,9 +22,9 @@ export default function Header() {
     path: "/about",
     description: "Learn about what The New Maps Project is and the purpose it serves"
   },{
-    name: "News",
-    path: "/news",
-    description: "News from The New Maps Project"
+    name: "Algorithm",
+    path: "/documentation/algorithm",
+    description: "Learn how The New Maps Project's algorithm works"
   },{
     name: "Documentation",
     path: "/documentation",
@@ -33,6 +33,11 @@ export default function Header() {
     name: "Datastore",
     path: "/datastore",
     description: "Example data to use with The New Maps Project's resources"
+  },{
+    name: "Contact",
+    path: "/contact",
+    description: "Contact the people working on The New Maps Project"
+  
   }]
 
   const changeName = () => {

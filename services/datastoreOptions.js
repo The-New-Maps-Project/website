@@ -1,5 +1,17 @@
 const options = [
     {
+        name: "Massachusetts",
+        districts: "9 congressional districts",
+        info: "10 parameters, ZIP codes as precicnts",
+        fileName: "ma9zc.txt",
+        zoom: {
+            lat: 42.4072, 
+            lng: -71.3824,
+            zoom: 8,
+        }
+        
+    },
+    {
         name: "Connecticut",
         districts: "5 congressional districts",
         info: "10 parameters, ZIP codes as precicnts",
@@ -32,18 +44,6 @@ const options = [
             lat: 35.7596, 
             lng: -79.0193,
             zoom: 6,
-        }
-        
-    },
-    {
-        name: "Massachusetts",
-        districts: "9 congressional districts",
-        info: "10 parameters, ZIP codes as precicnts",
-        fileName: "ma9zc.txt",
-        zoom: {
-            lat: 42.4072, 
-            lng: -71.3824,
-            zoom: 8,
         }
         
     },
