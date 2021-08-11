@@ -1484,6 +1484,14 @@ h3.mymaps {
   }
 }
 
+#privacy-and-disclaimer{
+  ol, ul {
+    list-style: square;
+    padding-left: 30px;
+  }
+  margin-bottom: 30vh;
+}
+
 footer {
   @include center();
   background-color: black;

@@ -38,11 +38,11 @@ export default function Algorithm(){
 
     useEffect(()=>{
         var data:number[] = []; 
-        setRound1Graph(renderLineGraph(round1Data,algoSettings["graphInterval1"]));
+        setRound1Graph(renderLineGraph(round1Data,algoSettings["graphInterval1"],"% Unchanged"));
     },[round1Data])
  
     useEffect(()=>{
-        setRound2Graph(renderLineGraph(round2Data,algoSettings["graphInterval2"]))
+        setRound2Graph(renderLineGraph(round2Data,algoSettings["graphInterval2"],"RSD"))
     },[round2Data]);
 
     useEffect(()=>{
@@ -55,7 +55,7 @@ export default function Algorithm(){
         return <FontAwesomeIcon className="roundStateIcon grey" icon={faCircle}></FontAwesomeIcon>
     }
 
-    const renderLineGraph = (data:number[],interval:number) => {
+    const renderLineGraph = (data:number[],interval:number,name:string) => {
         if(data.length==0) return;
         let numbers:string[] = [];
         let res:number[] = [];
@@ -73,6 +73,7 @@ export default function Algorithm(){
         let chartData = {
             labels: numbers,
             datasets: [{
+                label: name,
                 data: res,
                 backgroundColor: "#949010",
                 borderColor: "#000000"
@@ -85,6 +86,20 @@ export default function Algorithm(){
             elements: {
                 bar: {
                 },
+            },
+            scales: {
+                y: {
+                    title: {
+                        display: true,
+                        label: name,
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        label: "Iteration"
+                    }
+                }
             },
             responsive: false,
             plugins: {
@@ -118,15 +133,22 @@ export default function Algorithm(){
         let chartData = {
             labels: labels,
             datasets: [{
+                label: "District Population",
                 data: data,
                 backgroundColor: "#949010",
-                borderColor: "#000000"
             }],
         }
         const options = {
             indexAxis: "x",
             animation: {
                 duration: 0
+            },
+            scales:{
+                y: {
+                    title: {
+                        text: "Population"
+                    }
+                }
             }
         }
         return <Bar
