@@ -93,6 +93,7 @@ export default function Analysis() {
   const renderParamInfo = (districtData: object) => {
     var arr = [];
     for (let i = 0; i <= parameters.length; i++) {
+      //console.log(districtData["populations"]);
       arr.push(
         <li className="row">
           <div className="p-name">
@@ -122,10 +123,19 @@ export default function Analysis() {
   }
 
   const renderCharts = () => {
-    console.log(chartValue);
-    console.log(res["params"]);
+    // console.log(chartValue);
+    // console.log(res["params"]);
     let allData: number[] = res["params"][selectedParam][chartValue];
-    let totalPop = allData[0]; //must remove first element because it is the whole population
+    let totalPop:number = allData[0]; //must remove first element because it is the whole population
+    if(selectedParam!=0){
+      let count =-1;
+       allData.map(a=> {
+         count++;
+         
+         console.log(writeNum(a/res["params"][0][chartValue][count],4));
+         return writeNum(a/res["params"][0][chartValue][count],4)
+        })
+    }
     let dataObjs: dataObj[] = [];
     for (let i = 1; i < allData.length; i++) {
       dataObjs.push({

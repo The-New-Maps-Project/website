@@ -211,6 +211,17 @@ export default function Algorithm(){
                 <h5>Finished</h5>
                 {renderRoundStateIcon(3)}
             </div>
+            {algoFocus==3&&<div>
+                {algoState>=3?<div>
+                    <p>The algorithm has finished running! Here are some next steps:</p>
+                    <ol>
+                        <li>Click on "Round One" or "Round Two" to view data and graphs from both rounds</li>
+                        <li>Click "Calculate Stats" below to see data on population distribution, representation, and compactness of this map</li>
+                        <li>Interact with the map and change district assignments for precincts. Click on a precinct on the map, or search the righthand list. Edit the map until you are satified with the outcome</li>
+                        <li>Export the data to a file so you can import this exact map next time</li>
+                    </ol>
+                </div>:<div>The algorithm has not yet finished running</div>}
+            </div>}
         </section>
     </div>
 }
