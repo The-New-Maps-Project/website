@@ -8,7 +8,7 @@ import getSuggestedAlgoSettings from "../services/getSuggestedAlgoSettings";
 import Popup from "./Popup";
 
 export default function RunAlgorithm(){
-    const {districts,data,setData,setAlgoState,algoSettings,setAlgoSettings,algoState} = useContext(PContext); 
+    const {districts,data,setData,setAlgoState,algoSettings,setAlgoSettings,algoState,setRound1Data,setRound2Data} = useContext(PContext); 
     const [showPopup,setShowPopup] = useState(false);
     const [tInput,setTInput] = useState<number>(95);
 
@@ -21,8 +21,10 @@ export default function RunAlgorithm(){
         var n = districts.length;
         //var newObj = {...algorithm(data,n,tInput/100)};
         //setData(newObj);
-        setAlgoState(1);
+        setRound1Data([]);//empty round 1 data
+        setRound2Data([]);//empty round 2 data
         setShowPopup(false);
+        setAlgoState(1);//make the grid after you hide the popup
     }
 
     const setSingleAlgoSetting = (algoSetting:string,val:any)=>{

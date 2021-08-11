@@ -391,41 +391,45 @@ header {
       margin: 0px;
     }
   }
-  ul{
-    @include row();
-    padding: 30px 0px;
+  .home-options-container{
     overflow-x: scroll;
-    li{
-      background-color: rgb(202, 202, 202);
-      padding: 20px;
-      color:black;
-      margin-right: 30px;
-      .map-name{
-        font-weight: bold;
-        font-size: 30px;
-      }
-      .map-districts{
-        font-size: 16px;
-        font-weight: bold;
-      }
-      .buttons{
-        @include row();
-        margin: 15px 0px;
-        .draw-district{
-          font-size: 18px;
-          background-color: rgb(5, 161, 0);
-          margin-right: 20px;
+    padding: 30px 0px;
+    ul{
+      @include row();
+      width:max-content;
+      li{
+        background-color: rgb(202, 202, 202);
+        padding: 20px;
+        color:black;
+        margin-right: 30px;
+        .map-name{
+          font-weight: bold;
+          font-size: 30px;
         }
-        .view-map{
-          font-size: 14px;
-          font-weight: 600;
+        .map-districts{
+          font-size: 16px;
+          font-weight: bold;
         }
-      }
-      .map-info{
-        font-size: 12px;
+        .buttons{
+          @include row();
+          margin: 15px 0px;
+          .draw-district{
+            font-size: 18px;
+            background-color: rgb(5, 161, 0);
+            margin-right: 20px;
+          }
+          .view-map{
+            font-size: 14px;
+            font-weight: 600;
+          }
+        }
+        .map-info{
+          font-size: 12px;
+        }
       }
     }
   }
+  
 }
 
 #export {

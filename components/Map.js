@@ -138,6 +138,12 @@ export default function Map(){
       if(!markers[precinct]||!markers[precinct].getMap()) addedPrecincts.push(precinct)
     })
 
+    console.log("Changed: "+changedPrecincts);
+    console.log("Deleted: "+deletedPrecincts);
+    console.log("Added: "+addedPrecincts);
+
+    console.log(markers);
+
     //Change precincts
     changedPrecincts.forEach(precinct=>{
       let color = districts[data[precinct][0]-1] || "grey";
@@ -159,6 +165,8 @@ export default function Map(){
       markers[precinct] = marker;
       setMarkers(newObj);
     })
+
+    console.log(markers);
 
     //reset prevData;
     prevData.current = createDistrictMapping();

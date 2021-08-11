@@ -1,5 +1,29 @@
 const options = [
     {
+        name: "Connecticut",
+        districts: "5 congressional districts",
+        info: "10 parameters, ZIP codes as precicnts",
+        fileName: "ct5zc.txt",
+        zoom: {
+            lat: 41.6032, 
+            lng: -73.0877,
+            zoom: 8,
+        }
+        
+    },
+    {
+        name: "Colorado",
+        districts: "8 congressional districts",
+        info: "10 parameters, ZIP codes as precicnts",
+        fileName: "co8zc.txt",
+        zoom: {
+            lat: 39.5501, 
+            lng: -105.7821,
+            zoom: 6,
+        }
+        
+    },
+    {
         name: "North Carolina",
         districts: "14 congressional districts",
         info: "10 parameters, ZIP codes as precicnts",
@@ -8,6 +32,30 @@ const options = [
             lat: 35.7596, 
             lng: -79.0193,
             zoom: 6,
+        }
+        
+    },
+    {
+        name: "Georgia",
+        districts: "14 congressional districts",
+        info: "10 parameters, ZIP codes as precicnts",
+        fileName: "ga14zc.txt",
+        zoom: {
+            lat: 32.1656, 
+            lng: -82.9001,
+            zoom: 6,
+        }
+        
+    },
+    {
+        name: "New Jersey",
+        districts: "12 congressional districts",
+        info: "10 parameters, ZIP codes as precicnts",
+        fileName: "nj12zc.txt",
+        zoom: {
+            lat: 40.0583, 
+            lng: -74.4057,
+            zoom: 7,
         }
         
     },

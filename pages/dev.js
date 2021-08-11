@@ -181,11 +181,13 @@ export default function Dev(){
                 onChange={(e)=>setCensus(e.target.value)}
                 value={censusApiKey}
                 placeholder="Census API Key"
+                type="password"
                 className="zcs"
             ></input>
             <input
                 onChange={(e)=>setGoogle(e.target.value)}
                 value={googleApiKey}
+                type="password"
                 placeholder="Google Cloud API Key"
                 className="zcs"
             ></input>

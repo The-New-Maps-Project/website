@@ -59,23 +59,25 @@ export default function HomeOptions({xFunction}){
             <h3>Choose a Map to Get Started</h3>
             <p>Example data to show how The New Maps Project's website works</p>
         </div>
-        <ul>
-        {options.map(d=>{
-            return <li className="map-option">
-                <div className="map-name">{d.name}</div>
-                <div className="map-districts">{d.districts}</div>
-                <div className="buttons">
-                    <button className="draw-district sb"
-                        onClick={()=>selectMap(d.fileName,d.zoom,true)}
-                    >Draw the Districts</button>
-                    <button className="view-map tb"
-                        onClick={()=>selectMap(d.fileName,d.zoom,false)}
-                    >view the map</button>
-                </div>
-                <div className="map-info">{d.info}</div>
-            </li>
-        })}
-        </ul>
+        <div className="home-options-container">
+            <ul>
+                {options.map(d=>{
+                    return <li className="map-option">
+                        <div className="map-name">{d.name}</div>
+                        <div className="map-districts">{d.districts}</div>
+                        <div className="buttons">
+                            <button className="draw-district sb"
+                                onClick={()=>selectMap(d.fileName,d.zoom,true)}
+                            >Draw the Districts</button>
+                            <button className="view-map tb"
+                                onClick={()=>selectMap(d.fileName,d.zoom,false)}
+                            >view the map</button>
+                        </div>
+                        <div className="map-info">{d.info}</div>
+                    </li>
+                })}
+            </ul>
+        </div>
     </div>
         }
         
