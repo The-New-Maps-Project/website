@@ -44,11 +44,19 @@ export default function Dev(){
                 obj[order[i]] = a[i];
             }
             var pop = Number(obj["B01001_001E"]);
-            objectsArr.push({
-                name: obj["zip code tabulation area"],
-                params: params.map(p=>(Number(obj[p])/pop).toFixed(4)),
-                population: pop,
-            })
+            if(pop == 0){
+                pop = objectsArr.push({
+                    name: obj["zip code tabulation area"],
+                    params: params.map(p=>0),
+                    population: 0,
+                })
+            }else{
+                objectsArr.push({
+                    name: obj["zip code tabulation area"],
+                    params: params.map(p=>(Number(obj[p])/pop).toFixed(4)),
+                    population: pop,
+                })
+            }
         })
         console.log(objectsArr)
 

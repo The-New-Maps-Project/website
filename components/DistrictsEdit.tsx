@@ -14,11 +14,11 @@ export default function DistrictsEdit(){
         var arr = [];
         for(var i = 0;i<addNum;i++) arr.push(colors[i%colors.length]);
         setNewDistricts([...arr]);
-        setAddNum(1);
     }
 
     useEffect(()=>{
         setNewDistricts(districts);
+        setAddNum(districts.length);
     },[districts])
 
     const renderDistricts = () =>{
@@ -57,7 +57,10 @@ export default function DistrictsEdit(){
         
         {showPopup&&<Popup>
             <div id="districts-popup">
-                <button className="x-button" onClick={()=>setShowPopup(false)}><FontAwesomeIcon icon={faTimes}></FontAwesomeIcon></button>
+                <button className="x-button" onClick={()=>{
+                    setShowPopup(false);
+                    setNewDistricts(districts);
+                }}><FontAwesomeIcon icon={faTimes}></FontAwesomeIcon></button>
                 <div className="first-row">
                     <span>Set<input 
                             type="number"

@@ -273,6 +273,7 @@ export default function Analysis() {
                       100
                     }
                   ></PercentBar>
+                  {"Majority Districts: "+res["params"][selectedParam]["majorityDistricts"] + " out of " + districts.length}
                 </div>
               )}
               <ul className="values-list">

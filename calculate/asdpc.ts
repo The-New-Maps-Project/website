@@ -55,7 +55,7 @@ export function centerOfPop(data:object,param:number): Location{
     if(param==0) paramPop = arr[1]; //for whole population
     cLat += paramPop*Number(arr[2]);
     cLng += paramPop*Number(arr[3]);
-    n+= paramPop;
+    n+= paramPop || 0;
   })
   return new Location(cLat/n,cLng/n);
 }

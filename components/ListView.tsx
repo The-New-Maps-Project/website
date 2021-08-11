@@ -244,6 +244,7 @@ export default function ListView(){
                         </div>}
                 </li>
             })}
+            {precinctList.length==0&&<div className="center"><p>No Data Yet</p></div>}
         </ul>
 
 

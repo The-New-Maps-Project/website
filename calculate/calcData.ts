@@ -77,7 +77,10 @@ export default function calcData(data:object,districtsParam:string[],paramsParam
         
         //STATISTICAL TESTS:
         let majorityDistricts = 0;
+        let count = 0;
         districts.forEach(d=>{
+            count++;
+            if(count==1) return; //so the entire population is excluded
             let popsArr = d["populations"];
             if(popsArr[i]/popsArr[0]>0.5) majorityDistricts++;
         })

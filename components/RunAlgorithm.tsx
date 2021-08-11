@@ -8,12 +8,13 @@ import getSuggestedAlgoSettings from "../services/getSuggestedAlgoSettings";
 import Popup from "./Popup";
 
 export default function RunAlgorithm(){
-    const {districts,data,setData,setAlgoState,algoSettings,setAlgoSettings} = useContext(PContext); 
+    const {districts,data,setData,setAlgoState,algoSettings,setAlgoSettings,algoState} = useContext(PContext); 
     const [showPopup,setShowPopup] = useState(false);
     const [tInput,setTInput] = useState<number>(95);
 
     useEffect(()=>{
-        setAlgoSettings(getSuggestedAlgoSettings(data,algoSettings));
+        //only if not currently running the algorithm
+        if(algoState<1||algoState>3) setAlgoSettings(getSuggestedAlgoSettings(data,algoSettings));
     },[data])
 
     const runAlgorithm = () =>{
@@ -75,7 +76,7 @@ export default function RunAlgorithm(){
                                 <input
                                     type="number"
                                     value={algoSettings["interval2"]}
-                                    onChange={e=>e=>setSingleAlgoSetting("interval2",Number(e.target.value))}
+                                    onChange={e=>setSingleAlgoSetting("interval2",Number(e.target.value))}
                                 ></input>ms between Round Two iterations
                             </p>
                             <p className="numberInputArea">
