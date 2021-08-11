@@ -36,6 +36,18 @@ const options = [
         
     },
     {
+        name: "Massachusetts",
+        districts: "9 congressional districts",
+        info: "10 parameters, ZIP codes as precicnts",
+        fileName: "ma9zc.txt",
+        zoom: {
+            lat: 42.4072, 
+            lng: -71.3824,
+            zoom: 8,
+        }
+        
+    },
+    {
         name: "Georgia",
         districts: "14 congressional districts",
         info: "10 parameters, ZIP codes as precicnts",

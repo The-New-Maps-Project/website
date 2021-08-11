@@ -247,6 +247,7 @@ export default function Analysis() {
           </button>
         </div>}
       </div>
+      {res&&<p style={{margin: "10px 0px", fontSize: "12px"}}>**Average Squared Distance to Population Center is abbreviated as "ASDPC"</p>}
       {res && (
         <div id="analysis-main">
           <section id="param-analysis">
