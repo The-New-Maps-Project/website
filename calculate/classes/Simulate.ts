@@ -17,7 +17,6 @@ export default class Simulate{
     setData: (a) => void;
     setRound1Data: (a) => void;
     setRound2Data: (a) => void;
-    setDistrictPops: (a) => void;
     setAlgoState: (a:number) => void;
     setAlgoFocus: (a:number) => void;
 
@@ -32,7 +31,7 @@ export default class Simulate{
 
     isTerminated:boolean = false;
 
-    constructor(data: object, numDistricts: number, setData, setRound1Data, setRound2Data,setAlgoState, setAlgoFocus,setDistrictPops,settings:object){
+    constructor(data: object, numDistricts: number, setData, setRound1Data, setRound2Data,setAlgoState, setAlgoFocus,settings:object){
         //Step 1: set fields
         this.districts = numDistricts;
         for(let i:number = 0;i<this.districts;i++) this.districtPops.push(0);
@@ -42,7 +41,6 @@ export default class Simulate{
         this.setRound2Data = setRound2Data;
         this.setAlgoState = setAlgoState;
         this.setAlgoFocus = setAlgoFocus;
-        this.setDistrictPops = setDistrictPops;
         this.interval1 = Number(settings["interval1"]) || 10;
         this.interval2 = Number(settings["interval2"]) || 20;
         this.useSubiterations = Boolean(settings["useSubiterations"]) || false;
@@ -263,7 +261,6 @@ export default class Simulate{
             var prevRound2Data:number[] = [...this.round2Data];
             this.round2Data = [...this.round2Data,thisRSD];
             this.setRound2Data(this.round2Data);
-            //this.setDistrictPops([...this.districtPops]);
 
             //Step 4: determine whether to end or keep recursing
             if(thisRSD > prevRSD||this.round2Data.length>this.maxIterations2){

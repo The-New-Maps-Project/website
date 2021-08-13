@@ -7,7 +7,7 @@ import Simulate from "../calculate/classes/Simulate"
 import PContext from "../services/context"
 
 export default function Algorithm(){
-    const {algoState,algoFocus,round1Data,round2Data,setAlgoState,setRound1Data,setRound2Data,districtPops,algoSettings,data,districts,setData,setAlgoFocus,setDistrictPops} = useContext(PContext)
+    const {algoState,algoFocus,round1Data,round2Data,setAlgoState,setRound1Data,setRound2Data,districtPops,algoSettings,data,districts,setData,setAlgoFocus} = useContext(PContext)
     const [round1Graph,setRound1Graph] = useState<any>(null);
     const [round2Graph,setRound2Graph] = useState<any>(null);
     const [barGraph,setBarGraph] = useState<any>(null);
@@ -25,7 +25,7 @@ export default function Algorithm(){
         setRound2Data([]);
 
         //then start the simulation
-        simulate.current = new Simulate(data,districts.length,setData,setRound1Data,setRound2Data,setAlgoState,setAlgoFocus,setDistrictPops,algoSettings);
+        simulate.current = new Simulate(data,districts.length,setData,setRound1Data,setRound2Data,setAlgoState,setAlgoFocus,algoSettings);
         simulate.current.start();
     },[])//IMPORTANT that it is an empty array, must only run this ONCE, and NOT on every re-render
 
