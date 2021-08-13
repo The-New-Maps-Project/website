@@ -151,10 +151,10 @@ export default function Map(){
     var thisDistrictPops = [];
     districts.forEach(()=>thisDistrictPops.push(0));
     Object.keys(data).forEach(precinct=>{
+      thisDistrictPops[data[precinct][0]-1] += Number(data[precinct][1]);
       if(!markers[precinct]||!markers[precinct].getMap()) addedPrecincts.push(precinct)
     })
-    console.log(thisDistrictPops);
-    //setDistrictPops(thisDistrictPops);
+    setDistrictPops(thisDistrictPops);
 
 
     // console.log("Changed: "+changedPrecincts);

@@ -263,7 +263,7 @@ export default class Simulate{
             var prevRound2Data:number[] = [...this.round2Data];
             this.round2Data = [...this.round2Data,thisRSD];
             this.setRound2Data(this.round2Data);
-            this.setDistrictPops([...this.districtPops]);
+            //this.setDistrictPops([...this.districtPops]);
 
             //Step 4: determine whether to end or keep recursing
             if(thisRSD > prevRSD||this.round2Data.length>this.maxIterations2){
