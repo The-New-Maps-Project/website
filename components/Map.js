@@ -8,11 +8,11 @@ import {googleMapsPublicKey} from "../services/keys"
 
 export default function Map(){
     const googlemap = useRef(null);
-    const {data,parameters,districts,setData,mapZoom,setDistrictPops} = useContext(PContext);
+    const {data,parameters,districts,setData,mapZoom,setDistrictPops,viewAloneDistrict} = useContext(PContext);
     const [mapObj,setMapObj] = useState(null);
     const [hovering,setHovering] = useState(null);
     const [focusing,setFocusing] = useState(null);
-    const [markers,setMarkers] = useState({});//[precinctname]: markerObject
+    const markers = useRef({});//[precinctname]: markerObject
     const [switchPopup,setSwitchPopup] = useState(false);
     // const [mousePosX,setMousePosX] = useState(0);
     // const [mousePosY,setMousePosY] = useState(0);
@@ -56,7 +56,6 @@ export default function Map(){
 
   const addAllMarkers = ()=>{
     //if(mapObj==null) return;
-    var obj = {};
     Object.keys(data).forEach(key=>{
       let precinct = data[key];
       let color = data[key][0]==0?"grey":districts[data[key][0]-1];
@@ -64,14 +63,18 @@ export default function Map(){
         lat: Number(precinct[2]),
         lng: Number(precinct[3])
       })
-      obj[key] = marker;
+      if(showDistrict(data[key][0])){
+        marker.setVisible(true);
+      }else{
+        marker.setVisible(false);
+      }
+      markers.current[key] = marker;
     })
-    setMarkers({...markers,...obj})
   };
 
   const clearAllMarkers = () =>{
-    Object.keys(markers).forEach(key=>{
-      markers[key].setMap(null);
+    Object.keys(markers.current).forEach(key=>{
+      markers.current[key].setMap(null);
     })
     //setMarkers({});
   }
@@ -87,6 +90,11 @@ export default function Map(){
       clickable: true,
       optimized: true,
     });
+    // if(name=="Aspen (81612)"){
+    //   console.log(marker);
+    //   console.log(name,color);
+    //   console.log(marker.getMap());
+    // }
     marker.addListener("mouseover",()=>{
       setHovering(name);
     })
@@ -103,8 +111,8 @@ export default function Map(){
   }
 
   const changeMarkerColor = (precinctname, toColor) =>{
-    if(!markers[precinctname]) return;
-    markers[precinctname].setIcon(`images/${toColor}icon.png`)
+    if(!markers.current[precinctname]) return;
+    markers.current[precinctname].setIcon(`images/${toColor}icon.png`)
   }
 
   //change the district of the precinct in focus
@@ -123,9 +131,9 @@ export default function Map(){
 
   //When the mapObj is not null
   useEffect(()=>{
-    if(Object.keys(markers).length>0) clearAllMarkers();
+    if(Object.keys(markers.current).length>0) clearAllMarkers();
     if(mapObj!=null) addAllMarkers();
-  },[mapObj,districts])
+  },[mapObj,districts,viewAloneDistrict])
 
   //re-zoom on map
   useEffect(()=>{
@@ -142,7 +150,7 @@ export default function Map(){
     var addedPrecincts = [];
 
     //Fill out all three arrays, loop over markers[] for changed and deleted, and data[] for added
-    Object.keys(markers).forEach(precinct=>{
+    Object.keys(markers.current).forEach(precinct=>{
       if(!data[precinct]){
         deletedPrecincts.push(precinct);
       }else if(data[precinct][0]!=prevData.current[precinct]){
@@ -153,7 +161,11 @@ export default function Map(){
     districts.forEach(()=>thisDistrictPops.push(0));
     Object.keys(data).forEach(precinct=>{
       thisDistrictPops[data[precinct][0]-1] += Number(data[precinct][1]);
-      if(!markers[precinct]||!markers[precinct].getMap()) addedPrecincts.push(precinct)
+      if(!markers.current[precinct]||!markers.current[precinct].getMap()) addedPrecincts.push(precinct);
+      // if(precinct=="Aspen (81612)"){
+      //   console.log(precinct,markers[precinct]);
+      //   if(markers[precinct]) console.log(markers[precinct].getMap())
+      // }
     })
     setDistrictPops(thisDistrictPops);
 
@@ -170,12 +182,17 @@ export default function Map(){
     changedPrecincts.forEach(precinct=>{
       let color = districts[data[precinct][0]-1] || "grey";
       changeMarkerColor(precinct,color);
+      if(showDistrict(data[precinct][0])){
+        markers.current[precinct].setVisible(true)
+      }else{
+        markers.current[precinct].setVisible(false);
+      }
     })
 
     //Delete Precincts
     deletedPrecincts.forEach(precinct=>{
       if(precinct==focusing) setFocusing(null);
-      markers[precinct].setMap(null);
+      markers.current[precinct].setMap(null);
     })
 
     //Add Precincts
@@ -183,12 +200,13 @@ export default function Map(){
       let p = data[precinct].map(a=>Number(a));
       let color = districts[data[precinct][0]-1] || "grey";
       let marker = addMarker(precinct,color,{lat: p[2], lng: p[3]});
-      let newObj = {...markers};
-      markers[precinct] = marker;
-      setMarkers(newObj);
+      if(showDistrict(data[precinct][0])){
+        marker.setVisible(true)
+      }else{
+        marker.setVisible(false);
+      }
+      markers.current[precinct] = marker;
     })
-
-    console.log(markers);
 
     //reset prevData;
     prevData.current = createDistrictMapping();
@@ -206,6 +224,10 @@ export default function Map(){
       j++;
     }
     return arr;
+  }
+
+  const showDistrict = (districtNum) =>{
+    return (viewAloneDistrict==-1) || (viewAloneDistrict==districtNum)
   }
 
   return (

@@ -22,6 +22,7 @@ function MyApp({ Component, pageProps }) {
   const [docs,setDocs] = useState([]);
   const [lastDoc,setLastDoc] = useState(-1);
   const [appLoading,setAppLoading] = useState(false);
+  const [viewAloneDistrict,setViewAloneDistrict] = useState(-1);
 
   //For algorithm running
   const [algoState,setAlgoState] = useState(0); // -1: not running, 1: round 1, 2: round 2, 3: done
@@ -82,6 +83,8 @@ function MyApp({ Component, pageProps }) {
     setAlgoFocus,
     districtPops,
     setDistrictPops,
+    viewAloneDistrict,
+    setViewAloneDistrict
   }
 
   return <PContext.Provider value={contextValue}>

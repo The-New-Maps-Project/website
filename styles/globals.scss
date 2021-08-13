@@ -1186,6 +1186,57 @@ h3.mymaps {
   }
 }
 
+#districts-list{
+  overflow-x: scroll;
+  ul{
+    @include row();  
+    width: max-content;
+    li{
+      margin-right: 20px;
+      width: max-content;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: 2px solid black;
+      box-shadow: 1px 1px 5px darkgray;
+      &.selected{
+        border: 5px solid black;
+        box-shadow: 2px 2px 5px rgb(0, 0, 0);
+      }
+      .district-name{
+        font-weight: bold;
+        font-size: 24px;
+        .color-box{
+          margin-left: 10px;
+        }
+        margin-bottom: 5px;
+      }
+      .view-alone{
+        background-color: lightgrey;
+        margin: 10px 0px;
+        border-radius: 5px;
+        border: none;
+        padding: 3px 10px;
+        box-shadow: 0px 0px 10px darkgrey;
+        @include hoverer1()
+      }
+      .unselect{
+        margin: 10px 0px;
+        border: 2px solid black;
+        box-shadow: 2px 2px 5px black;
+        border-radius: 5px;
+        padding: 5px 10px;
+        @include hoverer1();
+      }
+      .buttons{
+        margin: 5px 0px;
+        button{
+          @include sbstyle();
+        }
+      }
+    }
+  }
+}
+
 #analysis-container {
   min-height: 50vh;
   padding-bottom: 10vh;
@@ -1349,7 +1400,7 @@ h3.mymaps {
   width: 400px;
   z-index: 10;
   position: absolute;
-  box-shadow: 2px 2px 10px darkgray;
+  box-shadow: 2px 2px 10px rgb(0, 0, 0);
 
   hr{
     margin: 0px;

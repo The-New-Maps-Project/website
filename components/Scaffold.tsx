@@ -9,6 +9,7 @@ import RunAlgorithm from "./RunAlgorithm";
 import ListView from "./ListView";
 import Analysis from "./Analysis";
 import ExportFile from "./ExportFile";
+import DistrictsList from "./DistrictsList";
 
 export default function Scaffold(){
 
@@ -32,6 +33,9 @@ export default function Scaffold(){
         <section id="body">
             <Map></Map>
             <ListView></ListView>
+        </section>
+        <section id="districts">
+            <DistrictsList></DistrictsList>
         </section>
         <section id="analysis">
             <Analysis></Analysis>
