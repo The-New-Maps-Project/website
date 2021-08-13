@@ -103,6 +103,7 @@ export default function Map(){
   }
 
   const changeMarkerColor = (precinctname, toColor) =>{
+    if(!markers[precinctname]) return;
     markers[precinctname].setIcon(`images/${toColor}icon.png`)
   }
 
