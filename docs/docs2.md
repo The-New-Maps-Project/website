@@ -1,4 +1,4 @@
-# Maps
+# Map Content & Files
 
 Every new district drawing your create is a new "map". You will see a list of your created maps when you sign in. Simply click on "Open" to open the map. To switch to a new map, click the "Switch Map" text in the page header. 
 
