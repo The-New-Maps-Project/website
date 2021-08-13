@@ -1064,8 +1064,8 @@ h3.mymaps {
 }
 
 #list-view {
-  padding-left: 30px;
-  min-width: 30vw;
+  margin-left: 30px;
+  width: 400px;
   .edit-row {
     @include row();
     justify-content: space-between;
@@ -1102,6 +1102,7 @@ h3.mymaps {
         background-color: transparent;
         border: none;
         margin-left: 5px;
+        max-width: 70px;
       }
     }
     .search {
