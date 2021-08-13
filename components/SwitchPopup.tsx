@@ -25,6 +25,7 @@ export default function SwitchPopup(props){
         if(!props.selectDistrict||typeof props.selectDistrict!="function") return;
         console.log("is a function");
         props.selectDistrict(districtNo);
+        props.xFunction();
     }
 
     return <Popup>
@@ -34,7 +35,7 @@ export default function SwitchPopup(props){
                 <span className="color-circle" style={{backgroundColor: `var(--${districts[props.currentDistrict-1]}-icon)`}}></span>
                 <span className="current-district">District {props.currentDistrict}</span>
             </p>:""}
-            <h5>{props.currentDistrict==0?"Assign":"Switch"} District</h5>
+            <h5>{props.currentDistrict==0||!props.currentDistrict?"Assign":"Switch"} District</h5>
             <ul id="switch-list">
                {renderDistricts()} 
             </ul>

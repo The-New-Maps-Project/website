@@ -8,7 +8,7 @@ import {googleMapsPublicKey} from "../services/keys"
 
 export default function Map(){
     const googlemap = useRef(null);
-    const {data,parameters,districts,setData,mapZoom} = useContext(PContext);
+    const {data,parameters,districts,setData,mapZoom,setDistrictPops} = useContext(PContext);
     const [mapObj,setMapObj] = useState(null);
     const [hovering,setHovering] = useState(null);
     const [focusing,setFocusing] = useState(null);
@@ -148,15 +148,22 @@ export default function Map(){
         changedPrecincts.push(precinct);
       }
     })
+    var thisDistrictPops = [];
+    districts.forEach(()=>thisDistrictPops.push(0));
     Object.keys(data).forEach(precinct=>{
       if(!markers[precinct]||!markers[precinct].getMap()) addedPrecincts.push(precinct)
     })
+    console.log(thisDistrictPops);
+    //setDistrictPops(thisDistrictPops);
 
-    console.log("Changed: "+changedPrecincts);
-    console.log("Deleted: "+deletedPrecincts);
-    console.log("Added: "+addedPrecincts);
 
-    console.log(markers);
+    // console.log("Changed: "+changedPrecincts);
+    // console.log("Deleted: "+deletedPrecincts);
+    // console.log("Added: "+addedPrecincts);
+
+    // console.log(markers);
+
+
 
     //Change precincts
     changedPrecincts.forEach(precinct=>{
@@ -203,12 +210,22 @@ export default function Map(){
   return (
     <div>
       {/* {hovering&&<div id="map-hovering" style={{top: mousePosY+"px",left: mousePosX+"px"}}>{hovering}</div>} */}
-      <div id="batch-assign">{batchAssignDistrict==-1?<button onClick={()=>{setBatchAssignPopup(true)}}>Batch Assign</button>:<div className="row">
-        <div>Batch {batchAssignDistrict==0?"Unassign":`Assign District ${batchAssignDistrict}`}</div>
+    
+      <div id="batch-assign">{batchAssignDistrict==-1?<button onClick={()=>{setBatchAssignPopup(true)}} className="baButton">Batch Assign</button>:<div className="row baRow">
+        <div className="row">
+        {batchAssignDistrict==0
+          ?"Batch Unassign":
+          <div className="row">
+            {`Batch Assign District ${batchAssignDistrict}`}
+            <div className="color-circle " style={{backgroundColor: `var(--${districts[batchAssignDistrict-1]}-icon)`}}>
+            </div>
+          </div>}
+        </div>
         {hovering&&<div>{hovering}</div>}
         <button onClick={()=>setBatchAssignDistrict(-1)}>Close</button>
       </div>}</div>
       <div id="map" ref={googlemap}/>
+      
       {focusing&&data[focusing]&&<div id="focused-precinct">
         <div className="precinct-name">{focusing}</div>
         <div className="district">
@@ -236,7 +253,7 @@ export default function Map(){
       >
       </SwitchPopup>}
 
-      {batchAssignPopup&&batchAssignDistrict<0&&<SwitchPopup
+      {batchAssignPopup&&<SwitchPopup
         xFunction={()=>setBatchAssignPopup(false)}
         selectDistrict={setBatchAssignDistrict}
         currentDistrict={null}

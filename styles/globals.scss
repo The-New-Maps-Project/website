@@ -806,6 +806,41 @@ h3.mymaps {
   }
 }
 
+#batch-assign{
+  .baButton{
+    font-weight: bold;
+    border-radius: 5px;
+    border: none;
+    padding: 5px 10px;
+    background-color: black;
+    color:white;
+    box-shadow: 1px 1px 2px grey;
+  }
+  .baRow{
+    width: 100%;
+    padding: 5px 10px;
+    background-color: black;
+    color: white;
+    justify-content: space-between;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px grey;
+    .color-circle{
+      margin-left: 10px;
+      box-shadow: none;
+      border: none;
+    }
+    button{
+      background-color: red;
+      border: none;
+      padding: 5px;
+      border-radius: 3px;
+      color:white;
+      font-weight: bold;
+      @include hoverer1();
+    }
+  }
+}
+
 #map {
   border: 3px solid black;
   box-shadow: 3px 3px 5px grey;
