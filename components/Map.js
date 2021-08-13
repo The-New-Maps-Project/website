@@ -16,6 +16,8 @@ export default function Map(){
     const [switchPopup,setSwitchPopup] = useState(false);
     // const [mousePosX,setMousePosX] = useState(0);
     // const [mousePosY,setMousePosY] = useState(0);
+    const [batchAssignDistrict,setBatchAssignDistrict] = useState(-1);
+    const [batchAssignPopup,setBatchAssignPopup] = useState(false);
 
     //creat a map of [name]: districtNo. from "data"
     const createDistrictMapping = () =>{
@@ -80,14 +82,17 @@ export default function Map(){
       clickable: true,
       optimized: true,
     });
-    // marker.addListener("mouseover",()=>{
-    //   setHovering(name);
-    // })
+    marker.addListener("mouseover",()=>{
+      setHovering(name);
+    })
     // marker.addListener("mouseout",()=>{
     //   setHovering(null);
     // })
     marker.addListener("click",()=>{
       setFocusing(name);
+      if(!batchAssignDistrict>=0){
+        changeDistrict(name,batchAssignDistrict);
+      }
     })
     return marker;
   }
@@ -96,14 +101,18 @@ export default function Map(){
     markers[precinctname].setIcon(`images/${toColor}icon.png`)
   }
 
-  //change the focused district
-  const changeDistrict = (district) =>{
+  //change the district of the precinct in focus
+  const changeDistrict = (precinctName,district) =>{
     //Change district in "data"
     var newObj = {...data};
-    newObj[focusing][0] = district;
+    newObj[precinctName][0] = district;
     setData(newObj);
-    changeMarkerColor(focusing,districts[district-1]);
+    changeMarkerColor(precinctName,districts[district-1]);
     setSwitchPopup(false);
+  }
+
+  const changeFocusingDistrict = (district) => {
+    changeDistrict(focusing,district);
   }
 
   //When the mapObj is not null
@@ -189,6 +198,10 @@ export default function Map(){
   return (
     <div>
       {hovering&&<div id="map-hovering" style={{top: mousePosY+"px",left: mousePosX+"px"}}>{hovering}</div>}
+      <div id="batch-assign">{batchAssignDistrict==-1?<button onClick={()=>{setBatchAssignPopup(true)}}>Batch Assign</button>:<div className="row">
+        <div>Batch {batchAssignDistrict==0?"Unassign":`Assign District ${batchAssignDistrict}`}</div>
+         
+      </div>}</div>
       <div id="map" ref={googlemap}/>
       {focusing&&data[focusing]&&<div id="focused-precinct">
         <div className="precinct-name">{focusing}</div>
@@ -212,10 +225,17 @@ export default function Map(){
 
       {switchPopup&&<SwitchPopup
         xFunction={()=>setSwitchPopup(false)}
-        selectDistrict={changeDistrict}
+        selectDistrict={changeFocusingDistrict}
         currentDistrict={data[focusing][0]}
       >
       </SwitchPopup>}
+
+      {batchAssignPopup&&<SwitchPopup
+        xFunction={()=>setBatchAssignPopup(false)}
+        selectDistrict={setBatchAssignDistrict}
+        currentDistrict={null}
+      >
+        </SwitchPopup>}
     </div>
   );
 }
