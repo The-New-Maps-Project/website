@@ -18,6 +18,7 @@ export default function Map(){
     // const [mousePosY,setMousePosY] = useState(0);
     const [batchAssignDistrict,setBatchAssignDistrict] = useState(-1);
     const [batchAssignPopup,setBatchAssignPopup] = useState(false);
+    const baDistrictRef = useRef(batchAssignDistrict);
 
     //creat a map of [name]: districtNo. from "data"
     const createDistrictMapping = () =>{
@@ -47,6 +48,10 @@ export default function Map(){
       setMapObj(map);
     });
   },[]);
+
+  useEffect(()=>{
+    baDistrictRef.current = batchAssignDistrict;
+  },[batchAssignDistrict])
 
 
   const addAllMarkers = ()=>{
@@ -90,8 +95,8 @@ export default function Map(){
     // })
     marker.addListener("click",()=>{
       setFocusing(name);
-      if(!batchAssignDistrict>=0){
-        changeDistrict(name,batchAssignDistrict);
+      if(baDistrictRef.current>=0){
+        changeDistrict(name,baDistrictRef.current);
       }
     })
     return marker;
@@ -197,10 +202,11 @@ export default function Map(){
 
   return (
     <div>
-      {hovering&&<div id="map-hovering" style={{top: mousePosY+"px",left: mousePosX+"px"}}>{hovering}</div>}
+      {/* {hovering&&<div id="map-hovering" style={{top: mousePosY+"px",left: mousePosX+"px"}}>{hovering}</div>} */}
       <div id="batch-assign">{batchAssignDistrict==-1?<button onClick={()=>{setBatchAssignPopup(true)}}>Batch Assign</button>:<div className="row">
         <div>Batch {batchAssignDistrict==0?"Unassign":`Assign District ${batchAssignDistrict}`}</div>
-         
+        {hovering&&<div>{hovering}</div>}
+        <button onClick={()=>setBatchAssignDistrict(-1)}>Close</button>
       </div>}</div>
       <div id="map" ref={googlemap}/>
       {focusing&&data[focusing]&&<div id="focused-precinct">
@@ -230,7 +236,7 @@ export default function Map(){
       >
       </SwitchPopup>}
 
-      {batchAssignPopup&&<SwitchPopup
+      {batchAssignPopup&&batchAssignDistrict<0&&<SwitchPopup
         xFunction={()=>setBatchAssignPopup(false)}
         selectDistrict={setBatchAssignDistrict}
         currentDistrict={null}
