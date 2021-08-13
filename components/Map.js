@@ -4,6 +4,8 @@ import {Loader} from '@googlemaps/js-api-loader';
 import PContext from '../services/context';
 import SwitchPopup from './SwitchPopup';
 import {googleMapsPublicKey} from "../services/keys"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 
 export default function Map(){
@@ -250,6 +252,9 @@ export default function Map(){
       <div id="map" ref={googlemap}/>
       
       {focusing&&data[focusing]&&<div id="focused-precinct">
+        <button className="x-icon" onClick={()=>setFocusing(null)}>
+          <FontAwesomeIcon className="sir" icon={faTimes}></FontAwesomeIcon>
+        </button>
         <div className="precinct-name">{focusing}</div>
         <div className="district">
           {data[focusing][0]==0

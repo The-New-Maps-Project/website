@@ -184,14 +184,16 @@ export default function Algorithm(){
         setIsDragging(false);
     }
 
+    const terminate = ()=>{
+        simulate.current.terminate();
+        simulate.current = null;
+        setAlgoState(0)
+    }
+
     return  <div id="algorithm-container"  style={dragStyles} >
         <div id="algorithm-header" onMouseDown={dragStart} onMouseMove={dragging} onMouseUp={dragEnd}>
             <h4><FontAwesomeIcon icon={faMapMarkedAlt} className="icon"></FontAwesomeIcon>Algorithm <Link href="/documentation/algorithm"><a className="link" target="_blank">how it works</a></Link></h4>
-            <button className="terminate-button" onClick={()=>{
-                simulate.current.terminate();
-                simulate.current = null;
-                setAlgoState(0)
-            }}>{algoState>=3?<FontAwesomeIcon icon={faTimes} className="sir"></FontAwesomeIcon>:"Terminate"}</button>
+            <button className="terminate-button" onClick={terminate}>{algoState>=3?<FontAwesomeIcon icon={faTimes} className="sir"></FontAwesomeIcon>:"Terminate"}</button>
         </div>
         <section id="roundone" className={algoFocus==1?"focused":"clickable"} onClick={()=>setAlgoFocusIfNotSet(1)}>
             <div className="round-header">
@@ -242,6 +244,7 @@ export default function Algorithm(){
                         <li>Interact with the map and change district assignments for precincts. Click on a precinct on the map, or search the righthand list. Edit the map until you are satified with the outcome</li>
                         <li>Export the data to a file so you can import this exact map next time</li>
                     </ol>
+                    <button className="sb" onClick={terminate}>Done</button>
                 </div>:<div>The algorithm has not yet finished running</div>}
             </div>}
         </section>

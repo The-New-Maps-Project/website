@@ -146,6 +146,9 @@ ul {
   --orange-icon: orange;
 }
 
+$breakpoint-large: 1000px;
+$breakpoint-mobile: 576px;
+
 button,
 input,
 select {
@@ -284,6 +287,12 @@ header {
   }
 }
 
+@media (max-width: $breakpoint-mobile){
+  .docs-button{
+    display: none;
+  }
+}
+
 #side-menu{
   position: fixed;
   z-index: 20;
@@ -378,7 +387,7 @@ header {
       height: 30px;
     }
   }
-  div.top-section{
+  .top-section{
     margin: 0px;
     margin-bottom: 20px;
     h3{
@@ -430,6 +439,38 @@ header {
     }
   }
   
+}
+
+@media (max-width: $breakpoint-mobile){
+  #home-popup{
+    .x-button{
+      top: 5px;
+      height: 15px; 
+    }
+    .top-section{
+      h3{
+      font-size: 26px;
+      }
+      margin-bottom: 0px;
+      margin-top: 10px;
+    }
+    .home-options-container{
+      padding: 10px 0px;
+      ul li{
+        .map-name{
+          font-size: 24px;
+        }
+        .map-districts{
+          font-size: 14px;
+        }
+        .buttons{
+          .draw-district{
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
 }
 
 #export {
@@ -569,6 +610,30 @@ h3.mymaps {
         @include row();
         margin-top: 10px;
       }
+    }
+  }
+  #body {
+    display: grid;
+    grid-template-columns: 1fr auto;
+  }
+}
+
+@media (max-width: $breakpoint-large){
+  #scaffold{
+    #first-row{
+      display: grid;
+      grid-template-columns: 1fr;
+      .left{
+        grid-row: 2/3;
+        margin: 20px 0px; 
+      }
+      .right{
+        grid-row: 1/2;
+        align-items: flex-start;
+      }
+    }
+    #body{
+      grid-template-columns: 1fr;
     }
   }
 }
@@ -722,11 +787,6 @@ h3.mymaps {
   }
 }
 
-#body {
-  display: grid;
-  grid-template-columns: 1fr auto;
-}
-
 .plus-button {
   background-color: transparent;
   border: none;
@@ -864,6 +924,19 @@ h3.mymaps {
   box-shadow: 2px 2px 5px lightgrey;
   border-radius: 10px;
   margin: 10px 0px;
+  position: relative;
+  .x-icon{
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    @include center();
+    top: 5px;
+    right: 5px;
+    .sir{
+      color:red;
+      height: 20px
+    }
+  }
   .precinct-name {
     font-size: 20px;
     font-weight: bold;
@@ -1069,6 +1142,13 @@ h3.mymaps {
   }
 }
 
+@media (max-width: $breakpoint-large) {
+  #list-view{
+    padding: 30px 0px;
+    width: auto;
+  }
+}
+
 #precinct-list {
   max-height: 60vh;
   overflow-y: scroll;
@@ -1078,26 +1158,28 @@ h3.mymaps {
     border: 2px solid black;
     box-shadow: 2px 2px 5px grey;
     margin: 10px 0px;
+    max-width: 400px;
     .main-row {
       @include row();
       justify-content: space-between;
-      max-width: 400px;
       overflow-x: hidden;
       .precinct-name {
-        font-size: 18px;
+        font-size: 16px;
       }
       .district {
         margin: 0px 20px;
         .show-district {
           @include row();
           @include hoverer1();
-          font-size: 16px;
+          font-size: 15px;
           border: none;
           background-color: none;
           padding: 0px;
           background-color: transparent;
           .color-box {
             margin-right: 7px;
+            height: 20px;
+            width: 20px;
           }
         }
       }
@@ -1123,6 +1205,14 @@ h3.mymaps {
           margin-right: 5px;
         }
       }
+    }
+  }
+}
+
+@media (max-width: $breakpoint-large){
+  #precinct-list{
+    li.single-precinct{
+      max-width: 100%;
     }
   }
 }
@@ -1186,7 +1276,7 @@ h3.mymaps {
   }
 }
 
-#districts-list{
+#districts-list1{
   overflow-x: scroll;
   ul{
     @include row();  
@@ -1262,103 +1352,114 @@ h3.mymaps {
       }
     }
   }
+}
 
-  #analysis-main {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    #param-analysis {
-      .first-row {
-        margin: 20px 0px;
-        select {
-          padding: 5px;
-          border-radius: 5px;
-          border: 2px solid grey;
-          box-shadow: 2px 2px 5px lightgrey;
-        }
+#analysis-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  #param-analysis {
+    .first-row {
+      margin: 20px 0px;
+      select {
+        padding: 5px;
+        border-radius: 5px;
+        border: 2px solid grey;
+        box-shadow: 2px 2px 5px lightgrey;
       }
-      #param-info {
-        h3 {
-          font-size: 30px;
-          font-weight: bold;
-          margin: 30px 0px;
-          text-shadow: 1px 1px 3px grey;
-        }
-        hr {
-          width: 90%;
-          margin-right: auto;
-        }
-        .percent-bar {
-          margin: 10px 0px;
-        }
-        .values-list {
-          margin: 30px 0px;
-          font-size: 18px;
-          li {
-            @include row();
-            margin: 20px 0px;
-            label {
-              font-weight: bold;
-            }
-            p {
-              color: grey;
-              margin: 0px;
-              margin-left: 20px;
-            }
+    }
+    #param-info {
+      h3 {
+        font-size: 30px;
+        font-weight: bold;
+        margin: 30px 0px;
+        text-shadow: 1px 1px 3px grey;
+      }
+      hr {
+        width: 90%;
+        margin-right: auto;
+      }
+      .percent-bar {
+        margin: 10px 0px;
+      }
+      .values-list {
+        margin: 30px 0px;
+        font-size: 18px;
+        li {
+          @include row();
+          margin: 20px 0px;
+          label {
+            font-weight: bold;
           }
-          .allData {
-            @include buttonStyle();
-            padding: 5px 15px;
-            border-radius: 10px;
-            color: white;
-            font-weight: 100;
-            background-color: #004c93;
+          p {
+            color: grey;
+            margin: 0px;
+            margin-left: 20px;
           }
+        }
+        .allData {
+          @include buttonStyle();
+          padding: 5px 15px;
+          border-radius: 10px;
+          color: white;
+          font-weight: 100;
+          background-color: #004c93;
         }
       }
     }
-    #district-analysis {
-      padding: 30px 20px;
-      ul#districts-list {
-        li.single-district {
-          .district-name {
+  }
+  #district-analysis {
+    padding: 30px 20px;
+    ul#districts-list {
+      li.single-district {
+        .district-name {
+          @include row();
+          font-size: 20px;
+          .color-box {
+            margin-right: 10px;
+          }
+        }
+        margin: 10px 0px;
+        border: 2px solid black;
+        padding: 10px 20px;
+        border-radius: 10px;
+        box-shadow: 3px 3px 5px grey;
+        .main-row {
+          @include row();
+          justify-content: space-between;
+        }
+        .table {
+          li {
             @include row();
-            font-size: 20px;
-            .color-box {
-              margin-right: 10px;
+            margin: 15px 0px;
+            div {
+              width: 30%;
+              text-align: left;
+              color: rgb(95, 95, 95);
+            }
+            .p-name {
+              color: black;
+              font-weight: bold;
             }
           }
-          margin: 10px 0px;
-          border: 2px solid black;
-          padding: 10px 20px;
-          border-radius: 10px;
-          box-shadow: 3px 3px 5px grey;
-          .main-row {
-            @include row();
-            justify-content: space-between;
-          }
-          .table {
-            li {
-              @include row();
-              margin: 15px 0px;
-              div {
-                width: 30%;
-                text-align: left;
-                color: rgb(95, 95, 95);
-              }
-              .p-name {
-                color: black;
-                font-weight: bold;
-              }
-            }
-            .top-row {
-              font-weight: bolder;
-            }
+          .top-row {
+            font-weight: bolder;
           }
         }
       }
     }
   }
 }
+
+@media (max-width: $breakpoint-large){
+  #analysis-main {
+    grid-template-columns: 1fr;
+    #district-analysis{
+      padding: 30px 0px;
+    }
+  }
+}
+
+
 
 .percent-bar {
   border: 3px solid black;
@@ -1374,6 +1475,9 @@ h3.mymaps {
     top: 50%;
     left: 50%;
     font-weight: bold;
+    word-break: keep-all;
+    width: 100%;
+    text-align: center;
     text-shadow: 1px 1px 2px grey;
     transform: translate(-50%, -50%);
   }
@@ -1484,6 +1588,15 @@ h3.mymaps {
     width: 100%;
     height: 250px;
     margin: 20px 0px;
+  }
+}
+
+@media (max-width: $breakpoint-mobile){
+  #algorithm-container{
+    max-width: 90vw;
+    .linegraph{
+      max-width: 80vw;
+    }
   }
 }
 

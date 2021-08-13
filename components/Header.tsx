@@ -57,7 +57,7 @@ export default function Header() {
 
       <div id="header-links">
         <Link href="/documentation">
-          <a target="_blank" className="tb">Docs</a>
+          <a target="_blank" className="tb docs-button">Docs</a>
         </Link>
         <button className="menu-button" onClick={()=>setShowMenu(!showMenu)}>
           <FontAwesomeIcon className="icon" icon={faBars}></FontAwesomeIcon>

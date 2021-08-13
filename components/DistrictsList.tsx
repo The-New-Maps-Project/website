@@ -22,7 +22,7 @@ export default function DistrictsList(){
         return arr;
     }
 
-    return<div id="districts-list">
+    return<div id="districts-list1">
         <ul>
             {renderDistricts()}
         </ul>
