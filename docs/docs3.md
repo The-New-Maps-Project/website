@@ -40,7 +40,7 @@ The data from the map is plotted on the central map on the hompage. This map is 
 
 Each precinct's marker will be the color of the district it is assigned to, grey if it is not assigned, and invisible if it is out of range or is not in the district that is currently being "viewed alone"
 
-##### Precinct Data
+#### Precinct Data
 
 Every marker is clickable, and when a marker is clicked, a small window below the map will show, with information about the clicked precinct such as it's name, assigned district, population, and parameters. Click the "Switch" button to switch it's district.
 
@@ -58,52 +58,41 @@ The precinct list can be searched and sorted. The default sort is alphabetical f
 
 When the "Edit" button on top of the precinct list is clicked, precincts can be selected to be assigned or deleted. Click "Delete" or "Assign District" to delete or assign selected districts. "Select All" selects all the precincts in the map, while "Show Selected" will only show the selected precincts in the precincts list. Click the "Edit" button again to exit out of selecting precincts.
 
-### On the Map
+### Batch Assign
 
-The precinct will show up as a dot on the map (note that the bottom of the dot is placed where the latitude and longitude of the precint is). The color of the dot is the color of the district it is assigned to (it will be grey if unassigned). Click on the precinct dot on the map, and a info box about the precinct will pop up below the map. You can view parameter info and switch the distict here. 
+Batch assigning on the map is assigning precincts by clicking on their markers. Click the "Batch Assign" button on top of the map and choose a district to batch assign to. Now everytime a marker is hovered over, the precinct name will show. Click on the precinct and it will be assigned to the district selected. Click "close" to stop the batch assignment. Batch unassigning is also possible, just select "unassign" when selecting the district to batch assign to.
 
-## Districts
+### Districts List and Viewing Alone
 
-Districts are groupings of precincts. District maps are drawn by a unique grouping of precincts into multiple districts
+Below the map and the precincts list is a horizontal districts list. Each district will show it's population, color, and have an option to "View Alone"
 
-### Set Districts
-
-Click the green button near the top right that shows how many districts are currentl made (default is 0). Fill in the amount of districts you want to divide your map into, and customize the colors of each district if desired. Click the "Done" button at the bottom of the districts list to set these districts, and don't forget to save changes to the map.
-
-### Manually Assign Precincts to Districts
-
-There are multiple ways to manually assign precincts to districts. You can click on the icon on the map and click the "switch" button in the info box below the map. You can also do it in the precincts list on the right, where you can click the assigned district to reassign it, or click "Edit" to batch select and assign precincts to districts.
-
-### Auto Assign Precincts to Districts
-
-You can use The New Maps Project Algorithm, a simple way to group precincts into districts, on you map. Click the "NMP Algorithm" button near the districts button and the "Import Data" button to select a threshold and run the algorithm. Read more about how it works on [The New Maps Project website](https://thenewmapsproject.org/docs).
-
-We suggest you initially run the algorithm on a set of precincts, then manually edit the map to get a desired result.
-
+When a district is viewed alone, only the precincts assigned to that district on the map will show. The element in the districts list will have an option to "Unselect", which will show all other districts again. 
 
 ## Analysis
 
-To calculate the statistics of the current map drawing, click the grey "Calculate Stats" button below the map area. This button will show up every time changes are made. If this button shows, that means that the stats have either not been calculated yet, or are not up to date.
+To calculate the statistics of the current map drawing, click the grey "Calculate Stats" button below the map area. A new "Re-Calculate Stats" button will show up every time changes are made. If this button shows, that means that the stats have either not been calculated yet, or are not up to date.
 
 **ASDPC:** Average Squared Distance to Population Center (a measure of compactness, measured in km).
 
-## Disticts List
+### Disticts List
 
-On the right side of the calculation results you will see a list of every district. Expand each to see some of it's statistics, for the whole district population as well as for specific parameters.
+On the right side of the calculation results you will see a list of every district. Expand each to see some of it's statistics, for the whole district population as well as for specific parameters. The population count of each parameter population will show, not a percentage of total district population.
 
-## Population Statistics
+### Population Statistics
 
-### Population Distribution
+#### Population Distribution
 
-You can see basic stats like the total population, average population per district, standard deviation across all districts, outlier districts, and median district population. Click the navy "Graph Data" button to see a bar chart of every district's population graphed, as well as a histogram.
+You can see basic stats like the total population, average population per district, standard deviation across all districts, outlier districts, and median district population. Click the navy "Graph Data" button to see a bar chart of every district's population graphed, as well as a histogram. The first bar chart will show each district's population in ascending order. 
 
-### Compactness (ASDPC)
+For parameters, the graphs will show the percent of the population of each district that is of that parameter, not the absolute population of that parameter.
+
+#### Compactness (ASDPC)
 
 Average Squared Distance to Population Center (ASDPC) is measured for each district as a measure of compactness. You can once again see some basic statistics regarding the ASDPCs across districts: mean, median, standard deviation, and outliers. Click the "Graph Data" button to see a bar chart and histogram of the ASDPCs of all districts
 
 **Note:** Outliers are considered to be values that are more that two standard deviations from the mean.
 
-### Different Parameters and Representation
+#### Different Parameters and Representation
 
 At the top of the left side of the calculation results section there is a select menu where you can select either the "Population" or a specific parameter to show statistics for (if you define a parameter). You can view population and ASDPC distribution of each of the parameter demographics as well.
 
