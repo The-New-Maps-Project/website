@@ -20,14 +20,43 @@ The cogs icon next to each parameter name gives you options to delete  the param
 
 The green "+" button allows you to add a parameter. Specifiy the parameter name, and it will be added to the end of the parameter list.
 
-##
+### Creating Districts
 
+Near the Import and Export buttons, there is a green button displaying how many districts are created. Click the button to show the districts popup. You can use this to set the amount of districts, as well as the color for each district.
+
+Enter in a number of districts you want to set, and click "Set". This will create the exact amount of districts specified. There are ten available colors for districts, and the new districts will be automatically assigned a color in the order they are listed. Colors for districts can freely be changed by selecting one from the dropdown for each district. At the bottom of the popup, click the "Done" button for all changes to color and amount of districts to take shape. 
+
+All markers on the map for precincts will show as the color of their assigned district, or grey if unassigned (district zero), or will not show if the district assignment is out of range or a specific district is selected to be "viewed alone" (read more about this below). 
+
+If n districts are created, the range of the districts will be from 1 to n, district zero being unassigned.
+
+### "Run Algorithm" Button
+
+The "Run Algorithm" Button will show a popup where settings to run the browser algorithm can be toggled before it is run. The New Maps Project Redistricting Algorithm can be run on a map in the editing suite. Please see the "Browser Algorithm" section for details.
+
+### The Visualized Map
+
+The data from the map is plotted on the central map on the hompage. This map is an embedded Google Map and can be zoomed in and out, dragged around, and focused. Every precinct will show on the map as a dot marker, at the latitute and longitude location specified in the imported data. 
+
+Each precinct's marker will be the color of the district it is assigned to, grey if it is not assigned, and invisible if it is out of range or is not in the district that is currently being "viewed alone"
+
+##### Precinct Data
+
+Every marker is clickable, and when a marker is clicked, a small window below the map will show, with information about the clicked precinct such as it's name, assigned district, population, and parameters. Click the "Switch" button to switch it's district.
 
 ### Precincts List
 
-On the right side, a list of the precincts will show. You can expand each precinct to show parameter info. Click on the name of the precinct shown to be directed to it on the map. Click on the district assignment (or "Unassigned") to assign it to a district.
+The list of precincts will show next to the map. If the total number of precincts is greater than 100, only the first 100 results will show. 
 
-You can search for a precinct, or click "Edit" to select precincts, where you can batch delete or assign. You can also sort them differently as well. Only the first 100 precinct results are shown.
+Each precinct entry will show it's name and assigned district. If the name of the precinct is clicked, the map will focus on the location of that precinct. If the assigned district is clicked, a popup to change the district assignment will show.
+
+The "More" button for each precinct will show population and parameter information for the specific precinct
+
+### Search, Sort, and Edit Precincts
+
+The precinct list can be searched and sorted. The default sort is alphabetical from A to Z. Population is sorted in descending order, while districts and all parameters are sorted in ascending order (lower number districts and small parameter populations come first). A district can also be searched for by typing a keyword into the search box and clicking the magnifying glass icon. Only precinct names will be searched for the keyword. Click the magnifying glass icon again to eliminate the keyword search.
+
+When the "Edit" button on top of the precinct list is clicked, precincts can be selected to be assigned or deleted. Click "Delete" or "Assign District" to delete or assign selected districts. "Select All" selects all the precincts in the map, while "Show Selected" will only show the selected precincts in the precincts list. Click the "Edit" button again to exit out of selecting precincts.
 
 ### On the Map
 
