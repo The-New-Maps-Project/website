@@ -34,7 +34,7 @@ export default function DocsRoot() {
     { url: "/packandcrack", name: "Browser Pack & Crack", isPrimary: false, num: 6 },
     { url: "/datastore", name: "Premade Options", isPrimary: true, num: 6 },
     { url: "/algorithm", name: "Algorithm", isPrimary: true, num: 7 },
-    { url: "/settingsparameters", name: "Settings & Parameters", isPrimary: false, num: 8 },
+    // { url: "/settingsparameters", name: "Settings & Parameters", isPrimary: false, num: 8 },
   ];
 
   let n = 0;
