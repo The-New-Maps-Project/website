@@ -10,7 +10,7 @@ The algorithm is split into different rounds, each round split into different it
 
 **Connected Precincts:** Two precincts are deemed "connected" if there exists a point within state lines where no other precincts are closer to that point than the two precincts in question.
 
-**Connuity:** A district is considered continuous if there exists a path through connected districts between every pair of precincts from that district
+**Continuity:** A district is considered continuous if there exists a path through connected districts between every pair of precincts from that district
 
 **Grid Granularity:** The number of rows and columns made in the grid to determine connected precincts.
 

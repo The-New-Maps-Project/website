@@ -1685,6 +1685,29 @@ h3.mymaps {
   }
 }
 
+#about{
+  #about-paragraph{
+    margin: 30px 0px;
+    font-size: 18px;
+    line-height: 1.5;
+    max-width: 800px;
+  }
+  .links{
+    a{
+      @include hoverer1();
+      width: 250px;
+      display: block;
+      background-color: black;
+      color: white;
+      padding: 10px 20px;
+      font-size: 20px;
+      box-shadow: 2px 2px 5px grey;
+      margin-bottom: 20px;
+    }
+    margin-bottom: 30vh;
+  }
+}
+
 #privacy-and-disclaimer{
   ol, ul {
     list-style: square;
