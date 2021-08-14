@@ -1,1 +1,1 @@
-# The Algorithm
+# Algorithm Settings and Parameters

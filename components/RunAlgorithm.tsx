@@ -48,7 +48,6 @@ export default function RunAlgorithm(){
                     or optimize all possible statitics, rather it is a flexible tool to quickly draw first draft maps. Final maps should be edited to be 
                     optimized for each different scenario.
                 </p>
-                <p className="learn-more">Learn More: <a className="link" target="_blank" href="https://thenewmapsproject.org/docs">The New Maps Project Website</a></p>
                 <div className="algo-area">
 
 

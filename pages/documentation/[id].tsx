@@ -29,10 +29,10 @@ export default function DocsRoot() {
     { url: "/", name: "Overview", isPrimary: true, num: 0 },
     { url: "/sitelayout", name: "Site Layout", isPrimary: false, num: 1 },
     { url: "/maps", name: "Map Content & Files", isPrimary: false, num: 2 },
-    { url: "/homepage", name: "Homepage", isPrimary: true, num: 3 },
-    { url: "/editingmap", name: "Editing a Map", isPrimary: false, num: 4 },
+    { url: "/editing", name: "Editing Suite", isPrimary: true, num: 3 },
     { url: "/browseralgorithm", name: "Browser Algorithm", isPrimary: false, num: 5 },
-    { url: "/analysis", name: "Analysis & Statistics", isPrimary: false, num: 6 },
+    { url: "/packandcrack", name: "Browser Pack & Crack", isPrimary: false, num: 6 },
+    { url: "/datastore", name: "Premade Options", isPrimary: true, num: 6 },
     { url: "/algorithm", name: "Algorithm", isPrimary: true, num: 7 },
     { url: "/settingsparameters", name: "Settings & Parameters", isPrimary: false, num: 8 },
   ];

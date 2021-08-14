@@ -1,8 +1,8 @@
-# Homepage
+# Editing Suite
 
-The homepage map editing suite is the centerpiece of The New Maps Project's website. The purpose of it is to visualize, analyze, and draw districts, customizable and optimized to the user's needs. A map is made up of district, parameter, and precinct data, and this data is imported into and exported from the editing suite as a text file. See the "Map Content & Files" section of the documentation for more about map data and file format.
+The homepage Map Editing Suite is the centerpiece of The New Maps Project's website. The purpose of it is to visualize, analyze, and draw districts, customizable and optimized to the user's needs. A map is made up of district, parameter, and precinct data, and this data is imported into and exported from the Editing Suite as a text file. See the "Map Content & Files" section of the documentation for more about map data and file format.
 
-The following paragraphs go over some components of the homepage editing suite. More detail can be found in the subsequent sections of the documentation.
+The following paragraphs go over some components of the homepage Editing Suite. More detail can be found in the subsequent sections of the documentation.
 
 ### Import and Export Buttons
 
@@ -10,11 +10,11 @@ Use these buttons to import and export data to and from a text file. The format 
 
 Imported data will generally be added to existing data. Exceptions include the first line, and any precints with their exact names duplicated, in which data will be overrided.
 
-Exported data will always export the current state of the data, including the precincts, the districts they are assigned to, and the parameters in order. If the same file is then imported, the data will be identical. However, please note there is no way to specify district color in a file, district color is a editing suite specific feature.
+Exported data will always export the current state of the data, including the precincts, the districts they are assigned to, and the parameters in order. If the same file is then imported, the data will be identical. However, please note there is no way to specify district color in a file, district color is a Editing Suite specific feature.
 
 ### Parameters Section
 
-On the top left side of the editing suite, all the parameters for the map will be listed in order, from left to right and then from top to bottom.
+On the top left side of the Editing Suite, all the parameters for the map will be listed in order, from left to right and then from top to bottom.
 
 The cogs icon next to each parameter name gives you options to delete  the parameter (the red "X" button), or swap it in order with the parameter to the left or right (the left and right arrows)
 
@@ -32,7 +32,7 @@ If n districts are created, the range of the districts will be from 1 to n, dist
 
 ### "Run Algorithm" Button
 
-The "Run Algorithm" Button will show a popup where settings to run the browser algorithm can be toggled before it is run. The New Maps Project Redistricting Algorithm can be run on a map in the editing suite. Please see the "Browser Algorithm" section for details.
+The "Run Algorithm" Button will show a popup where settings to run the browser algorithm can be toggled before it is run. The New Maps Project Redistricting Algorithm can be run on a map in the Editing Suite. Please see the "Browser Algorithm" section for details.
 
 ### The Visualized Map
 
