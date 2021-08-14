@@ -8,21 +8,22 @@ import { useContext } from "react";
 import RunAlgorithm from "./RunAlgorithm";
 import ListView from "./ListView";
 import Analysis from "./Analysis";
-import PContext from "../services/context";
+import ExportFile from "./ExportFile";
+import DistrictsList from "./DistrictsList";
 
 export default function Scaffold(){
-    const {needSave} = useContext(PContext);
 
     return <div id="scaffold">
         <section id="first-row">
-            {needSave&&<div className="save-banner">
-                <span>WARNING</span> Unsaved Changes
-            </div>}
             <div className="left">
                 <Parameters></Parameters>
             </div>
             <div className="right">
-                <ImportFile></ImportFile>
+                <div className="row">
+                    
+                    <ExportFile></ExportFile>
+                    <ImportFile></ImportFile>
+                </div>
                 <div className="second-row">
                     <RunAlgorithm></RunAlgorithm>
                     <DistrictsEdit></DistrictsEdit>
@@ -32,6 +33,9 @@ export default function Scaffold(){
         <section id="body">
             <Map></Map>
             <ListView></ListView>
+        </section>
+        <section id="districts">
+            <DistrictsList></DistrictsList>
         </section>
         <section id="analysis">
             <Analysis></Analysis>

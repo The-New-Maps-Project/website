@@ -146,6 +146,9 @@ ul {
   --orange-icon: orange;
 }
 
+$breakpoint-large: 1000px;
+$breakpoint-mobile: 576px;
+
 button,
 input,
 select {
@@ -159,6 +162,7 @@ body {
   padding: 0;
   margin: 0;
   font-family: var(--primary-font);
+  overflow-x: hidden;
 }
 
 a {
@@ -210,10 +214,16 @@ a {
 }
 
 header {
-  padding: 0px 3vw;
+  margin: 0px 3vw;
+  box-sizing: border-box;
+  width: 94vw;
+  border-bottom: 1px solid black;
   @include row();
   justify-content: space-between;
+  background-color: rgb(255, 255, 255);
+  //box-shadow: 0px 5px 10px darkgrey;
   h1 {
+    font-size: 24px;
     div {
       margin: 0px;
     }
@@ -257,25 +267,245 @@ header {
       height: 20px;
     }
   }
-  #save-and-import {
-    .save-button {
-      background-color: var(--blue);
+
+  #header-links{
+    @include row();
+    button.menu-button{
+      padding: 0px; // 5px 8px;
       border: none;
-      padding: 8px 20px;
-      border-radius: 5px;
-      box-shadow: 3px 3px 5px lightgrey;
-      color: white;
+      background-color: transparent;
+      @include center();
+      .icon{
+        color: black;
+        font-weight: bold;
+        font-size: 30px;
+        height: 30px;
+      }
       @include hoverer1();
-      font-size: 16px;
-      font-weight: bold;
+      margin-left: 5vw;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-mobile){
+  .docs-button{
+    display: none;
+  }
+}
+
+#side-menu{
+  position: fixed;
+  z-index: 20;
+  width: 300px;
+  right: -320px;
+  top: 0px;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  box-shadow: -3px 0px 10px grey;
+  padding: 30px;
+  background-color: black;
+  color: white;
+  transition: right 0.3s;
+  .menu-header{
+    @include row();
+    justify-content: space-between;
+    h6{
+      font-size: 30px;
+      margin: 0px;
       @include row();
-      .save-icon {
-        margin-right: 5px;
-        font-size: 20px;
-        height: 20px;
+      .icon{
+        margin-right: 10px;
+        height: 30px;
+      }
+    }
+    .x-menu-button{
+      transition: all 0.3s;
+      background-color: transparent;
+      border: none;
+      @include center();
+      .icon{
+        color: white;
+        height: 30px;
+        font-weight: 100;
+      }
+      &:hover{
+        transform: rotate(180deg);
+        opacity: 0.7;
       }
     }
   }
+  ul{
+    list-style: none;
+    padding: 0px;
+    li{
+      @include row();
+      margin: 20px 0px;
+      .single-link{
+        font-size: 20px;
+        display: block;
+        transition:  all 0.3s;
+        padding: 5px 10px;
+        &:hover{
+          background-color: white;
+          color: black;
+          box-shadow: 0px 0px 5px rgb(238, 238, 238);
+        }
+      }
+    }
+  }
+  &.hidden{
+    //visibility: hidden;
+  }
+  &.shown{
+    visibility: visible;
+    right: 0px;
+  }
+}
+
+#home-section{
+  font-weight: bold;
+  margin-bottom: 100px;
+}
+
+#home-popup{
+  position: fixed;
+  z-index: 101;
+  bottom: 0px;
+  left: 0px;
+  width: 100vw;
+  background-color: black;
+  color:white;
+  padding: 3vh 3vw;
+  box-shadow: 0px -5px 10px grey;
+  .x-button{
+    position: absolute;
+    top: 3vh;
+    right: 3vw;
+    color: red;
+    .sir{
+      height: 30px;
+    }
+  }
+  .top-section{
+    margin: 0px;
+    margin-bottom: 20px;
+    h3{
+      font-size: 36px;
+      margin: 0px;
+    }
+    p{
+      font-size: 15px;
+      color: lightgrey;
+      margin: 0px;
+    }
+  }
+  .home-options-container{
+    overflow-x: scroll;
+    padding: 30px 0px;
+    ul{
+      @include row();
+      width:max-content;
+      li{
+        background-color: rgb(202, 202, 202);
+        padding: 20px;
+        color:black;
+        margin-right: 30px;
+        .map-name{
+          font-weight: bold;
+          font-size: 30px;
+        }
+        .map-districts{
+          font-size: 16px;
+          font-weight: bold;
+        }
+        .buttons{
+          @include row();
+          margin: 15px 0px;
+          .draw-district{
+            font-size: 18px;
+            background-color: rgb(5, 161, 0);
+            margin-right: 20px;
+          }
+          .view-map{
+            font-size: 14px;
+            font-weight: 600;
+          }
+        }
+        .map-info{
+          font-size: 12px;
+        }
+      }
+    }
+  }
+  
+}
+
+@media (max-width: $breakpoint-mobile){
+  #home-popup{
+    .x-button{
+      top: 5px;
+      height: 15px; 
+    }
+    .top-section{
+      h3{
+      font-size: 26px;
+      }
+      margin-bottom: 0px;
+      margin-top: 10px;
+    }
+    .home-options-container{
+      padding: 10px 0px;
+      ul li{
+        .map-name{
+          font-size: 24px;
+        }
+        .map-districts{
+          font-size: 14px;
+        }
+        .buttons{
+          .draw-district{
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+}
+
+#export {
+  .export-button {
+    background-color: var(--blue);
+    border: none;
+    padding: 5px 20px;
+    margin-right: 10px;
+    border-radius: 5px;
+    box-shadow: 3px 3px 5px lightgrey;
+    color: white;
+    @include hoverer1();
+    font-size: 16px;
+    font-weight: bold;
+    @include row();
+    .save-icon {
+      margin-right: 5px;
+      font-size: 20px;
+      height: 20px;
+    }
+  }
+}
+
+#export-popup{
+  .filename{
+    margin: 20px 0px;
+    input{text-align: right;}
+  }
+}
+
+#download-link{
+  @include sbstyle();
+  display: block;
+  margin: 20px 0px;
+  width: 250px;
 }
 
 main {
@@ -382,6 +612,30 @@ h3.mymaps {
       }
     }
   }
+  #body {
+    display: grid;
+    grid-template-columns: 1fr auto;
+  }
+}
+
+@media (max-width: $breakpoint-large){
+  #scaffold{
+    #first-row{
+      display: grid;
+      grid-template-columns: 1fr;
+      .left{
+        grid-row: 2/3;
+        margin: 20px 0px; 
+      }
+      .right{
+        grid-row: 1/2;
+        align-items: flex-start;
+      }
+    }
+    #body{
+      grid-template-columns: 1fr;
+    }
+  }
 }
 
 .save-banner {
@@ -423,7 +677,7 @@ h3.mymaps {
   }
 }
 
-#import-popup {
+#import-popup, #export-popup {
   padding: 20px;
   max-width: 500px;
   h5 {
@@ -433,9 +687,15 @@ h3.mymaps {
   }
   .file-format,
   .line-example {
-    span {
+    strong{
       font-weight: bold;
       margin-right: 5px;
+    }
+    section{
+      padding: 10px;
+    }
+    p {
+      margin: 0px;
     }
   }
   .example-files .sample-files-link {
@@ -527,11 +787,6 @@ h3.mymaps {
   }
 }
 
-#body {
-  display: grid;
-  grid-template-columns: 1fr auto;
-}
-
 .plus-button {
   background-color: transparent;
   border: none;
@@ -573,7 +828,7 @@ h3.mymaps {
   .first-row {
     input {
       margin: 0px 5px;
-      width: 40px;
+      width: 60px;
     }
     .sb {
       margin-left: 5px;
@@ -611,6 +866,41 @@ h3.mymaps {
   }
 }
 
+#batch-assign{
+  .baButton{
+    font-weight: bold;
+    border-radius: 5px;
+    border: none;
+    padding: 5px 10px;
+    background-color: black;
+    color:white;
+    box-shadow: 1px 1px 2px grey;
+  }
+  .baRow{
+    width: 100%;
+    padding: 5px 10px;
+    background-color: black;
+    color: white;
+    justify-content: space-between;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px grey;
+    .color-circle{
+      margin-left: 10px;
+      box-shadow: none;
+      border: none;
+    }
+    button{
+      background-color: red;
+      border: none;
+      padding: 5px;
+      border-radius: 3px;
+      color:white;
+      font-weight: bold;
+      @include hoverer1();
+    }
+  }
+}
+
 #map {
   border: 3px solid black;
   box-shadow: 3px 3px 5px grey;
@@ -634,6 +924,19 @@ h3.mymaps {
   box-shadow: 2px 2px 5px lightgrey;
   border-radius: 10px;
   margin: 10px 0px;
+  position: relative;
+  .x-icon{
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    @include center();
+    top: 5px;
+    right: 5px;
+    .sir{
+      color:red;
+      height: 20px
+    }
+  }
   .precinct-name {
     font-size: 20px;
     font-weight: bold;
@@ -761,8 +1064,8 @@ h3.mymaps {
 }
 
 #list-view {
-  padding-left: 30px;
-  min-width: 30vw;
+  margin-left: 30px;
+  width: 400px;
   .edit-row {
     @include row();
     justify-content: space-between;
@@ -799,6 +1102,7 @@ h3.mymaps {
         background-color: transparent;
         border: none;
         margin-left: 5px;
+        max-width: 70px;
       }
     }
     .search {
@@ -839,6 +1143,13 @@ h3.mymaps {
   }
 }
 
+@media (max-width: $breakpoint-large) {
+  #list-view{
+    padding: 30px 0px;
+    width: auto;
+  }
+}
+
 #precinct-list {
   max-height: 60vh;
   overflow-y: scroll;
@@ -848,26 +1159,28 @@ h3.mymaps {
     border: 2px solid black;
     box-shadow: 2px 2px 5px grey;
     margin: 10px 0px;
+    max-width: 400px;
     .main-row {
       @include row();
       justify-content: space-between;
-      max-width: 400px;
       overflow-x: hidden;
       .precinct-name {
-        font-size: 18px;
+        font-size: 16px;
       }
       .district {
         margin: 0px 20px;
         .show-district {
           @include row();
           @include hoverer1();
-          font-size: 16px;
+          font-size: 15px;
           border: none;
           background-color: none;
           padding: 0px;
           background-color: transparent;
           .color-box {
             margin-right: 7px;
+            height: 20px;
+            width: 20px;
           }
         }
       }
@@ -897,6 +1210,14 @@ h3.mymaps {
   }
 }
 
+@media (max-width: $breakpoint-large){
+  #precinct-list{
+    li.single-precinct{
+      max-width: 100%;
+    }
+  }
+}
+
 .delete-precincts {
   div {
     @include row();
@@ -907,7 +1228,8 @@ h3.mymaps {
 }
 
 #algorithm-popup {
-  max-width: 300px;
+  max-width: 800px;
+  width: 90vw;
   h5 {
     font-size: 24px;
     margin-bottom: 10px;
@@ -918,6 +1240,90 @@ h3.mymaps {
       text-decoration: underline;
       @include hoverer1();
       color: rgb(0, 0, 99);
+    }
+  }
+
+  section#algo-settings{
+    h6{
+      margin: 20px 0px;
+      font-size: 20px;
+    }
+    .toggle-buttons{
+      button{
+        @include hoverer1();
+        font-size: 15px;
+        margin-right: 15px;
+        border: 2px solid black;
+        color: black;
+        padding: 3px 5px;
+        transition: all 0.2s;
+        background-color: white;
+        &.focus{
+          background-color: black;
+          color:white;
+        }
+      }
+    }
+    .description-note{
+      margin: 0px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      font-size: 14px;
+
+    }
+    input{
+      max-width: 70px;
+    }
+  }
+}
+
+#districts-list1{
+  overflow-x: scroll;
+  ul{
+    @include row();  
+    width: max-content;
+    li{
+      margin-right: 20px;
+      width: max-content;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: 2px solid black;
+      box-shadow: 1px 1px 5px darkgray;
+      &.selected{
+        border: 5px solid black;
+        box-shadow: 2px 2px 5px rgb(0, 0, 0);
+      }
+      .district-name{
+        font-weight: bold;
+        font-size: 24px;
+        .color-box{
+          margin-left: 10px;
+        }
+        margin-bottom: 5px;
+      }
+      .view-alone{
+        background-color: lightgrey;
+        margin: 10px 0px;
+        border-radius: 5px;
+        border: none;
+        padding: 3px 10px;
+        box-shadow: 0px 0px 10px darkgrey;
+        @include hoverer1()
+      }
+      .unselect{
+        margin: 10px 0px;
+        border: 2px solid black;
+        box-shadow: 2px 2px 5px black;
+        border-radius: 5px;
+        padding: 5px 10px;
+        @include hoverer1();
+      }
+      .buttons{
+        margin: 5px 0px;
+        button{
+          @include sbstyle();
+        }
+      }
     }
   }
 }
@@ -931,7 +1337,7 @@ h3.mymaps {
   }
   .recalc-button-container {
     @include center();
-    .recalc-button {
+    .calc-button {
       padding: 8px 15px;
       font-size: 18px;
       border-radius: 10px;
@@ -939,105 +1345,122 @@ h3.mymaps {
       @include buttonStyle();
       box-shadow: none;
       margin: 5vh 0px;
+      &.re{
+        background-color: #c22929;
+        box-shadow: 0px 0px 10px black;
+        color: white;
+
+      }
     }
   }
+}
 
-  #analysis-main {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    #param-analysis {
-      .first-row {
-        margin: 20px 0px;
-        select {
-          padding: 5px;
-          border-radius: 5px;
-          border: 2px solid grey;
-          box-shadow: 2px 2px 5px lightgrey;
-        }
+#analysis-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  #param-analysis {
+    .first-row {
+      margin: 20px 0px;
+      select {
+        padding: 5px;
+        border-radius: 5px;
+        border: 2px solid grey;
+        box-shadow: 2px 2px 5px lightgrey;
       }
-      #param-info {
-        h3 {
-          font-size: 30px;
-          font-weight: bold;
-          margin: 30px 0px;
-          text-shadow: 1px 1px 3px grey;
-        }
-        hr {
-          width: 90%;
-          margin-right: auto;
-        }
-        .percent-bar {
-          margin: 10px 0px;
-        }
-        .values-list {
-          margin: 30px 0px;
-          font-size: 18px;
-          li {
-            @include row();
-            margin: 20px 0px;
-            label {
-              font-weight: bold;
-            }
-            p {
-              color: grey;
-              margin: 0px;
-              margin-left: 20px;
-            }
+    }
+    #param-info {
+      h3 {
+        font-size: 30px;
+        font-weight: bold;
+        margin: 30px 0px;
+        text-shadow: 1px 1px 3px grey;
+      }
+      hr {
+        width: 90%;
+        margin-right: auto;
+      }
+      .percent-bar {
+        margin: 10px 0px;
+      }
+      .values-list {
+        margin: 30px 0px;
+        font-size: 18px;
+        li {
+          @include row();
+          margin: 20px 0px;
+          label {
+            font-weight: bold;
           }
-          .allData {
-            @include buttonStyle();
-            padding: 5px 15px;
-            border-radius: 10px;
-            color: white;
-            font-weight: 100;
-            background-color: #004c93;
+          p {
+            color: grey;
+            margin: 0px;
+            margin-left: 20px;
           }
+        }
+        .allData {
+          @include buttonStyle();
+          padding: 5px 15px;
+          border-radius: 10px;
+          color: white;
+          font-weight: 100;
+          background-color: #004c93;
         }
       }
     }
-    #district-analysis {
-      padding: 30px 20px;
-      ul#districts-list {
-        li.single-district {
-          .district-name {
+  }
+  #district-analysis {
+    padding: 30px 20px;
+    ul#districts-list {
+      li.single-district {
+        .district-name {
+          @include row();
+          font-size: 20px;
+          .color-box {
+            margin-right: 10px;
+          }
+        }
+        margin: 10px 0px;
+        border: 2px solid black;
+        padding: 10px 20px;
+        border-radius: 10px;
+        box-shadow: 3px 3px 5px grey;
+        .main-row {
+          @include row();
+          justify-content: space-between;
+        }
+        .table {
+          li {
             @include row();
-            font-size: 20px;
-            .color-box {
-              margin-right: 10px;
+            margin: 15px 0px;
+            div {
+              width: 30%;
+              text-align: left;
+              color: rgb(95, 95, 95);
+            }
+            .p-name {
+              color: black;
+              font-weight: bold;
             }
           }
-          margin: 10px 0px;
-          border: 2px solid black;
-          padding: 10px 20px;
-          border-radius: 10px;
-          box-shadow: 3px 3px 5px grey;
-          .main-row {
-            @include row();
-            justify-content: space-between;
-          }
-          .table {
-            li {
-              @include row();
-              margin: 15px 0px;
-              div {
-                width: 30%;
-                text-align: left;
-                color: rgb(95, 95, 95);
-              }
-              .p-name {
-                color: black;
-                font-weight: bold;
-              }
-            }
-            .top-row {
-              font-weight: bolder;
-            }
+          .top-row {
+            font-weight: bolder;
           }
         }
       }
     }
   }
 }
+
+@media (max-width: $breakpoint-large){
+  #analysis-main {
+    grid-template-columns: 1fr;
+    #district-analysis{
+      padding: 30px 0px;
+    }
+  }
+}
+
+
 
 .percent-bar {
   border: 3px solid black;
@@ -1053,6 +1476,9 @@ h3.mymaps {
     top: 50%;
     left: 50%;
     font-weight: bold;
+    word-break: keep-all;
+    width: 100%;
+    text-align: center;
     text-shadow: 1px 1px 2px grey;
     transform: translate(-50%, -50%);
   }
@@ -1072,6 +1498,222 @@ h3.mymaps {
 
 .barchart-container{
   overflow-x: scroll;
+}
+
+#algorithm-container{
+  background-color: lightgray;
+  width: 400px;
+  z-index: 10;
+  position: absolute;
+  box-shadow: 2px 2px 10px rgb(0, 0, 0);
+
+  hr{
+    margin: 0px;
+  }
+
+  #algorithm-header{
+    @include row();
+    justify-content:  space-between;
+    color: white;
+    background-color: black;
+    padding: 10px 15px;
+    h4{
+      margin: 0px;
+      font-size: 18px;
+      @include row();
+      .icon{
+        height: 18px;
+        margin-right: 5px;
+        color:white;
+      }
+      .link{
+        font-size: 12px;
+        margin-left: 15px;
+        color: lightgrey;
+        @include hoverer1();
+      }
+    }
+    .terminate-button{
+      background-color: black;
+      padding: 5px;
+      border: none;
+      color: red;
+      font-size: 12px;
+      @include hoverer1();
+      @include center();
+      .sir{
+        height: 14px;
+      }
+    }
+  }
+  section{
+    padding: 15px 30px;
+    &.clickable{
+      @include hoverer1();
+    }
+    .round-header{
+      @include row();
+      justify-content: space-between;
+      h5{
+        margin: 0px;
+        font-size: 20px;
+      }
+      .roundStateIcon{
+        height: 20px;
+        &.green{color: green;}
+        &.black{color: black;}
+        &.grey{color: grey;}
+      }
+    }
+    .round-subheader{
+      font-size: 14px;
+      span{
+        margin-right: 20px
+      }
+    }
+    .round-footer{
+      margin-top: 20px;
+      @include row();
+      justify-content: space-between;
+      .main-value{
+        background-color: black;
+        padding: 5px;
+        border-radius: 5px;
+        color: white;
+        font-weight: bold
+      }
+    }
+  }
+
+  .linegraph{
+    width: 100%;
+    height: 250px;
+    margin: 20px 0px;
+  }
+}
+
+@media (max-width: $breakpoint-mobile){
+  #algorithm-container{
+    max-width: 90vw;
+    .linegraph{
+      max-width: 80vw;
+    }
+  }
+}
+
+#datastore{
+  ul{
+    margin-bottom: 20vh;
+    li{
+      margin: 30px;
+      .map-name{
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .map-districts{
+        font-size: 16px;
+        font-weight: bold;
+        margin: 0px;
+      }
+      .map-info{
+        font-size: 14px;
+        margin: 10px 0px;
+      }
+      .filelink{
+        font-weight: bold;
+        @include hoverer1();
+        color: rgb(0, 156, 0);
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+
+.page-header{
+  padding: 5vh 20px;
+  background-color: lightgrey;
+  box-shadow: 3px 3px 5px rgb(119, 119, 119);
+  margin: 30px 0px;
+  h2{
+    font-size: 30px;
+    font-weight: bold;
+    margin: 0px;
+  }
+  p{
+    font-size: 16px;
+    margin: 0px
+  }
+}
+
+#people-list{
+  margin: 10vh 0px 20vh 0px;
+  li{
+    @include row();
+    .person-image{
+      width: 120px;
+      height: 120px;
+      border-radius: 10%;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0px 0px 5px grey;
+    }
+    .p-info{
+      margin-left: 40px;
+      .p-name{
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .p-position{
+        font-weight: bold;
+        margin: 0px;
+        font-size: 18px;
+        color: rgb(104, 104, 104);
+      }
+      .p-description{
+        font-size: 15px;
+      }
+      .p-email{
+        a{
+          font-weight: bold;
+          text-decoration: underline;
+          color: green;
+        }
+      }
+    }
+
+  }
+}
+
+#about{
+  #about-paragraph{
+    margin: 30px 0px;
+    font-size: 18px;
+    line-height: 1.5;
+    max-width: 800px;
+  }
+  .links{
+    a{
+      @include hoverer1();
+      width: 250px;
+      display: block;
+      background-color: black;
+      color: white;
+      padding: 10px 20px;
+      font-size: 20px;
+      box-shadow: 2px 2px 5px grey;
+      margin-bottom: 20px;
+    }
+    margin-bottom: 30vh;
+  }
+}
+
+#privacy-and-disclaimer{
+  ol, ul {
+    list-style: square;
+    padding-left: 30px;
+  }
+  margin-bottom: 30vh;
 }
 
 footer {

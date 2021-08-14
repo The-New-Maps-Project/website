@@ -122,10 +122,17 @@ export default function Analysis() {
   }
 
   const renderCharts = () => {
-    console.log(chartValue);
-    console.log(res["params"]);
+    // console.log(chartValue);
+    // console.log(res["params"]);
     let allData: number[] = res["params"][selectedParam][chartValue];
-    let totalPop = allData[0]; //must remove first element because it is the whole population
+    if(selectedParam!=0&&chartValue=="pAllData"){
+      let count =-1;
+       allData = allData.map(a=> {
+         count++;
+         //console.log("Percent: "+writeNum(a/res["params"][0][chartValue][count],4));
+         return Number(writeNum(a/res["params"][0][chartValue][count],4));
+        })
+    }
     let dataObjs: dataObj[] = [];
     for (let i = 1; i < allData.length; i++) {
       dataObjs.push({
@@ -147,12 +154,13 @@ export default function Analysis() {
         },
       ],
     };
+    if(dataObjs.length==0) return <p>No Data Available</p>
 
     //Calculate histogram data;
     const buckets = 7;
     let lowest = dataObjs[0].value;
-    let highest = dataObjs[dataObjs.length-1].value+1;//add one because you want the last object to fall into a bucket (a bucket being strictly less than the upper value)
-    let increment = Math.ceil((highest-lowest)/buckets);
+    let highest = dataObjs[dataObjs.length-1].value;//add one because you want the last object to fall into a bucket (a bucket being strictly less than the upper value)
+    let increment = (highest-lowest)/buckets;
     let histogramDataObjs:dataObj[] = [...dataObjs];
     let histogramNums:number[] = [];
     let histogramLabels:string[] = [];
@@ -164,8 +172,9 @@ export default function Analysis() {
             histogramDataObjs.shift();
         }
         histogramNums.push(count);
-        histogramLabels.push(`${hi-increment}-${hi}`);
+        histogramLabels.push(`${(hi-increment).toFixed(4)}-${hi.toFixed(4)}`);
     }
+    histogramNums[histogramNums.length-1]++; //add one to the last bucket for the highest amount;
     const histogramData = {
         labels: histogramLabels,
       datasets: [
@@ -231,12 +240,14 @@ export default function Analysis() {
     <div id="analysis-container">
       <hr></hr>
       <div className="recalc-button-container">
-        {needRecalculate && (
-          <button className="recalc-button" onClick={reCalculate}>
-            Calculate Stats
+        {needRecalculate && <div className="row">
+          {res!=null&&<div className="mr15">Data has changed</div>}
+          <button className={`calc-button${res==null?"":" re"}`} onClick={reCalculate}>
+            {res==null?"":"Re-"}Calculate Stats
           </button>
-        )}
+        </div>}
       </div>
+      {res&&<p style={{margin: "10px 0px", fontSize: "12px"}}>**Average Squared Distance to Population Center is abbreviated as "ASDPC"</p>}
       {res && (
         <div id="analysis-main">
           <section id="param-analysis">
@@ -255,7 +266,7 @@ export default function Analysis() {
                   ? "Population"
                   : parameters[selectedParam - 1]}
               </h3>
-              {selectedParam > 0 && (
+              {selectedParam > 0&&res["params"][selectedParam] && (
                 <div>
                   <PercentBar
                     text="Majority Districts"
@@ -273,12 +284,17 @@ export default function Analysis() {
                       100
                     }
                   ></PercentBar>
+                  {"Majority Districts: "+res["params"][selectedParam]["majorityDistricts"] + " out of " + districts.length}
                 </div>
               )}
               <ul className="values-list">
                 {paramPopInfo.map((a) => {
-                  console.log(a[1]);
-                  var b = res["params"][selectedParam][a[1]];
+                  var b;
+                  if(!res["params"][selectedParam]){
+                    b = 0;
+                  }else{
+                    b = res["params"][selectedParam][a[1]];
+                  }
                   console.log(b);
                   if (a[1] == "pOutliers") b = b.length;
 
@@ -302,9 +318,12 @@ export default function Analysis() {
 
               <ul className="values-list">
                 {paramCompInfo.map((a) => {
-                  console.log(a[1]);
-                  var b = res["params"][selectedParam][a[1]];
-                  console.log(b);
+                  var b;
+                  if(!res["params"][selectedParam]){
+                    b = 0;
+                  }else{
+                    b = res["params"][selectedParam][a[1]];
+                  }
                   if (a[1] == "cOutliers") b = b.length;
 
                   return (

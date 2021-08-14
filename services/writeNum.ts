@@ -1,4 +1,5 @@
 export default function writeNum(num:number,decimalPoints?:number):string{
+    if(!num) return "0";
     var dpIndex:number = 0;
     var nStr:string = String(num);
     if(Math.round(num)==num) dpIndex = nStr.length;

@@ -27,8 +27,14 @@ export default function DocsRoot() {
   //In order ("num" property  not actually used, just so you know what index it is")
   const docOptions: DocOption[] = [
     { url: "/", name: "Overview", isPrimary: true, num: 0 },
-    { url: "/account", name: "Account", isPrimary: false, num: 1 },
-    { url: "/maps", name: "Maps", isPrimary: false, num: 2 },
+    { url: "/sitelayout", name: "Site Layout", isPrimary: false, num: 1 },
+    { url: "/maps", name: "Map Content & Files", isPrimary: false, num: 2 },
+    { url: "/editing", name: "Editing Suite", isPrimary: true, num: 3 },
+    { url: "/browseralgorithm", name: "Browser Algorithm", isPrimary: false, num: 4 },
+    { url: "/packandcrack", name: "Browser Pack & Crack", isPrimary: false, num: 5 },
+    { url: "/datastore", name: "Premade Options", isPrimary: true, num: 6 },
+    { url: "/algorithm", name: "Algorithm", isPrimary: true, num: 7 },
+    // { url: "/settingsparameters", name: "Settings & Parameters", isPrimary: false, num: 8 },
   ];
 
   let n = 0;
@@ -45,7 +51,7 @@ export default function DocsRoot() {
   }catch(e){
     text = "### Error!"
   }
-  //Set button options
+  //Set button option
   var optionsArr = [];
   for (var i = 0; i < docOptions.length; i++) {
     var classList = docOptions[i].isPrimary

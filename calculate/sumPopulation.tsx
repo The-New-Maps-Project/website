@@ -7,6 +7,7 @@ export function sumPopulation(data:object,params:string[]): number[]{
             let arr = data[precinct];
             let pop = arr[1];
             if(i>0) pop *= arr[3+i];
+            if(Number.isNaN(pop)) pop = 0;
             n += pop;
         })
         res.push(Math.round(n));

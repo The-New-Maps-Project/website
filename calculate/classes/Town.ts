@@ -5,6 +5,8 @@ export default class Town{
   population: number;
   location: Location;
   district: number;
+  secondDistrict: number; //a second district who's border is closest
+  id:number;
 
     constructor(name:string,population:number,lat:number,lng:number){
         this.name = name;
@@ -15,6 +17,10 @@ export default class Town{
 
     setDistrict(district: number):void {
       this.district = district;
+    }
+
+    distTo(that:Town):number{
+      return this.location.distTo(that.location);
     }
 
     toString(): string{

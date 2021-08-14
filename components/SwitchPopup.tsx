@@ -10,11 +10,11 @@ export default function SwitchPopup(props){
 
     const renderDistricts = () =>{
         var arr = [];
-        for(let i = 0;i<districts.length;i++){
+        for(let i = 0;i<=districts.length;i++){
             arr.push(<li key={i}>
-                <button className="select-district tb" onClick={()=>selectDistrict(i+1)}>
-                    <span className="color-circle" style={{backgroundColor: `var(--${districts[i]}-icon)`}}></span>
-                    District {i+1}
+                <button className="select-district tb" onClick={()=>selectDistrict(i)}>
+                    <span className="color-circle" style={{backgroundColor: i==0?"var(--grey-icon)":`var(--${districts[i-1]}-icon)`}}></span>
+                    {i==0?"Unassign":`District ${i}`}
                 </button>
             </li>)
         }
@@ -25,6 +25,7 @@ export default function SwitchPopup(props){
         if(!props.selectDistrict||typeof props.selectDistrict!="function") return;
         console.log("is a function");
         props.selectDistrict(districtNo);
+        props.xFunction();
     }
 
     return <Popup>
@@ -34,7 +35,7 @@ export default function SwitchPopup(props){
                 <span className="color-circle" style={{backgroundColor: `var(--${districts[props.currentDistrict-1]}-icon)`}}></span>
                 <span className="current-district">District {props.currentDistrict}</span>
             </p>:""}
-            <h5>{props.currentDistrict==0?"Assign":"Switch"} District</h5>
+            <h5>{props.currentDistrict==0||!props.currentDistrict?"Assign":"Switch"} District</h5>
             <ul id="switch-list">
                {renderDistricts()} 
             </ul>

@@ -1,0 +1,28 @@
+#dev{
+    .zcs{
+        display: block;
+        padding: 10px;
+        border: 2px solid black;
+        border-radius: 5px;
+        margin: 20px 0px;
+        background-color: rgb(231, 231, 231);
+        width: 400px;
+        &:focus{
+            outline: none;
+            background-color: white;
+        }
+    
+    }
+    ul{
+        margin: 50px 0px;
+        max-height: 700px;
+        overflow-y: scroll;
+    }
+
+    a.ready{
+        background-color: green;
+        color: white;
+        padding: 5px;
+    }
+}
+

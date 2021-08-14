@@ -2,11 +2,12 @@ import { faCaretDown, faCaretUp, faEdit, faSearch, faTimes } from "@fortawesome/
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react"
 import PContext from "../services/context"
+import Algorithm from "./Algorithm";
 import Popup from "./Popup";
 import SwitchPopup from "./SwitchPopup";
 
 export default function ListView(){
-    const {districts,data,parameters,setData,setMapZoom} = useContext(PContext);
+    const {districts,data,parameters,setData,setMapZoom,algoState} = useContext(PContext);
     const [switchPopup,setSwitchPopup] = useState(false);
     const [precinctToSwitch,setPrecinctToSwitch] = useState("");
     const [showParams,setShowParams] = useState({}); //[name]: boolean
@@ -136,6 +137,8 @@ export default function ListView(){
     }
 
     return <div id="list-view">
+        {algoState>0&&<Algorithm></Algorithm>}
+
         {isEditing&&<div >
             <div className="edit-row">
                 <div className="num-selected" >{selectedNum} Selected</div>
@@ -205,18 +208,20 @@ export default function ListView(){
                                 })
                             }}>{precinct}</button>
                             <div className="district">
-                                {data[precinct]&&data[precinct][0]==0
-                                ?"Unassigned":
+                                
                                 <button className="show-district" onClick={()=>{
                                     setPrecinctToSwitch(precinct)
                                     setSwitchPopup(true)
                                 }}>
-                                    <span 
-                                    className="color-box" 
-                                    style={{backgroundColor: `var(--${districts[data[precinct][0]-1]}-icon)`}}
-                                    ></span>
-                                    District {data[precinct][0]} 
-                                </button>}
+                                    {data[precinct]&&data[precinct][0]==0
+                                ?"Unassigned":<div className="row"><span 
+                                className="color-box" 
+                                style={{backgroundColor: `var(--${districts[data[precinct][0]-1]}-icon)`}}
+                                ></span>
+                                District {data[precinct][0]} 
+                                </div>}
+                                    
+                                </button>
                             </div>
                             <button className="tb info-button" onClick={()=>{
                                 var newObj = {...showParams};
@@ -239,6 +244,7 @@ export default function ListView(){
                         </div>}
                 </li>
             })}
+            {precinctList.length==0&&<div className="center"><p>No Data Yet</p></div>}
         </ul>
 
 

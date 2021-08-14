@@ -1,12 +1,13 @@
 import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useContext, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import readFileText from "../services/readFileText";
 import Popup from "./Popup";
 import Loading from "./Loading";
 import PContext from "../services/context";
 
 export default function SaveImport(){
-    const {setData,data,parameters} = useContext(PContext);
+    const {setData,data,parameters,colors,setParameters,setDistricts} = useContext(PContext);
     const [showPopup,setShowPopup] = useState<boolean>(false);
     const [isImporting,setIsImporting] = useState<boolean>(false);
     //const [fileReader,setFileReader] = useState<FileReader>(null);
@@ -26,16 +27,7 @@ export default function SaveImport(){
         //Declare functions inside this function, so fr exists
 
         const readFile = () =>{
-            var obj = {};
-            var lines:string[] = String(fr.result).split("\n");
-            lines.forEach(line=>{
-                line.replace("\r","");
-                let elements: any[] = line.split(",");
-                let precinctName = elements[0];
-                elements[0] = 0;
-                obj[precinctName] = [...elements].map(a=>Number(a));
-
-            })
+            var obj:object = readFileText(String(fr.result.toString()),colors,setDistricts,setParameters);
             setData({...data,...obj});
             setIsImporting(false);
             setShowPopup(false);
@@ -62,15 +54,20 @@ export default function SaveImport(){
             <div id="import-popup">
                 <button className="x-button" onClick={()=>setShowPopup(false)}><FontAwesomeIcon icon={faTimes}></FontAwesomeIcon></button>
                 <h5>Import A File</h5>
-                <p className="file-format"><span>FILE FORMAT</span> Plain text file (.txt), each line with comma separated values (CSV). 
-                The order is: precinct name, then population, then latitude, then longitude, followed by all parameter values IN ORDER.</p>
-                <div className="line-example"><span>EXAMPLE</span>Springfield,3451,40.1243,-78.5478,0.54,0.23,0.67 (last three are parameter values)</div>
+                <p className="file-format"><strong>FILE FORMAT</strong> Plain text file (.txt), each line with comma separated values (CSV). For the first line, the order is: amount of districts, followed by all parameters listed in order.
+                For subsequent lines, list data for each precinct, one precinct per line. The order is: precinct name, then assigned district, then latitude, then longitude, then population, followed by all parameter values IN ORDER.</p>
+                <div className="line-example">
+                    <strong>EXAMPLE</strong>
+                    <section>
+                        <p>8,Percent Democrat,Percent Republican,Percent Minority</p>
+                        <p>Springfield,3451,40.1243,-78.5478,0.46,0.45,0.27</p>
+                        <p>...</p>
+                    </section>
+                    </div>
                 <div className="example-files">
-                    <p>This is the same file format as the NMP Algorithm input. Find example files on the New Maps Project Website. Please note that 
-                        these are just sample files and do NOT have up to date data. These files also don't have any parameter values. It is 
-                        recommended that you import your own data.
+                    <p>This is the same file format as the exported files. Find example files in The New Maps Project's Datastore. Please note that these files are purely for demonstrative purposes that the accuracy of the information cannot be guaranteed.
                     </p>
-                    <div><a target="_blank" className="sample-files-link" href="https://thenewmapsproject.org/datastore">Sample Files</a> Look under "Sample Input Files" for the algorithm.</div>
+                    <div><a target="_blank" className="sample-files-link" href="/datastore">Datastore - Sample Files</a></div>
                 </div>
                 {parameters.length>1&&<div className="order-box">
                     <p>Param Order:</p>

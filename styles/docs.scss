@@ -2,6 +2,8 @@
     .docs-header-container{
         background-color: lightgray;
         padding: 5vh 5vw;
+        margin-top: 30px;
+        box-shadow: 3px 3px 5px rgb(119, 119, 119);
     }
     #docs-container{
         display: grid;
@@ -15,12 +17,17 @@
                 background-color: lightgrey;
                 min-width: 200px;
                 height: auto;
+                box-shadow: 3px 3px 5px rgb(99, 99, 99);
                 li{
                     margin: 10px 0px;
                     .tb{
                         font-size: 18px;
                         &.focused{
                             font-weight: bold;
+                        }
+                        &.docs-option-secondary{
+                            font-size: 16px;
+                            padding-left: 10px;
                         }
                     }
                 }
