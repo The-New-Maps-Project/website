@@ -47,6 +47,15 @@ export default class Network{
            this.grid[this.toGridSpace(t)] = t.id;
         })
 
+        //NEW Step 5: assign each town a closestTownDist to insure state boundaries
+        this.towns.forEach(t=>{
+            this.towns.forEach(otherTown=>{
+                if(otherTown.id!=t.id&&t.distTo(otherTown)<t.closestTownDist&&t.distTo(otherTown)>0){
+                    t.setClosestTownDist(otherTown);
+                }
+            })
+        })
+
         //Step 5: fill in areas not within state boundaries with "-2".
 
 
@@ -93,54 +102,87 @@ export default class Network{
 
 
         //Step 6: floodfill empty spaces
-        var countEmpty:number = 0;
+        var countChanged = 0; //counts how many gridspaces changed their adjacent districts
+        var count = 0;
         do{
-            countEmpty = 0;
+            countChanged = 0;
             for(let i = 0;i<this.grid.length;i++){
-                if(this.grid[i]==-2) continue;
-                else if(this.grid[i]==-1) countEmpty++;
-                else this.floodFill(i);
+                if(this.grid[i]<=-1) continue;
+                else {
+                    let isChanged:boolean = this.floodFill(i);
+                    if(isChanged) {
+                        countChanged++;
+                    }
+                    if(count==99&&isChanged){
+                        console.log(this.grid[i],i);
+                    }
+                }
             }
-        }while(countEmpty > 0);
+            console.log(countChanged);
+            count++;
+        }while(countChanged > 0&&count<4);
 
 
         //Testing
-        // var index:number = 179;
-        // console.log(this.towns[index].name);
-        // console.log("Connected to:");
-        // console.log(this.graph.length);
-        // console.log(this.getAdjacents(index).length);
-        // this.getAdjacents(index).forEach(i=>{
-        //     console.log(this.towns[i]);
-        // })
+        var index:number = 152;
+        this.printGrid();
+        console.log(count);
+        console.log(this.towns[index].name);
+        console.log(this.towns[index].closestTownDist);
+        console.log("Connected to:");
+        console.log(this.graph.length);
+        console.log(this.getAdjacents(index).length);
+        this.getAdjacents(index).forEach(i=>{
+            console.log(this.towns[i]);
+        })
     }
 
     getAdjacents(townId:number):number[]{
         var res:number[] = [];
         if(townId<0||townId>=this.graph.length) return res;
         res = this.graph[townId];
-        if(res.length==0) return res = this.graph[this.grid[this.toGridSpace(this.towns[townId])]];
+        if(res.length==0){
+            res = this.graph[this.grid[this.toGridSpace(this.towns[townId])]];
+            console.log(res);
+            return res;
+        }
         return res;
     }
 
-    floodFill(hashedIndex:number):void{
+    //returns boolean, whether it changed any gridspaces
+    floodFill(hashedIndex:number):boolean{
         var townId:number = this.grid[hashedIndex];
+        if(townId<0) return false; //cannot change anything if empty
         var thisTown:Town = this.towns[townId];
         var adjGridspaces:number[] = this.adjacentSpaces(hashedIndex);
+        var isChanged:boolean = false; //set to true by either filling a -1 or -3, or swapping a gridspace because it is closer.
         adjGridspaces.forEach((i) =>{
+            //For each adjacent gridspace
             var gridspaceCenter:Location = this.gridspaceCenter(i);
-            if(gridspaceCenter.distTo(thisTown.location)>thisTown.)
 
-            if(this.grid[i]==-1) this.grid[i] = townId;//fill if not filled
-            else if(this.grid[i]==townId||this.grid[i]==-2) return; //same precinct, or out of bounds, return just this function, will loop to the next one.
+            //First, check if too far away
+            if(gridspaceCenter.distTo(thisTown.location)>thisTown.closestTownDist&&this.grid[i]<0){
+                if(this.grid[i]!=-3){
+                    console.log(`${this.grid[i]} Changed unreachable`)
+                    this.grid[i] = -3; //not filled, but also not needed to be checked
+                    isChanged = true;
+                }   
+            }else if(this.grid[i]==-1||this.grid[i]==-3) {//fill if not filled, -1 is not checked
+                this.grid[i] = townId;
+                isChanged = true;
+                console.log(townId+" Changed empty")
+                return;
+            }else if(this.grid[i]==townId||this.grid[i]==-2) return; //same precinct, or out of bounds, return just this function, will loop to the next one.
             else{
                 //filled by another precint
                 //First check which one is closer
                 var otherTownId:number = this.grid[i];
-                var thisDist:number = gridspaceCenter.distTo(this.towns[townId].location);
+                var thisDist:number = gridspaceCenter.distTo(thisTown.location);
                 var thatDist:number = gridspaceCenter.distTo(this.towns[otherTownId].location);
                 if(thisDist<thatDist){//switch to current precinct if it is closer
                     this.grid[i] = this.grid[hashedIndex];
+                    isChanged = true;
+                    console.log("Changed switch")
                 }
 
                 //connect the two precincts if not already
@@ -149,6 +191,9 @@ export default class Network{
                 }
             }
         })
+        console.log(isChanged);
+        console.log("----");
+        return isChanged;
     }
 
     connect(a:number,b:number):void{

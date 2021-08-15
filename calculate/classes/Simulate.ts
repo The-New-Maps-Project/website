@@ -61,7 +61,7 @@ export default class Simulate{
         });
         this.av = this.totalStatePop /this.districts;
         this.shuffledTowns = [...this.towns];
-        this.shuffle(this.towns);
+        this.shuffle(this.shuffledTowns);
 
         //Step 3: create the network
         this.network = new Network(this.towns,this.gridGranularity);
