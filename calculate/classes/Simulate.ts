@@ -258,12 +258,13 @@ export default class Simulate{
             
             //Step 3: recalculate rsd
             var thisRSD:number = Number((this.stddev() / this.av).toFixed(5));
-            var prevRound2Data:number[] = [...this.round2Data];
             this.round2Data = [...this.round2Data,thisRSD];
             this.setRound2Data(this.round2Data);
 
             //Step 4: determine whether to end or keep recursing
-            if(thisRSD > prevRSD||this.round2Data.length>this.maxIterations2){
+            let indexOfValue:number = this.round2Data.indexOf(thisRSD);
+            //if is already in array and is not just the last or second last value
+            if(indexOfValue<this.round2Data.length-2||this.round2Data.length>this.maxIterations2){
                 //end round 2
                 this.setAlgoState(4);
                 this.setAlgoFocus(3);
