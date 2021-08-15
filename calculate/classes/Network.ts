@@ -51,45 +51,45 @@ export default class Network{
 
 
         //Going up rows
-        var leftMax:number = this.cols - 1;
-        var rightMin:number = 0;
-        for(let r:number = 0 ; r<this.rows;r++){
-            //start from left
-            var c:number = 0;
-            while(this.grid[this.hash(r,c)]<0&&c<leftMax){
-                this.grid[this.hash(r,c)] = -2;
-                c++;
-            }
-            leftMax = c;
+        // var leftMax:number = this.cols - 1;
+        // var rightMin:number = 0;
+        // for(let r:number = 0 ; r<this.rows;r++){
+        //     //start from left
+        //     var c:number = 0;
+        //     while(this.grid[this.hash(r,c)]<0&&c<leftMax){
+        //         this.grid[this.hash(r,c)] = -2;
+        //         c++;
+        //     }
+        //     leftMax = c;
 
-            //start from right
-            c = this.cols -1;
-            while(this.grid[this.hash(r,c)]<0&&c>rightMin){
-                this.grid[this.hash(r,c)] = -2;
-                c--;
-            }
-            rightMin = c;
-        }
+        //     //start from right
+        //     c = this.cols -1;
+        //     while(this.grid[this.hash(r,c)]<0&&c>rightMin){
+        //         this.grid[this.hash(r,c)] = -2;
+        //         c--;
+        //     }
+        //     rightMin = c;
+        // }
 
-        leftMax = this.cols - 1;
-        rightMin = 0;
-        for(let r:number = this.rows -1; r>=0;r--){
-            //start from left
-            var c:number = 0;
-            while(this.grid[this.hash(r,c)]<0&&c<leftMax){
-                this.grid[this.hash(r,c)] = -2;
-                c++;
-            }
-            leftMax = c;
+        // leftMax = this.cols - 1;
+        // rightMin = 0;
+        // for(let r:number = this.rows -1; r>=0;r--){
+        //     //start from left
+        //     var c:number = 0;
+        //     while(this.grid[this.hash(r,c)]<0&&c<leftMax){
+        //         this.grid[this.hash(r,c)] = -2;
+        //         c++;
+        //     }
+        //     leftMax = c;
 
-            //start from right
-            c = this.cols -1;
-            while(this.grid[this.hash(r,c)]<0&&c>rightMin){
-                this.grid[this.hash(r,c)] = -2;
-                c--;
-            } 
-            rightMin = c;
-        }
+        //     //start from right
+        //     c = this.cols -1;
+        //     while(this.grid[this.hash(r,c)]<0&&c>rightMin){
+        //         this.grid[this.hash(r,c)] = -2;
+        //         c--;
+        //     } 
+        //     rightMin = c;
+        // }
 
 
         //Step 6: floodfill empty spaces
