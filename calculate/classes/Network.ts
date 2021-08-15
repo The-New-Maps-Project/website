@@ -125,15 +125,18 @@ export default class Network{
 
     floodFill(hashedIndex:number):void{
         var townId:number = this.grid[hashedIndex];
+        var thisTown:Town = this.towns[townId];
         var adjGridspaces:number[] = this.adjacentSpaces(hashedIndex);
         adjGridspaces.forEach((i) =>{
+            var gridspaceCenter:Location = this.gridspaceCenter(i);
+            if(gridspaceCenter.distTo(thisTown.location)>thisTown.)
+
             if(this.grid[i]==-1) this.grid[i] = townId;//fill if not filled
             else if(this.grid[i]==townId||this.grid[i]==-2) return; //same precinct, or out of bounds, return just this function, will loop to the next one.
             else{
                 //filled by another precint
                 //First check which one is closer
                 var otherTownId:number = this.grid[i];
-                var gridspaceCenter:Location = this.gridspaceCenter(i);
                 var thisDist:number = gridspaceCenter.distTo(this.towns[townId].location);
                 var thatDist:number = gridspaceCenter.distTo(this.towns[otherTownId].location);
                 if(thisDist<thatDist){//switch to current precinct if it is closer
