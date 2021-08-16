@@ -137,7 +137,6 @@ export default class Network{
     }
 
     makeAllConnections(data:number[]):number[]{
-        const d = new Date();
         //Step 1: check every gridspace to floodfill
         var countChanged = 0; //counts how many gridspaces changed their adjacent districts
         for(let i = 0;i<this.grid.length;i++){
@@ -149,9 +148,7 @@ export default class Network{
                 }
             }
         }
-        console.log(countChanged);
-        const time = (new Date()).getTime() - d.getTime();
-        console.log("TIME: "+time+"ms");
+        
 
         return [...data,countChanged];
     }

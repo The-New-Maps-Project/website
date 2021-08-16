@@ -39,7 +39,6 @@ export default function ListView(){
         //Change district in "data"
         var newObj = {...data};
         newObj[precinctToSwitch][0] = district;
-        console.log(newObj[precinctToSwitch]);
         setData(newObj);
         setSwitchPopup(false);
     }
@@ -116,7 +115,6 @@ export default function ListView(){
         let ps:string[] = Object.keys(selected).filter(p=>Boolean(selected[p]));
         var newObj = {...data};
         ps.forEach(p=>{
-            console.log(newObj[p]);
             if(!newObj[p]) return;
             newObj[p][0] = num;
         })
@@ -200,7 +198,7 @@ export default function ListView(){
                             ></input>}
                             <button className="precinct-name tb" onClick={()=>{
                                 let precData = data[precinct];
-                                console.log(precData);
+                               
                                 setMapZoom({
                                     lat: precData[2],
                                     lng: precData[3],
