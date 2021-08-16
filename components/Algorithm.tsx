@@ -215,6 +215,7 @@ export default function Algorithm(){
                 </div>
             </div>}
         </section>
+        <hr></hr>
         <section id="roundone" className={algoFocus==1?"focused":"clickable"} onClick={()=>setAlgoFocusIfNotSet(1)}>
             <div className="round-header">
                 <h5>Round One</h5>
@@ -265,7 +266,7 @@ export default function Algorithm(){
                         <li>Export the data to a file so you can import this exact map next time</li>
                     </ol>
                     <button className="sb" onClick={terminate}>Done</button>
-                </div>:<div>The algorithm has not yet finished running</div>}
+                </div>:<div>The algorithm is still in progress</div>}
             </div>}
         </section>
     </div>

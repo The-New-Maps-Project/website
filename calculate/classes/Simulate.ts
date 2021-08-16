@@ -200,60 +200,60 @@ export default class Simulate{
     }
 
     roundOneSubiteration(townIndex: number, unchangedCount: number, prevPU: number, secondPrevPU: number): void{
-        setTimeout(()=>{
-            if(this.isTerminated) return;
+        if(this.isTerminated) return;
 
-            let t:Town = this.towns[townIndex];
+        let t:Town = this.towns[townIndex];
 
-            //Step 1: find closest district
-            let minDist:number = Number.MAX_VALUE;
-            let closestDistrictIndex:number = 0;
-            //A: get the centers of each district
-            let centers: Location[] = this.getDistrictCenters();
-            //B: loop through them to see which one is closest
-            for(let i:number = 0;i<centers.length;i++){
-                if(centers[i]==null) continue;
-                let dist:number = t.location.distTo(centers[i]) * this.districtPops[i];
-                if(dist<minDist){
-                    minDist = dist;
-                    closestDistrictIndex = i;
-                }
+        //Step 1: find closest district
+        let minDist:number = Number.MAX_VALUE;
+        let closestDistrictIndex:number = 0;
+        //A: get the centers of each district
+        let centers: Location[] = this.getDistrictCenters();
+        //B: loop through them to see which one is closest
+        for(let i:number = 0;i<centers.length;i++){
+            if(centers[i]==null) continue;
+            let dist:number = t.location.distTo(centers[i]) * this.districtPops[i];
+            if(dist<minDist){
+                minDist = dist;
+                closestDistrictIndex = i;
             }
+        }
 
-            //Step 2: assign to that district or increment unchangedCount
-            if(closestDistrictIndex + 1 == t.district){
-                unchangedCount += 1;
+        //Step 2: assign to that district or increment unchangedCount
+        var isUnchanged:boolean = closestDistrictIndex + 1 == t.district
+        if(isUnchanged){
+            unchangedCount += 1;
+        }else{
+            this.assignData(t,closestDistrictIndex + 1);
+        }
+
+        //Step 3: increment townIndex
+        townIndex++;
+
+        //Step 4: check if one whole iteration is over and see if you need to keep going
+        if(townIndex>=this.towns.length){
+            let pu:number = unchangedCount/this.towns.length;
+            var prevRound1Data = [...this.round1Data];
+            this.round1Data = [...this.round1Data,pu];
+            this.setRound1Data(this.round1Data);
+            if(prevRound1Data.includes(pu)||pu==1||this.round1Data.length > this.maxIterations1){
+                //if alternating, STOP ROUND ONE, and go onto second round
+                this.roundTwoIteration(Number.MAX_VALUE);
+                this.setAlgoFocus(2);
+                this.setAlgoState(2);
+                return;
             }else{
-                this.assignData(t,closestDistrictIndex + 1);
+                secondPrevPU = prevPU;
+                prevPU = pu;
+                townIndex = 0; //zero on next subiteration, to start a new full iteration.
+                unchangedCount = 0;
             }
+        }
 
-            //Step 3: increment townIndex
-            townIndex++;
-
-            //Step 4: check if one whole iteration is over and see if you need to keep going
-            if(townIndex>=this.towns.length){
-                let pu:number = unchangedCount/this.towns.length;
-                var prevRound1Data = [...this.round1Data];
-                this.round1Data = [...this.round1Data,pu];
-                this.setRound1Data(this.round1Data);
-                if(prevRound1Data.includes(pu)||pu==1||this.round1Data.length > this.maxIterations1){
-                    //if alternating, STOP ROUND ONE, and go onto second round
-                    this.roundTwoIteration(Number.MAX_VALUE);
-                    this.setAlgoFocus(2);
-                    this.setAlgoState(2);
-                    return;
-                }else{
-                    secondPrevPU = prevPU;
-                    prevPU = pu;
-                    townIndex = 0; //zero on next subiteration, to start a new full iteration.
-                    unchangedCount = 0;
-                }
-            }
-
+        setTimeout(()=>{
             //Step 5: recurse and redo
             this.roundOneSubiteration(townIndex, unchangedCount,prevPU,secondPrevPU);
-            
-        },this.interval1);
+        },isUnchanged?0:this.interval1); //no interval if not changed.
     }
 
     roundTwoIteration(prevRSD:number):void{
