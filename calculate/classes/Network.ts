@@ -12,7 +12,6 @@ export default class Network{
     incLng: number;
     towns: Town[];
     maxIterations: number; //for making connections
-    isTerminated: boolean = false;
     isDoneConnected: boolean = false;
 
     constructor(townsParam: Town[], granularity:number){
@@ -137,9 +136,8 @@ export default class Network{
         })
     }
 
-    makeAllConnections(maxIterations:number,count:number,interval:number,prevIterations:number[],setPrevIterations:(a:number[])=>{},callback:()=>any){
-        if(this.isTerminated) return;
-
+    makeAllConnections(data:number[]):number[]{
+        const d = new Date();
         //Step 1: check every gridspace to floodfill
         var countChanged = 0; //counts how many gridspaces changed their adjacent districts
         for(let i = 0;i<this.grid.length;i++){
@@ -152,22 +150,10 @@ export default class Network{
             }
         }
         console.log(countChanged);
-        count++;
-        console.log(count);
+        const time = (new Date()).getTime() - d.getTime();
+        console.log("TIME: "+time+"ms");
 
-        //Step 2: continue iterating or stop
-        if(countChanged==0||count > maxIterations){
-            //if done, set isDoneConnecting to true, and call the callback;
-            this.isDoneConnected = true;
-            callback();
-        }else{
-            //if not done yet, recurse
-            setTimeout(()=>{
-                prevIterations = [...prevIterations,countChanged];
-                setPrevIterations(prevIterations);
-                this.makeAllConnections(maxIterations,count,interval,prevIterations,setPrevIterations,callback)
-            },interval)
-        }
+        return [...data,countChanged];
     }
 
     getAdjacents(townId:number):number[]{

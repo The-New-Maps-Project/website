@@ -34,6 +34,7 @@ export default class Simulate{
     gridGranularity = 200;
 
     isTerminated:boolean = false;
+    timeMarker: number;
 
     constructor(data: object, numDistricts: number, setData, setConnectingData, setRound1Data, setRound2Data,setAlgoState, setAlgoFocus,settings:object){
         //Step 1: set fields
@@ -41,6 +42,7 @@ export default class Simulate{
         for(let i:number = 0;i<this.districts;i++) this.districtPops.push(0);
         this.data = data;
         this.setData = setData;
+        this.setConnectingData = setConnectingData;
         this.setRound1Data = setRound1Data;
         this.setRound2Data = setRound2Data;
         this.setAlgoState = setAlgoState;
@@ -75,13 +77,35 @@ export default class Simulate{
     }
 
     start():void{
-        this.network.makeAllConnections(this.maxConnectingIterations,0,this.intervalConnecting,this.connectingData,this.setConnectingData,this.startRounds)
+        if(this.isTerminated) return;
+        if(this.districts==0||Object.keys(this.data).length==0) return;
+
+        this.connectingRoundIteration(this.connectingData);
+        this.timeMarker = (new Date()).getTime();
+        //and set algoState and algoFocus
+        this.setAlgoFocus(0);
+        this.setAlgoState(0);
+    }
+
+    connectingRoundIteration(prevData:number[]){
+        var thisData = this.network.makeAllConnections(prevData)
+        this.setConnectingData(thisData);
+        if(thisData.length>this.maxConnectingIterations||thisData[thisData.length-1]==0){
+            var avTime:number = ((new Date()).getTime() - this.timeMarker)/thisData.length;
+            console.log("Av time: "+avTime + ", interval: "+this.intervalConnecting);
+            this.startRounds();
+        }else{
+            setTimeout(()=>{
+                this.connectingRoundIteration(thisData);
+            },this.intervalConnecting)
+        }
     }
 
     //AFTER precinct connections have been made in Network
     startRounds(): void{
         if(this.isTerminated) return;
         if(this.districts==0||Object.keys(this.data).length==0) return;
+        this.timeMarker = (new Date()).getTime();
         if(this.useSubiterations) {
             this.randomAssignmentIteration(0);
         }else{ 
@@ -233,6 +257,11 @@ export default class Simulate{
     }
 
     roundTwoIteration(prevRSD:number):void{
+        if(this.round2Data.length==0){
+            var avTime:number = ((new Date()).getTime() - this.timeMarker)/this.round1Data.length;
+            console.log("ROUND ONE: Av time: "+avTime + ", interval: "+this.interval1);
+            this.timeMarker = (new Date()).getTime();
+        }
         setTimeout(()=>{
             if(this.isTerminated) return;
 
@@ -277,6 +306,8 @@ export default class Simulate{
             let indexOfValue:number = this.round2Data.indexOf(thisRSD);
             //if is already in array and is not just the last or second last value
             if(indexOfValue<this.round2Data.length-2||this.round2Data.length>this.maxIterations2){
+                var avTime:number = ((new Date()).getTime() - this.timeMarker)/this.round2Data.length;
+                console.log("ROUND TWO: Av time: "+avTime + ", interval: "+this.interval2);
                 //end round 2
                 this.setAlgoState(4);
                 this.setAlgoFocus(3);

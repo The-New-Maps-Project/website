@@ -58,6 +58,13 @@ export default function RunAlgorithm(){
                             <p className="numberInputArea">
                                 <input
                                     type="number"
+                                    value={algoSettings["intervalConnecting"]}
+                                    onChange={e=>setSingleAlgoSetting("intervalConnecting",Number(e.target.value))}
+                                ></input>ms between Precinct Connecting Round iterations
+                            </p>
+                            <p className="numberInputArea">
+                                <input
+                                    type="number"
                                     value={algoSettings["interval1"]}
                                     onChange={e=>setSingleAlgoSetting("interval1",Number(e.target.value))}
                                 ></input>ms between Round One {algoSettings["useSubiterations"]?"subiterations":"iterations"}

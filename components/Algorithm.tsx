@@ -8,6 +8,7 @@ import PContext from "../services/context"
 
 export default function Algorithm(){
     const {algoState,algoFocus,round1Data,round2Data,setAlgoState,setRound1Data,setRound2Data,districtPops,algoSettings,data,districts,setData,setAlgoFocus,setConnectingData,connectingData} = useContext(PContext)
+    const [connectingRoundGraph,setConnectingRoundGraph] = useState<any>(null);
     const [round1Graph,setRound1Graph] = useState<any>(null);
     const [round2Graph,setRound2Graph] = useState<any>(null);
     const [barGraph,setBarGraph] = useState<any>(null);
@@ -37,7 +38,10 @@ export default function Algorithm(){
     },[])
 
     useEffect(()=>{
-        var data:number[] = []; 
+       setConnectingRoundGraph(renderLineGraph(connectingData,1,"Filled Gridspaces")); 
+    },[connectingData])
+
+    useEffect(()=>{ 
         setRound1Graph(renderLineGraph(round1Data,algoSettings["graphInterval1"],"% Unchanged"));
     },[round1Data])
  
@@ -197,17 +201,17 @@ export default function Algorithm(){
         </div>
         <section id="connectinground" className={algoFocus==0?"focused":"clickable"} onClick={()=>setAlgoFocusIfNotSet(0)}>
             <div className="round-header">
-                <h5>Connecting Precinct</h5>
+                <h5>Connecting Precincts</h5>
                 {renderRoundStateIcon(0)}
             </div>
             {algoFocus!==0?<div className="round-subheader">
                 <span>Iterations: {connectingData.length}</span>
-                <span>Changed: {connectingData.length==0?0:(connectingData[connectingData.length-1]*100).toFixed(2)}% </span>
+                <span>Changed: {connectingData.length==0?0:(connectingData[connectingData.length-1]).toFixed(0)}</span>
             </div>:<div className="round-body">
-                {round1Graph}
+                {connectingRoundGraph}
                 <div className="round-footer">
                     <span className="iterations">Iterations: {connectingData.length}</span>
-                    <span className="main-value">Changed: {connectingData.length==0?0:(connectingData[connectingData.length-1]*100).toFixed(2)}%</span>
+                    <span className="main-value">Changed: {connectingData.length==0?0:(connectingData[connectingData.length-1]).toFixed(0)}</span>
                 </div>
             </div>}
         </section>
