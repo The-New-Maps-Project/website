@@ -225,7 +225,7 @@ export default function Algorithm(){
                 <span>Iterations: {round1Data.length}</span>
                 <span>% Unchanged: {round1Data.length==0?0:(round1Data[round1Data.length-1]*100).toFixed(2)}% </span>
             </div>:<div className="round-body">
-                {round1Graph}
+                {round1Graph||<p>Randomly Assigning Precincts ...</p>}
                 <div className="round-footer">
                     <span className="iterations">Iterations: {round1Data.length}</span>
                     <span className="main-value">% Unchanged: {round1Data.length==0?0:(round1Data[round1Data.length-1]*100).toFixed(2)}%</span>
