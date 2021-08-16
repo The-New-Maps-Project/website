@@ -113,19 +113,17 @@ export default class Network{
                     if(isChanged) {
                         countChanged++;
                     }
-                    if(count==99&&isChanged){
-                        console.log(this.grid[i],i);
-                    }
                 }
             }
             console.log(countChanged);
             count++;
-        }while(countChanged > 0&&count<4);
+        }while(countChanged > 0);
+        console.log(count);
 
 
         //Testing
-        var index:number = 152;
-        this.printGrid();
+        var index:number = 37;
+        //this.printGrid();
         console.log(count);
         console.log(this.towns[index].name);
         console.log(this.towns[index].closestTownDist);
@@ -133,7 +131,7 @@ export default class Network{
         console.log(this.graph.length);
         console.log(this.getAdjacents(index).length);
         this.getAdjacents(index).forEach(i=>{
-            console.log(this.towns[i]);
+            console.log(this.towns[i].name);
         })
     }
 
@@ -143,7 +141,6 @@ export default class Network{
         res = this.graph[townId];
         if(res.length==0){
             res = this.graph[this.grid[this.toGridSpace(this.towns[townId])]];
-            console.log(res);
             return res;
         }
         return res;
@@ -163,14 +160,14 @@ export default class Network{
             //First, check if too far away
             if(gridspaceCenter.distTo(thisTown.location)>thisTown.closestTownDist&&this.grid[i]<0){
                 if(this.grid[i]!=-3){
-                    console.log(`${this.grid[i]} Changed unreachable`)
+                    //console.log(`${this.grid[i]} Changed unreachable`)
                     this.grid[i] = -3; //not filled, but also not needed to be checked
                     isChanged = true;
                 }   
             }else if(this.grid[i]==-1||this.grid[i]==-3) {//fill if not filled, -1 is not checked
                 this.grid[i] = townId;
                 isChanged = true;
-                console.log(townId+" Changed empty")
+                //console.log(townId+" Changed empty")
                 return;
             }else if(this.grid[i]==townId||this.grid[i]==-2) return; //same precinct, or out of bounds, return just this function, will loop to the next one.
             else{
@@ -182,7 +179,7 @@ export default class Network{
                 if(thisDist<thatDist){//switch to current precinct if it is closer
                     this.grid[i] = this.grid[hashedIndex];
                     isChanged = true;
-                    console.log("Changed switch")
+                    //console.log("Changed switch")
                 }
 
                 //connect the two precincts if not already
@@ -191,8 +188,6 @@ export default class Network{
                 }
             }
         })
-        console.log(isChanged);
-        console.log("----");
         return isChanged;
     }
 
