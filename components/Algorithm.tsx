@@ -7,7 +7,7 @@ import Simulate from "../calculate/classes/Simulate"
 import PContext from "../services/context"
 
 export default function Algorithm(){
-    const {algoState,algoFocus,round1Data,round2Data,setAlgoState,setRound1Data,setRound2Data,districtPops,algoSettings,data,districts,setData,setAlgoFocus} = useContext(PContext)
+    const {algoState,algoFocus,round1Data,round2Data,setAlgoState,setRound1Data,setRound2Data,districtPops,algoSettings,data,districts,setData,setAlgoFocus,setConnectingData,connectingData} = useContext(PContext)
     const [round1Graph,setRound1Graph] = useState<any>(null);
     const [round2Graph,setRound2Graph] = useState<any>(null);
     const [barGraph,setBarGraph] = useState<any>(null);
@@ -25,7 +25,7 @@ export default function Algorithm(){
         setRound2Data([]);
 
         //then start the simulation
-        simulate.current = new Simulate(data,districts.length,setData,setRound1Data,setRound2Data,setAlgoState,setAlgoFocus,algoSettings);
+        simulate.current = new Simulate(data,districts.length,setData,setConnectingData,setRound1Data,setRound2Data,setAlgoState,setAlgoFocus,algoSettings);
         simulate.current.start();
     },[])//IMPORTANT that it is an empty array, must only run this ONCE, and NOT on every re-render
 
@@ -195,6 +195,22 @@ export default function Algorithm(){
             <h4><FontAwesomeIcon icon={faMapMarkedAlt} className="icon"></FontAwesomeIcon>Algorithm <Link href="/documentation/algorithm"><a className="link" target="_blank">how it works</a></Link></h4>
             <button className="terminate-button" onClick={terminate}>{algoState>=3?<FontAwesomeIcon icon={faTimes} className="sir"></FontAwesomeIcon>:"Terminate"}</button>
         </div>
+        <section id="connectinground" className={algoFocus==0?"focused":"clickable"} onClick={()=>setAlgoFocusIfNotSet(0)}>
+            <div className="round-header">
+                <h5>Connecting Precinct</h5>
+                {renderRoundStateIcon(0)}
+            </div>
+            {algoFocus!==0?<div className="round-subheader">
+                <span>Iterations: {connectingData.length}</span>
+                <span>Changed: {connectingData.length==0?0:(connectingData[connectingData.length-1]*100).toFixed(2)}% </span>
+            </div>:<div className="round-body">
+                {round1Graph}
+                <div className="round-footer">
+                    <span className="iterations">Iterations: {connectingData.length}</span>
+                    <span className="main-value">Changed: {connectingData.length==0?0:(connectingData[connectingData.length-1]*100).toFixed(2)}%</span>
+                </div>
+            </div>}
+        </section>
         <section id="roundone" className={algoFocus==1?"focused":"clickable"} onClick={()=>setAlgoFocusIfNotSet(1)}>
             <div className="round-header">
                 <h5>Round One</h5>

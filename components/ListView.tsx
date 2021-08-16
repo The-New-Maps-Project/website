@@ -137,7 +137,7 @@ export default function ListView(){
     }
 
     return <div id="list-view">
-        {algoState>0&&<Algorithm></Algorithm>}
+        {algoState>-1&&<Algorithm></Algorithm>}
 
         {isEditing&&<div >
             <div className="edit-row">
