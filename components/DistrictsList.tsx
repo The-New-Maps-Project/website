@@ -18,13 +18,17 @@ export default function DistrictsList(){
                 {viewAloneDistrict==(i+1)?<button className="unselect" onClick={()=>setViewAloneDistrict(-1)}>Unselect</button>:<button className="view-alone" onClick={()=>setViewAloneDistrict(i+1)}>View Alone</button>}
                 {districtPops[i]>0&&(algoState<1||algoState>3)&&<div className="buttons row">
                     <button className="pack mr15" onClick={()=>{
-                        setSinglePcSetting('isPacking',true);
-                        setSinglePcSetting('district',i+1);
+                        let newObj = {...pcSettings};
+                        newObj["isPacking"] = true;
+                        newObj["district"] = i +1;
+                        setPcSettings(newObj);
                         setShowParamPopup(true)
                     }}>Pack</button>
                     <button className='crack' onClick={()=>{
-                        setSinglePcSetting('isPacking',false);
-                        setSinglePcSetting('district',i+1);
+                        let newObj = {...pcSettings};
+                        newObj["isPacking"] = false;
+                        newObj["district"] = i +1;
+                        setPcSettings(newObj);
                         setShowParamPopup(true)
                     }}>Crack</button>
                 </div>}
@@ -39,22 +43,26 @@ export default function DistrictsList(){
             arr.push(<li key={i}>
                 <button onClick={()=>{
                     setShowParamPopup(false);
-                    setPcSettings("parameter",i)
+                    let newObj = {...pcSettings};
+                    newObj["parameter"] = i;
+                    setPcSettings(newObj);
                     setPcState(0);//begin algorithm
-                }}></button>
+                }}>{parameters[i]}</button>
             </li>)
         }
         return arr;
     }
 
-    const setSinglePcSetting = (setting:string,value:any)=>{
+    const setSpecifiedPcSetting = (settings:string[],value:any)=>{
         let newObj = {...pcSettings};
-        newObj[setting] = value;
+        settings.forEach(setting=>{
+            newObj[setting] = value;
+        })
         setPcSettings(newObj);
     }
 
     return<div id="districts-list1">
-        <ul>
+        <ul id="dl-ul">
             {renderDistricts()}
         </ul>
 

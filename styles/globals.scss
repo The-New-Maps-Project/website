@@ -1279,7 +1279,7 @@ h3.mymaps {
 
 #districts-list1{
   overflow-x: scroll;
-  ul{
+  #dl-ul{
     @include row();  
     width: max-content;
     li{
