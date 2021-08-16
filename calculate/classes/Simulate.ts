@@ -27,7 +27,7 @@ export default class Simulate{
     interval2:number = 20;//round two
     maxIterations1 = Number.MAX_VALUE;
     maxIterations2 = Number.MAX_VALUE;
-    gridGranularity = 2000;
+    gridGranularity = 200;
 
     isTerminated:boolean = false;
 
@@ -46,7 +46,7 @@ export default class Simulate{
         this.useSubiterations = Boolean(settings["useSubiterations"]) || false;
         this.maxIterations1 = Number(settings["maxIterations1"]) || 100;
         this.maxIterations2 = Number(settings["maxIterations2"]) || 2000;
-        this.gridGranularity = Number(settings["gridGranularity"]) || 2000;
+        this.gridGranularity = Number(settings["gridGranularity"]) || 200;
 
         //Step 2: set the towns (+ totalStatePop and av)
         this.towns = Object.keys(data).map(key=>{
