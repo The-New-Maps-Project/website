@@ -40,7 +40,7 @@ export default function HomeOptions({xFunction}){
                 setAlgoSettings(getSuggestedAlgoSettings(dataObj,algoSettings))
 
                 //Step 4: Run the algorithm
-                setAlgoState(1);
+                setAlgoState(0);
             }
         }catch(e){
             console.error(e);

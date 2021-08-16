@@ -25,15 +25,18 @@ function MyApp({ Component, pageProps }) {
   const [viewAloneDistrict,setViewAloneDistrict] = useState(-1);
 
   //For algorithm running
-  const [algoState,setAlgoState] = useState(0); // -1: not running, 1: round 1, 2: round 2, 3: done
+  const [algoState,setAlgoState] = useState(-1); // -1: not running, 1: round 0,1, 2: round 2, 3: done
   const [algoFocus,setAlgoFocus] = useState(0);//same values as algoState, but the current round opened in the popup viewing the data and graphs
-  const [round1Data,setRound1Data] = useState([]); //bar graph, length of array is how many iterations, each element is the percent unchanged per iteration
-  const [round2Data,setRound2Data] = useState([]); //bar graph, length of array is how many iterations % 10 (or some number), each element is the RSD
+  const [connectingData,setConnectingData] = useState([]); //line graph, number of gridspaces changed each time.
+  const [round1Data,setRound1Data] = useState([]); //line graph, length of array is how many iterations, each element is the percent unchanged per iteration
+  const [round2Data,setRound2Data] = useState([]); //line graph, length of array is how many iterations % 10 (or some number), each element is the RSD
   const [districtPops,setDistrictPops] = useState([]);
   const [algoSettings,setAlgoSettings] = useState({
     useSubiterations: true,
+    intervalConnecting: 300,
     interval1: 10,
-    interval2: 20,
+    interval2: 30,
+    maxConnectingIterations: 1000,
     maxIterations1: 100,
     maxIterations2: 2000,
     graphInterval1: 1,
@@ -84,7 +87,9 @@ function MyApp({ Component, pageProps }) {
     districtPops,
     setDistrictPops,
     viewAloneDistrict,
-    setViewAloneDistrict
+    setViewAloneDistrict,
+    connectingData,
+    setConnectingData,
   }
 
   return <PContext.Provider value={contextValue}>

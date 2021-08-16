@@ -12,9 +12,11 @@ export default class Simulate{
     av:number;
     districtPops: number[] = [];
     data: object;
+    connectingData: number[] = [];
     round1Data: number[] = [];
     round2Data:number[] = [];
     setData: (a) => void;
+    setConnectingData: (a:number[]) => {}; 
     setRound1Data: (a) => void;
     setRound2Data: (a) => void;
     setAlgoState: (a:number) => void;
@@ -22,16 +24,18 @@ export default class Simulate{
 
 
     //settings
+    intervalConnecting = 300;
     interval1:number = 10; //round one
     useSubiterations:boolean = true; //for round one only
     interval2:number = 20;//round two
+    maxConnectingIterations = 1000;
     maxIterations1 = Number.MAX_VALUE;
     maxIterations2 = Number.MAX_VALUE;
     gridGranularity = 200;
 
     isTerminated:boolean = false;
 
-    constructor(data: object, numDistricts: number, setData, setRound1Data, setRound2Data,setAlgoState, setAlgoFocus,settings:object){
+    constructor(data: object, numDistricts: number, setData, setConnectingData, setRound1Data, setRound2Data,setAlgoState, setAlgoFocus,settings:object){
         //Step 1: set fields
         this.districts = numDistricts;
         for(let i:number = 0;i<this.districts;i++) this.districtPops.push(0);
@@ -41,9 +45,12 @@ export default class Simulate{
         this.setRound2Data = setRound2Data;
         this.setAlgoState = setAlgoState;
         this.setAlgoFocus = setAlgoFocus;
+        this.intervalConnecting = Number(settings["intervalConnecting"]) || 300;
         this.interval1 = Number(settings["interval1"]) || 10;
         this.interval2 = Number(settings["interval2"]) || 20;
         this.useSubiterations = Boolean(settings["useSubiterations"]) || false;
+
+        this.maxConnectingIterations = Number(settings["maxConnectingIterations"]) || 1000;
         this.maxIterations1 = Number(settings["maxIterations1"]) || 100;
         this.maxIterations2 = Number(settings["maxIterations2"]) || 2000;
         this.gridGranularity = Number(settings["gridGranularity"]) || 200;
@@ -67,7 +74,12 @@ export default class Simulate{
         this.network = new Network(this.towns,this.gridGranularity);
     }
 
-    start(): void{
+    start():void{
+        this.network.makeAllConnections(this.maxConnectingIterations,0,this.intervalConnecting,this.connectingData,this.setConnectingData,this.startRounds)
+    }
+
+    //AFTER precinct connections have been made in Network
+    startRounds(): void{
         if(this.isTerminated) return;
         if(this.districts==0||Object.keys(this.data).length==0) return;
         if(this.useSubiterations) {

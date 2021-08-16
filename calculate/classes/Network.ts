@@ -11,6 +11,9 @@ export default class Network{
     incLat: number; //"inc" is short for "increment"
     incLng: number;
     towns: Town[];
+    maxIterations: number; //for making connections
+    isTerminated: boolean = false;
+    isDoneConnected: boolean = false;
 
     constructor(townsParam: Town[], granularity:number){
 
@@ -102,29 +105,28 @@ export default class Network{
 
 
         //Step 6: floodfill empty spaces
-        var countChanged = 0; //counts how many gridspaces changed their adjacent districts
-        var count = 0;
-        do{
-            countChanged = 0;
-            for(let i = 0;i<this.grid.length;i++){
-                if(this.grid[i]<=-1) continue;
-                else {
-                    let isChanged:boolean = this.floodFill(i);
-                    if(isChanged) {
-                        countChanged++;
-                    }
-                }
-            }
-            console.log(countChanged);
-            count++;
-        }while(countChanged > 0);
-        console.log(count);
+        // var countChanged = 0; //counts how many gridspaces changed their adjacent districts
+        // var count = 0;
+        // do{
+        //     countChanged = 0;
+        //     for(let i = 0;i<this.grid.length;i++){
+        //         if(this.grid[i]<=-1) continue;
+        //         else {
+        //             let isChanged:boolean = this.floodFill(i);
+        //             if(isChanged) {
+        //                 countChanged++;
+        //             }
+        //         }
+        //     }
+        //     console.log(countChanged);
+        //     count++;
+        // }while(countChanged > 0);
+        // console.log(count);
 
 
         //Testing
         var index:number = 37;
         //this.printGrid();
-        console.log(count);
         console.log(this.towns[index].name);
         console.log(this.towns[index].closestTownDist);
         console.log("Connected to:");
@@ -133,6 +135,39 @@ export default class Network{
         this.getAdjacents(index).forEach(i=>{
             console.log(this.towns[i].name);
         })
+    }
+
+    makeAllConnections(maxIterations:number,count:number,interval:number,prevIterations:number[],setPrevIterations:(a:number[])=>{},callback:()=>any){
+        if(this.isTerminated) return;
+
+        //Step 1: check every gridspace to floodfill
+        var countChanged = 0; //counts how many gridspaces changed their adjacent districts
+        for(let i = 0;i<this.grid.length;i++){
+            if(this.grid[i]<=-1) continue;
+            else {
+                let isChanged:boolean = this.floodFill(i);
+                if(isChanged) {
+                    countChanged++;
+                }
+            }
+        }
+        console.log(countChanged);
+        count++;
+        console.log(count);
+
+        //Step 2: continue iterating or stop
+        if(countChanged==0||count > maxIterations){
+            //if done, set isDoneConnecting to true, and call the callback;
+            this.isDoneConnected = true;
+            callback();
+        }else{
+            //if not done yet, recurse
+            setTimeout(()=>{
+                prevIterations = [...prevIterations,countChanged];
+                setPrevIterations(prevIterations);
+                this.makeAllConnections(maxIterations,count,interval,prevIterations,setPrevIterations,callback)
+            },interval)
+        }
     }
 
     getAdjacents(townId:number):number[]{

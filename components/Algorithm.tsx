@@ -187,7 +187,7 @@ export default function Algorithm(){
     const terminate = ()=>{
         simulate.current.terminate();
         simulate.current = null;
-        setAlgoState(0)
+        setAlgoState(-1)
     }
 
     return  <div id="algorithm-container"  style={dragStyles} >

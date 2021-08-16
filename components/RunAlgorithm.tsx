@@ -24,7 +24,7 @@ export default function RunAlgorithm(){
         setRound1Data([]);//empty round 1 data
         setRound2Data([]);//empty round 2 data
         setShowPopup(false);
-        setAlgoState(1);//make the grid after you hide the popup
+        setAlgoState(0);//make the grid after you hide the popup
     }
 
     const setSingleAlgoSetting = (algoSetting:string,val:any)=>{
