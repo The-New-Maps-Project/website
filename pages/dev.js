@@ -14,7 +14,7 @@ export default function Dev(){
     const [stateName,setStateName] = useState("");
     const [errorMessage,setErrorMessage] = useState("");
     const params = ["B01001_002E","B01001_026E","B01001A_001E","B01001B_001E","B01001C_001E","B01001D_001E","B01001E_001E","B01001I_001E","B06012_002E","B07009_005E"];
-    const paramNames = ["% Male","% Female","% White","% Black","% Native American","% Asian","% Pacific Islander","% Hispanic or Latino","% in Poverty","% College Graduate"] //in ORDER
+    const paramNames = ["% Male","% Female","% White","% Black","% Native American","% Asian","% Pacific Islander","% Hispanic or Latino","% Below Poverty Line","% With Bachelors Degree"] //in ORDER
 
     const getData = async () => {
         try{
@@ -86,7 +86,7 @@ export default function Dev(){
             if(!thisObj) return;
 
             //Step 1: get the data from google
-            var geocodingRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${thisObj["name"]}&key=${googleApiKey}`);
+            var geocodingRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${`zip code ${thisObj["name"]}`}&key=${googleApiKey}`);
             var jsonRes = await geocodingRes.json();
             console.log(jsonRes);
 
