@@ -8,6 +8,7 @@ export default class Town{
   secondDistrict: number; //a second district who's border is closest
   id:number;
   closestTownDist:number = Number.MAX_VALUE;
+  parameter: number = 0;
 
     constructor(name:string,population:number,lat:number,lng:number){
         this.name = name;

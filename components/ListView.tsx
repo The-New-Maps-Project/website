@@ -3,11 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react"
 import PContext from "../services/context"
 import Algorithm from "./Algorithm";
+import PackCrack from "./PackCrack";
 import Popup from "./Popup";
 import SwitchPopup from "./SwitchPopup";
 
 export default function ListView(){
-    const {districts,data,parameters,setData,setMapZoom,algoState} = useContext(PContext);
+    const {districts,data,parameters,setData,setMapZoom,algoState,pcState} = useContext(PContext);
     const [switchPopup,setSwitchPopup] = useState(false);
     const [precinctToSwitch,setPrecinctToSwitch] = useState("");
     const [showParams,setShowParams] = useState({}); //[name]: boolean
@@ -136,6 +137,8 @@ export default function ListView(){
 
     return <div id="list-view">
         {algoState>-1&&<Algorithm></Algorithm>}
+
+        {pcState>-1&&<PackCrack></PackCrack>}
 
         {isEditing&&<div >
             <div className="edit-row">
