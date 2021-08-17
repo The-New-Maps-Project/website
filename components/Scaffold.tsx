@@ -29,7 +29,7 @@ export default function Scaffold({showOptions}){
                     <ImportFile></ImportFile>
                 </div>
                 <div className="second-row">
-                    <RunAlgorithm></RunAlgorithm>
+                    {algoState<0&&<RunAlgorithm></RunAlgorithm>}
                     <DistrictsEdit></DistrictsEdit>
                 </div>
             </div>
