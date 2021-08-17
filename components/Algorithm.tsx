@@ -18,6 +18,7 @@ export default function Algorithm(){
     const [diffY,setDiffY] = useState<number>(0);
     const [isDragging,setIsDragging] = useState<boolean>(false);
     const [dragStyles,setDragStyles] = useState<object>({})
+    const [timeRun,setTimeRun] = useState<number>(0);
 
     useEffect(()=>{
 
@@ -37,6 +38,10 @@ export default function Algorithm(){
             setIsDragging(false);
         }
     },[])
+
+    useEffect(()=>{
+        if(algoState>=3) setTimeRun(Math.round(((new Date()).getTime()-simulate.current.timeMarker)/1000));
+    },[algoState])
 
     useEffect(()=>{
        setConnectingRoundGraph(renderLineGraph(connectingData,1,"Filled Gridspaces")); 
@@ -259,7 +264,7 @@ export default function Algorithm(){
             </div>
             {algoFocus==3&&<div>
                 {algoState>=3?<div>
-                    <p>The algorithm has finished running! Here are some next steps:</p>
+                    <p>The algorithm has finished running in {timeRun}s. Here are some next steps:</p>
                     <ol>
                         <li>Click on "Round One" or "Round Two" to view data and graphs from both rounds</li>
                         <li>Click "Calculate Stats" below to see data on population distribution, representation, and compactness of this map</li>

@@ -74,7 +74,7 @@ export default function HomeOptions({xFunction}){
                             }}
                                 onClick={()=>selectMap(d.fileName,d.zoom,true)}
                             >Draw the Districts
-                                <div style={{top: mouseY,left:mouseX}} className="hover-box">{d.time||"Run Algorithm"}</div>
+                                <div style={{top: mouseY,left:mouseX}} className="hover-box">{d.runAlgoNotes||"Run Algorithm"}</div>
                             </button>
                             <button className="view-map tb"
                                 onClick={()=>selectMap(d.fileName,d.zoom,false)}

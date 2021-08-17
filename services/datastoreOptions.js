@@ -1,17 +1,5 @@
 const options = [
     {
-        name: "Massachusetts",
-        districts: "9 congressional districts",
-        info: "10 parameters, ZIP codes as precicnts",
-        fileName: "ma9zc.txt",
-        zoom: {
-            lat: 42.4072, 
-            lng: -71.3824,
-            zoom: 8,
-        }
-        
-    },
-    {
         name: "North Carolina",
         districts: "14 congressional districts",
         info: "10 parameters, ZIP codes as precicnts",
@@ -20,8 +8,20 @@ const options = [
             lat: 35.7596, 
             lng: -79.0193,
             zoom: 6,
-        }
-        
+        },
+        runAlgoNotes: "~1 min; RSD: ~3%"
+    },
+    {
+        name: "Massachusetts",
+        districts: "9 congressional districts",
+        info: "10 parameters, ZIP codes as precicnts",
+        fileName: "ma9zc.txt",
+        zoom: {
+            lat: 42.4072, 
+            lng: -71.3824,
+            zoom: 8,
+        },
+        runAlgoNotes: "~1 min; RSD: ~2%"
     },
     {
         name: "Georgia",
@@ -32,8 +32,8 @@ const options = [
             lat: 32.1656, 
             lng: -82.9001,
             zoom: 6,
-        }
-        
+        },
+        runAlgoNotes: "~1 min; RSD: ~4%"
     },
     {
         name: "New Jersey",
@@ -44,8 +44,8 @@ const options = [
             lat: 40.0583, 
             lng: -74.4057,
             zoom: 7,
-        }
-        
+        },
+        runAlgoNotes: "~1 min; RSD: ~3%"
     },
     {
         name: "Connecticut",
@@ -56,8 +56,8 @@ const options = [
             lat: 41.6032, 
             lng: -73.0877,
             zoom: 8,
-        }
-        
+        },
+        runAlgoNotes: "~3 min; RSD: ~2%"
     },
     {
         name: "Colorado",
@@ -68,8 +68,8 @@ const options = [
             lat: 39.5501, 
             lng: -105.7821,
             zoom: 6,
-        }
-        
+        },
+        runAlgoNotes: "~2 min; RSD: ~3%"
     },
     {
         name: "Kentucky",
@@ -81,6 +81,18 @@ const options = [
             lng: -84.27,
             zoom: 6,
         }
+    },
+    {
+        name: "Texas",
+        districts: "38 congressional districts",
+        info: "10 parameters, ZIP codes as precicnts",
+        fileName: "tx38zc.txt",
+        zoom: {
+            lat: 31.9686, 
+            lng: -99.9018,
+            zoom: 5,
+        },
+        runAlgoNotes: "~3 min; RSD: ~8%"
     },
     {
         name: "Florida",
@@ -113,7 +125,7 @@ const options = [
             lat: 40.7128, 
             lng: -74.0060,
             zoom: 6,
-        } 
+        }
     },
     {
         name: "Illinois",

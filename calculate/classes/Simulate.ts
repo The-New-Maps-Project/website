@@ -91,8 +91,7 @@ export default class Simulate{
         var thisData = this.network.makeAllConnections(prevData)
         this.setConnectingData(thisData);
         if(thisData.length>this.maxConnectingIterations||thisData[thisData.length-1]==0){
-            var avTime:number = ((new Date()).getTime() - this.timeMarker)/thisData.length;
-            console.log("Av time: "+avTime + ", interval: "+this.intervalConnecting);
+            
             this.startRounds();
         }else{
             setTimeout(()=>{
@@ -108,7 +107,7 @@ export default class Simulate{
         this.network.connectAllOverlapping();
         this.network.test();
         if(this.districts==0||Object.keys(this.data).length==0) return;
-        this.timeMarker = (new Date()).getTime();
+        
         if(this.useSubiterations) {
             this.randomAssignmentIteration(0);
         }else{ 
@@ -260,11 +259,6 @@ export default class Simulate{
     }
 
     roundTwoIteration(prevRSD:number):void{
-        if(this.round2Data.length==0){
-            var avTime:number = ((new Date()).getTime() - this.timeMarker)/this.round1Data.length;
-            console.log("ROUND ONE: Av time: "+avTime + ", interval: "+this.interval1);
-            this.timeMarker = (new Date()).getTime();
-        }
         setTimeout(()=>{
             if(this.isTerminated) return;
 
@@ -336,9 +330,7 @@ export default class Simulate{
             }
             if((indexOfValue<this.round2Data.length-2&&this.round2Data[this.round2Data.length-2]!=thisRSD)||this.round2Data.length>this.maxIterations2){
                 
-                var avTime:number = ((new Date()).getTime() - this.timeMarker)/this.round2Data.length;
-                console.log("ROUND TWO: Av time: "+avTime + ", interval: "+this.interval2);
-                console.log("Round Two last indices: "+this.round2Data.slice(indexOfValue));
+                
                 //end round 2
                 this.setAlgoState(4);
                 this.setAlgoFocus(3);
