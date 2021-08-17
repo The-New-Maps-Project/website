@@ -139,6 +139,7 @@ export default class Network{
                 }
             })
         })
+        console.log(count);
         console.log("ran test");
     //     var index:number = 1393;
     //     //this.printGrid();
@@ -176,6 +177,24 @@ export default class Network{
         
 
         return [...data,countChanged];
+    }
+
+    //makes connections for all the precincts that have length zero
+    connectAllOverlapping(){
+        this.towns.forEach(t=>{
+            let adj:number[] = this.graph[t.id];
+            if(adj.length==0){
+                let otherTownId = this.grid[this.toGridSpace(this.towns[t.id])];
+                adj = this.graph[otherTownId];
+                if(adj.length==0) console.log(this.towns[this.grid[this.toGridSpace(this.towns[t.id])]].name);
+                adj.forEach(a=>{
+                    this.connect(a,t.id);
+                })
+
+                //ALWAYS connect to the town it overlaps
+                this.connect(t.id,otherTownId);
+            }
+        })
     }
 
     getAdjacents(townId:number):number[]{

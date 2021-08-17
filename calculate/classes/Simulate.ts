@@ -105,6 +105,8 @@ export default class Simulate{
     startRounds(): void{
         if(this.isTerminated) return;
         this.network.test();
+        this.network.connectAllOverlapping();
+        this.network.test();
         if(this.districts==0||Object.keys(this.data).length==0) return;
         this.timeMarker = (new Date()).getTime();
         if(this.useSubiterations) {
