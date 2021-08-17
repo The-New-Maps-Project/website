@@ -1,7 +1,7 @@
 import Network from "./Network";
 import Town from "./Town";
 
-class PackandCrack{
+export default class PackandCrack{
     network:Network;
     data: object;
     towns: Town[];
@@ -17,8 +17,8 @@ class PackandCrack{
     setPcState: (a:number)=>{};
     setPcFocus: (a)=>{};
     isTerminated:boolean =false;
-    bordering: number[]; //NOT in the district, but bordering it. townIds
-    onBorder: number[]; //IN the district, on it's border. townIds
+    bordering: number[] = []; //NOT in the district, but bordering it. townIds
+    onBorder: number[] = []; //IN the district, on it's border. townIds
 
     //settings
     isPacking:boolean;
@@ -31,7 +31,7 @@ class PackandCrack{
     gridGranularity:number;
     
 
-    constructor(data:object,numDistricts:number,setData,setPcData,setPcState,setPcFocus,pcSettings:object){
+    constructor(data:object,numDistricts:number,setData,setConnectingData,setPcData,setPcState,setPcFocus,pcSettings:object){
         this.isPacking = pcSettings["isPacking"];
         this.parameter = pcSettings["parameter"];
         this.district = pcSettings["district"]; 
@@ -42,6 +42,7 @@ class PackandCrack{
 
         this.data = data;
         this.setData = setData;
+        this.setConnectingData = setConnectingData;
         this.setPcData = setPcData;
         this.setPcState = setPcState;
         this.setPcFocus = setPcFocus;
@@ -59,6 +60,7 @@ class PackandCrack{
                 t.district = p[0]; //assign it to the Town instance
                 t.parameter = p.slice(4)[this.parameter]; //get index 4 and after for parameters, THEN get parameter in focus
                 this.districtPops[p[0]-1] += p[1]; //add to district population
+                if(t.district==this.district) this.paramPop += p[1] * t.parameter;
             }
             return t;
         });
@@ -111,6 +113,10 @@ class PackandCrack{
     }
 
     iterate(prevData:number[]){
+        if(this.isTerminated) return;
+        this.setPcData(prevData);
+
+        let districtAvParam = (this.paramPop/this.districtPops[this.district-1]);
         if(this.districtPops[this.district-1]>this.av){//greater than average, need to LOSE
             let t:Town|null = null;
             let p:number = (this.isPacking?1:-1) * Number.MAX_VALUE; //find minimum to lose if packing, maximum to lose if cracking
@@ -138,9 +144,26 @@ class PackandCrack{
                     p = town.parameter;
                     t = town;
                 }
-                if(t==null||())
+                
             })
+            if(t==null||(this.isPacking&&p<=districtAvParam)||(!this.isPacking&&p>=districtAvParam)){
+                console.log("PRECINT PARAM: "+p);
+                this.setPcFocus(2);
+                this.setPcState(3);
+                return;
+            }else{
+                this.gainTown(t);
+            }
         }
+        setInterval(()=>{
+            if(prevData.length>this.maxIterations){
+                this.setPcState(3);
+                this.setPcFocus(2);
+                return;
+            }else{
+                this.iterate([...prevData,districtAvParam])
+            }
+        },this.interval)
     }
 
     loseTown(t:Town){
@@ -161,23 +184,43 @@ class PackandCrack{
             this.assign(t,toDistrict);
         }
 
-        //Step 2: remove from onBorder, and find new precincts onBorder,and remove precincts from "bordering" that are no longer bordering because of this removal
+        //Step 2: remove from onBorder, add to bordering
         var tIndex = this.onBorder.indexOf(t.id);
         this.onBorder.splice(tIndex,1); //remove from onBorder
+        this.bordering.push(t.id);
+
+        //Step 3: Find new precincts onBorder,and remove precincts from "bordering" that are no longer bordering because of this removal
         //only the adjacents of the removed town could be new onBorders (only check if in the focused district, because they border the removed district, which is NOT in the focused district anymore)
         this.network.getAdjacents(t.id).forEach(adjId=>{
-            if(this.towns[adjId].district==this.district&&!this.onBorder.includes(adjId)) this.onBorder.push(adjId); //add to onBorder
-            if(this.towns[adjId].district!=this.district&&this.bordering.includes(adjId)){
-                //find if this town is STILL bordering by finding ITS adjacents
-                if(!this.checkIsBordering(this.towns[adjId])){
-                    let index = this.bordering.indexOf(adjId);
-                    this.bordering.splice(index,1);
-                }
+            let otherTown:Town = this.towns[adjId];
+            if(otherTown.district==this.district&&!this.onBorder.includes(adjId)) this.onBorder.push(adjId); //add to onBorder
+            if(otherTown.district!=this.district&&this.bordering.includes(adjId)&&this.checkIsBordering(otherTown)){
+                let index = this.bordering.indexOf(adjId);
+                this.bordering.splice(index,1);
             }
         })
+    }
 
-        //Step 3: add to bordering, 
-        this.bordering.push(t.id);
+    gainTown(t:Town){
+        if(t.district==this.district) return; //MUST be bordering, NOT in the district
+
+        //Step 1: assign the precinct to the focus district
+        this.assign(t,this.district);
+
+        //Step 2: remove from bordering, add to onBorder
+        var tIndex = this.bordering.indexOf(t.id);
+        this.bordering.splice(tIndex,1);
+        this.onBorder.push(t.id);
+
+        //Step 3: remove precincts that are no longer onBorder because this is added, and add new precincts to "bordering" because this is added
+        this.network.getAdjacents(t.id).forEach(adjId=>{
+            let otherTown:Town = this.towns[adjId];
+            if(otherTown.district==this.district&&this.onBorder.includes(adjId)&&!this.checkIsOnBorder(otherTown)){
+                let index = this.onBorder.indexOf(adjId);
+                this.onBorder.splice(index,1);
+            }
+            if(otherTown.district!=this.district&&!this.bordering.includes(adjId)) this.bordering.push(adjId);
+        })
     }
 
     checkIsBordering(t:Town){

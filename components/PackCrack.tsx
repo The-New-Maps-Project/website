@@ -1,26 +1,44 @@
 import { faCheckCircle, faCircle, faEllipsisH, faMapMarkedAlt, faMapMarker, faMapSigns, faTimes } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import Link from "next/link"
-import { useContext, useRef, useState } from "react"
+import { useContext, useRef, useState,useEffect } from "react"
 import PContext from "../services/context";
 import { Bar, Line } from "react-chartjs-2"
-import Simulate from "../calculate/classes/Simulate"
+import PackandCrack from "../calculate/classes/PackandCrack";
 
 export default function PackCrack(){
     const [dragStyles,setDragStyles] = useState({});
-    const {pcData,setPcData,pcSettings,pcState,setPcState,pcFocus,setPcFocus,connectingData,setConnectingData} = useContext(PContext);
+    const {pcData,setPcData,pcSettings,pcState,setPcState,pcFocus,setPcFocus,connectingData,setConnectingData,data,districts,setData} = useContext(PContext);
     const [diffX,setDiffX] = useState<number>(0);
     const [diffY,setDiffY] = useState<number>(0);
     const [isDragging,setIsDragging] = useState<boolean>(false);
     const [connectingRoundGraph,setConnectingRoundGraph] = useState<any>(null);
     const [pcGraph,setPcGraph] = useState<any>(null);
-    const simulate = useRef<Simulate|null>(null);
+    const packandcrack = useRef<PackandCrack|null>(null);
 
     const dragStart = (e) =>{
         setDiffX(e.pageX - e.target.getBoundingClientRect().left)
         setDiffY(e.pageY - e.target.getBoundingClientRect().top)
         setIsDragging(true);
     }
+
+    useEffect(()=>{
+
+        //clean up all data
+        setPcData([]);
+        setConnectingData([]);
+
+        //then start the simulation
+        packandcrack.current = new PackandCrack(data,districts.length,setData,setConnectingData,setPcData,setPcState,setPcFocus,pcSettings);
+        packandcrack.current.start();
+    },[])//IMPORTANT that it is an empty array, must only run this ONCE, and NOT on every re-render
+
+
+    useEffect(()=>{
+        window.onmouseup = ()=>{
+            setIsDragging(false);
+        }
+    },[])
 
     const dragging = (e) => {
         if(!isDragging) return;
@@ -38,8 +56,8 @@ export default function PackCrack(){
     }
 
     const terminate = ()=>{
-        simulate.current.terminate();
-        simulate.current = null;
+        packandcrack.current.terminate();
+        packandcrack.current = null;
         setPcState(-1);
     }
 

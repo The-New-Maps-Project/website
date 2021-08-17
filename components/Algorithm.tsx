@@ -24,6 +24,7 @@ export default function Algorithm(){
         //clean up all data
         setRound1Data([]);
         setRound2Data([]);
+        setConnectingData([]);
 
         //then start the simulation
         simulate.current = new Simulate(data,districts.length,setData,setConnectingData,setRound1Data,setRound2Data,setAlgoState,setAlgoFocus,algoSettings);

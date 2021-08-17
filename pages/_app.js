@@ -54,7 +54,6 @@ function MyApp({ Component, pageProps }) {
     isPacking: true,
     maxConnectingIterations: 1000,
     maxIterations: 1000,
-
   });
   const [pcState,setPcState] = useState(-1); // 0 - connecting, 1 - packing/cracking, 2 - done
   const [pcFocus,setPcFocus] = useState(-1);
