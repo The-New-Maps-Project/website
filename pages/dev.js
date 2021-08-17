@@ -86,7 +86,7 @@ export default function Dev(){
             if(!thisObj) return;
 
             //Step 1: get the data from google
-            var geocodingRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${`zip code ${thisObj["name"]}`}&key=${googleApiKey}`);
+            var geocodingRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${`US Zip Code ${thisObj["name"]}`}&key=${googleApiKey}`);
             var jsonRes = await geocodingRes.json();
             console.log(jsonRes);
 
