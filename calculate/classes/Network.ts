@@ -121,19 +121,44 @@ export default class Network{
         //     count++;
         // }while(countChanged > 0);
         // console.log(count);
+    }
 
-
+    test(){
         //Testing
-        var index:number = 37;
-        //this.printGrid();
-        console.log(this.towns[index].name);
-        console.log(this.towns[index].closestTownDist);
-        console.log("Connected to:");
-        console.log(this.graph.length);
-        console.log(this.getAdjacents(index).length);
-        this.getAdjacents(index).forEach(i=>{
-            console.log(this.towns[i].name);
+        console.log(this.towns.length);
+        var count = 0;
+        this.towns.forEach(t=>{
+            var adj:number[] = this.graph[t.id];
+            if(adj.length==0) count++;
+            adj.forEach(otherT=>{
+                if(!this.isConnected(otherT,t.id)) console.log("NOT CONNECTED: "+otherT+" , "+t);
+                if(!this.graph[otherT].includes(t.id)){
+                    console.log(this.towns[otherT].name+" Not connected back to "+this.towns[t.id].name);
+                    console.log(this.graph[otherT]);
+                    console.log("-----");
+                }
+            })
         })
+        console.log("ran test");
+    //     var index:number = 1393;
+    //     //this.printGrid();
+    //     console.log(this.towns[index].name);
+    //     console.log("Connected to:");
+    //     console.log(this.graph.length);
+    //     console.log(this.getAdjacents(index).length);
+    //     this.getAdjacents(index).forEach(i=>{
+    //         console.log(this.towns[i].name);
+    //     })
+
+    //     index = 1638;
+    //     //this.printGrid();
+    //     console.log(this.towns[index].name);
+    //     console.log("Connected to:");
+    //     console.log(this.graph.length);
+    //     console.log(this.getAdjacents(index).length);
+    //     this.getAdjacents(index).forEach(i=>{
+    //         console.log(this.towns[i].name);
+    //     })
     }
 
     makeAllConnections(data:number[]):number[]{

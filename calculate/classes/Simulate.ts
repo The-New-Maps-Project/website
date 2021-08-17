@@ -104,6 +104,7 @@ export default class Simulate{
     //AFTER precinct connections have been made in Network
     startRounds(): void{
         if(this.isTerminated) return;
+        this.network.test();
         if(this.districts==0||Object.keys(this.data).length==0) return;
         this.timeMarker = (new Date()).getTime();
         if(this.useSubiterations) {
@@ -269,6 +270,8 @@ export default class Simulate{
 
             var hashedNum:number = 0;
             var maxPopDiff:number = Number.MAX_VALUE;
+
+            var dTown:Town;
     
             //Step 1: find the two connected distrits with the biggest population difference
             this.towns.forEach(t=>{
@@ -279,6 +282,7 @@ export default class Simulate{
                 if(diff < maxPopDiff){
                     maxPopDiff = diff;
                     hashedNum = this.districtsHash(t);
+                    dTown = t;
                 }
             })
     
@@ -286,7 +290,7 @@ export default class Simulate{
             var minDist:number = Number.MAX_VALUE;
             var biggerDistrict:number = this.unHash(hashedNum)[1];
             var smallerDistrict:number = this.unHash(hashedNum)[0];
-            var res:Town = this.towns[0];
+            var res:Town = null;
             this.towns.forEach(t=>{
                 if(t.district!=biggerDistrict||!this.isBordering(t.id,smallerDistrict)) return; //must be in the bigger district and bordering the smaller one
                 var thisDist:number = t.location.distTo(centers[smallerDistrict -1 ]);
@@ -295,6 +299,26 @@ export default class Simulate{
                     res = t;
                 }
             })
+            if(res==null){
+                console.log(dTown.name + "; "+dTown.district+" , "+dTown.secondDistrict);
+                console.log(res);
+                console.log(biggerDistrict+" -> "+smallerDistrict);
+                console.log("Res is null")
+                this.network.test();
+                this.towns.forEach(t=>{
+                    if(t.district==biggerDistrict){
+                        var adjs = this.network.getAdjacents(t.id).map(tid=>this.towns[tid].name+"-"+this.towns[tid].district);
+                        console.log(t.district+": "+t.name+": "+adjs);
+                    }
+                })
+                this.towns.forEach(t=>{
+                    if(t.district==smallerDistrict){
+                        var adjs = this.network.getAdjacents(t.id).map(tid=>this.towns[tid].name+"-"+this.towns[tid].district);
+                        console.log(t.district+": "+t.name+": "+adjs);
+                    }
+                })
+                return;
+            }
             this.assignData(res,smallerDistrict);
             
             //Step 3: recalculate rsd
@@ -305,9 +329,14 @@ export default class Simulate{
             //Step 4: determine whether to end or keep recursing
             let indexOfValue:number = this.round2Data.indexOf(thisRSD);
             //if is already in array and is not just the last or second last value
-            if(indexOfValue<this.round2Data.length-2||this.round2Data.length>this.maxIterations2){
+            if(indexOfValue<this.round2Data.length-2){
+                console.log("Cycling?: "+res.name+ ", "+biggerDistrict+" -> "+smallerDistrict);
+            }
+            if((indexOfValue<this.round2Data.length-2&&this.round2Data[this.round2Data.length-2]!=thisRSD)||this.round2Data.length>this.maxIterations2){
+                
                 var avTime:number = ((new Date()).getTime() - this.timeMarker)/this.round2Data.length;
                 console.log("ROUND TWO: Av time: "+avTime + ", interval: "+this.interval2);
+                console.log("Round Two last indices: "+this.round2Data.slice(indexOfValue));
                 //end round 2
                 this.setAlgoState(4);
                 this.setAlgoFocus(3);
