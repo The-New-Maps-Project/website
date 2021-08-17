@@ -8,7 +8,7 @@ import PackandCrack from "../calculate/classes/PackandCrack";
 
 export default function PackCrack(){
     const [dragStyles,setDragStyles] = useState({});
-    const {pcData,setPcData,pcSettings,pcState,setPcState,pcFocus,setPcFocus,connectingData,setConnectingData,data,districts,setData} = useContext(PContext);
+    const {pcData,setPcData,pcSettings,pcState,setPcState,pcFocus,setPcFocus,connectingData,setConnectingData,data,districts,setData,parameters} = useContext(PContext);
     const [diffX,setDiffX] = useState<number>(0);
     const [diffY,setDiffY] = useState<number>(0);
     const [isDragging,setIsDragging] = useState<boolean>(false);
@@ -94,19 +94,19 @@ export default function PackCrack(){
             </div>}
         </section>
         <hr></hr>
-        <section id="connectinground" className={pcFocus==0?"focused":"clickable"} onClick={()=>setPcFocusIfNotSet(0)}>
+        <section id="connectinground" className={pcFocus==0?"focused":"clickable"} onClick={()=>setPcFocusIfNotSet(1)}>
             <div className="round-header">
                 <h5>{`${pcSettings["isPacking"]?"Pack ":"Crack "} District ${pcSettings["district"]}`}</h5>
                 {renderRoundStateIcon(0)}
             </div>
-            {pcFocus!==0?<div className="round-subheader">
+            {pcFocus!==1?<div className="round-subheader">
                 <span>Iterations: {pcData.length}</span>
-                <span>Changed: {pcData.length==0?0:(pcData[pcData.length-1]).toFixed(0)}</span>
+                <span>{parameters[pcSettings['parameter']]}: {pcData.length==0?0:(pcData[pcData.length-1]*100).toFixed(2)}%</span>
             </div>:<div className="round-body">
                 {pcGraph}
                 <div className="round-footer">
                     <span className="iterations">Iterations: {pcData.length}</span>
-                    <span className="main-value">Changed: {pcData.length==0?0:(pcData[pcData.length-1]).toFixed(0)}</span>
+                    <span className="main-value">{parameters[pcSettings['parameter']]} {pcData.length==0?0:(pcData[pcData.length-1]*100).toFixed(2)}%</span>
                 </div>
             </div>}
         </section>

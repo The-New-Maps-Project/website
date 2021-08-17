@@ -8,7 +8,7 @@ export default class PackandCrack{
     av: number;
     numDistricts: number;
     districtPops: number[];
-    paramPop:number; //JUST in the focused district
+    paramPop:number = 0; //JUST in the focused district
 
     pcData:number[];
     setPcData:(a:number[])=>{};
@@ -59,8 +59,10 @@ export default class PackandCrack{
             if(p[0]>0&&p[0]<=this.numDistricts) { //if already assing a district
                 t.district = p[0]; //assign it to the Town instance
                 t.parameter = p.slice(4)[this.parameter]; //get index 4 and after for parameters, THEN get parameter in focus
+                console.log(t.parameter,p.slice(4),this.parameter);
                 this.districtPops[p[0]-1] += p[1]; //add to district population
-                if(t.district==this.district) this.paramPop += p[1] * t.parameter;
+                if(t.district==this.district) this.paramPop += t.population * t.parameter;
+                console.log(this.paramPop);
             }
             return t;
         });
@@ -114,7 +116,10 @@ export default class PackandCrack{
 
     iterate(prevData:number[]){
         if(this.isTerminated) return;
+        console.log(prevData);
         this.setPcData(prevData);
+
+        // console.log(this.paramPop, this.districtPops,this.district,this.districtPops[this.district-1]);
 
         let districtAvParam = (this.paramPop/this.districtPops[this.district-1]);
         if(this.districtPops[this.district-1]>this.av){//greater than average, need to LOSE
@@ -133,7 +138,12 @@ export default class PackandCrack{
                 this.setPcState(3);
                 return;
             }else{
-                this.loseTown(t); //always keep iterating on a LOSE, unless t is null
+                let canLose = this.loseTown(t); //always keep iterating on a LOSE, unless t is null
+                if(!canLose){
+                    this.setPcFocus(2);
+                    this.setPcState(3);
+                    return;
+                }
             }
         }else{//lesser than average, need to GAIN
             let t:Town|null = null;
@@ -153,20 +163,25 @@ export default class PackandCrack{
                 return;
             }else{
                 this.gainTown(t);
+                console.log("Gaining "+t.name);
+                console.log(this.districtPops[this.district-1])
             }
         }
-        setInterval(()=>{
+        setTimeout(()=>{
             if(prevData.length>this.maxIterations){
                 this.setPcState(3);
                 this.setPcFocus(2);
                 return;
             }else{
+                console.log("iterating"+prevData.length);
                 this.iterate([...prevData,districtAvParam])
             }
         },this.interval)
     }
 
-    loseTown(t:Town){
+
+    //returns if can successfully lose the town.
+    loseTown(t:Town):boolean{
         if(t.district!=this.district) return; //MUST lose from district in focus
 
         //Step 1: find the district to lose to (least populous bording district)
@@ -174,14 +189,14 @@ export default class PackandCrack{
         var toDistrict:number = -1;
         var minPop:number = Number.MAX_VALUE;
         adjs.forEach(t=>{
-            if(this.districtPops[this.towns[t].district-1]<minPop){
+            if(this.towns[t].district!=this.district&&this.districtPops[this.towns[t].district-1]<minPop){
                 toDistrict = this.towns[t].district;
                 minPop = this.districtPops[this.towns[t].district-1];
             }
         })
-        if(toDistrict==-1) return;//no adjacents
+        if(toDistrict==-1) return false;//no adjacents
         else{
-            this.assign(t,toDistrict);
+            this.assignData(t,toDistrict);
         }
 
         //Step 2: remove from onBorder, add to bordering
@@ -199,13 +214,14 @@ export default class PackandCrack{
                 this.bordering.splice(index,1);
             }
         })
+        return true;
     }
 
     gainTown(t:Town){
         if(t.district==this.district) return; //MUST be bordering, NOT in the district
 
         //Step 1: assign the precinct to the focus district
-        this.assign(t,this.district);
+        this.assignData(t,this.district);
 
         //Step 2: remove from bordering, add to onBorder
         var tIndex = this.bordering.indexOf(t.id);
