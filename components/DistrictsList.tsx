@@ -6,7 +6,7 @@ import writeNum from "../services/writeNum";
 import Popup from "./Popup";
 
 export default function DistrictsList(){
-    const {districts,districtPops,setViewAloneDistrict,viewAloneDistrict,algoState,pcSettings,setPcSettings,setPcState,parameters} = useContext(PContext);
+    const {districts,districtPops,setViewAloneDistrict,viewAloneDistrict,algoState,pcSettings,setPcSettings,setPcState,parameters,pcState} = useContext(PContext);
     const [showParamPopup,setShowParamPopup] = useState<boolean>(false);
 
     const renderDistricts = ():any[] => {
@@ -16,7 +16,7 @@ export default function DistrictsList(){
                 <div className="district-name row"><span>District {i+1}</span><span style={{backgroundColor: `var(--${districts[i]}-icon)`}} className="color-box"></span></div>
                 <div className="population">Population: {writeNum(districtPops[i])}</div>
                 {viewAloneDistrict==(i+1)?<button className="unselect" onClick={()=>setViewAloneDistrict(-1)}>Unselect</button>:<button className="view-alone" onClick={()=>setViewAloneDistrict(i+1)}>View Alone</button>}
-                {districtPops[i]>0&&(algoState<1||algoState>3)&&<div className="buttons row">
+                {districtPops[i]>0&&(algoState<0||algoState>3)&&(pcState<0||pcState>2)&&<div className="buttons row">
                     <button className="pack mr15" onClick={()=>{
                         let newObj = {...pcSettings};
                         newObj["isPacking"] = true;
