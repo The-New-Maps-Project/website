@@ -76,57 +76,107 @@ export default function Dev(){
 
         var index = 0;
         var length = objectsArr.length;
-        setInterval(async ()=>{
-            if(index > length) return;
-            if(index == length){
-                //download
+        iterate(0,length,objectsArr);
+        // setInterval(async ()=>{
+        //     if(index > length) return;
+        //     if(index == length){
+        //         //download
                 
 
-                //first create the text
-                var blobText = ""+numDistricts;
-                paramNames.forEach(pn=>blobText+=","+pn);
-                list.current.forEach(l=>{
-                    blobText += "\n"+l;
-                })
+        //         //first create the text
+        //         var blobText = ""+numDistricts;
+        //         paramNames.forEach(pn=>blobText+=","+pn);
+        //         list.current.forEach(l=>{
+        //             blobText += "\n"+l;
+        //         })
 
 
-                //create the blob and setUrl
-                var blob = new Blob([blobText], {type: 'text/plain'});
-                var url = window.URL.createObjectURL(blob);
-                setUrl(url);
-                return;
-            }
-            var thisObj = objectsArr[index];
-            if(!thisObj) return;
+        //         //create the blob and setUrl
+        //         var blob = new Blob([blobText], {type: 'text/plain'});
+        //         var url = window.URL.createObjectURL(blob);
+        //         setUrl(url);
+        //         return;
+        //     }
+        //     var thisObj = objectsArr[index];
+        //     if(!thisObj) return;
 
-            //Step 1: get the data from google
-            var geocodingRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${`US Zip Code ${thisObj["name"]}`}&key=${googleApiKey}`);
-            var jsonRes = await geocodingRes.json();
-            console.log(jsonRes);
+        //     //Step 1: get the data from google
+        //     var geocodingRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${`US Zip Code ${thisObj["name"]}`}&key=${googleApiKey}`);
+        //     var jsonRes = await geocodingRes.json();
+        //     console.log(jsonRes);
 
-            var data = jsonRes.results[0];
-            if(!data) return;
-            var name = data["address_components"][1]["long_name"] + " ("+ thisObj["name"]+")";
-            var lat = data.geometry.location.lat;
-            var lng = data.geometry.location.lng;
-            console.log(name + ","+lat+","+lng);
+        //     var data = jsonRes.results[0];
+        //     if(!data) return;
+        //     var name = data["address_components"][1]["long_name"] + " ("+ thisObj["name"]+")";
+        //     var lat = data.geometry.location.lat;
+        //     var lng = data.geometry.location.lng;
+        //     console.log(name + ","+lat+","+lng);
 
-            //Step 2: set the data
-            var str = name + ",0,"+lat+","+lng+","+thisObj["population"]; 
-            thisObj.params.forEach(p=>str += ","+p);
-            list.current = ([...list.current,str]);
-            var arr = []
-            list.current.forEach(l=>arr.push(l));
-            setResText(arr);
-            setProgress(""+list.current.length + " / "+ length);
+        //     //Step 2: set the data
+        //     var str = name + ",0,"+lat+","+lng+","+thisObj["population"]; 
+        //     thisObj.params.forEach(p=>str += ","+p);
+        //     list.current = ([...list.current,str]);
+        //     var arr = []
+        //     list.current.forEach(l=>arr.push(l));
+        //     setResText(arr);
+        //     setProgress(""+index + " / "+ length);
 
 
 
-            index++;
-        },interval)
+        //     index++;
+        // },interval)
         }catch(e){
             setErrorMessage(e.message);
         }
+    }
+
+    const iterate = async (index,length,objectsArr) =>{
+        if(index > length) return;
+        if(index == length){
+            //download
+            
+
+            //first create the text
+            var blobText = ""+numDistricts;
+            paramNames.forEach(pn=>blobText+=","+pn);
+            list.current.forEach(l=>{
+                blobText += "\n"+l;
+            })
+
+
+            //create the blob and setUrl
+            var blob = new Blob([blobText], {type: 'text/plain'});
+            var url = window.URL.createObjectURL(blob);
+            setUrl(url);
+            return;
+        }
+        var thisObj = objectsArr[index];
+        if(!thisObj) return;
+
+        //Step 1: get the data from google
+        var geocodingRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${`US Zip Code ${thisObj["name"]}`}&key=${googleApiKey}`);
+        var jsonRes = await geocodingRes.json();
+        console.log(jsonRes);
+
+        var data = jsonRes.results[0];
+        if(!data) return;
+        var name = data["address_components"][1]["long_name"] + " ("+ thisObj["name"]+")";
+        var lat = data.geometry.location.lat;
+        var lng = data.geometry.location.lng;
+        console.log(name + ","+lat+","+lng);
+
+        //Step 2: set the data
+        var str = name + ",0,"+lat+","+lng+","+thisObj["population"]; 
+        thisObj.params.forEach(p=>str += ","+p);
+        list.current = ([...list.current,str]);
+        var arr = []
+        list.current.forEach(l=>arr.push(l));
+        setResText(arr);
+        setProgress(""+index + " / "+ length);
+        index++;
+        setTimeout(()=>{
+            iterate(index,length,objectsArr);
+        },interval)
     }
 
     const getDataIteration = (index,lines) =>{

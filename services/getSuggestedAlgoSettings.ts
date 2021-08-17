@@ -14,7 +14,7 @@ export default function getSuggestedAlgoSettings(data:object,algoSettings:object
         newAlgoSettings["interval2"] = 50 + Math.round(numPrecincts / 100) * 5;
         newAlgoSettings["graphInterval1"] = 1;
         newAlgoSettings["graphInterval2"] = numPrecincts < 300 ?1:Math.round(numPrecincts / 100);
-        newAlgoSettings["gridGranularity"] = 200;
+        newAlgoSettings["gridGranularity"] = 200 + Math.min(400,numPrecincts/8);
         newAlgoSettings["maxConnectingIterations"] = 1000;
         newAlgoSettings["maxIterations1"] = 100;
         newAlgoSettings["maxIterations2"] = 2000;
