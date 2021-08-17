@@ -21,7 +21,7 @@ const options = [
             lng: -71.3824,
             zoom: 8,
         },
-        runAlgoNotes: "~1 min; RSD: ~2%"
+        runAlgoNotes: "~30 sec; RSD: ~2%"
     },
     {
         name: "Georgia",
@@ -80,7 +80,8 @@ const options = [
             lat: 37.8393, 
             lng: -84.27,
             zoom: 6,
-        }
+        },
+        runAlgoNotes: "~30 sec; RSD: ~3%"
     },
     {
         name: "Texas",
@@ -103,7 +104,8 @@ const options = [
             lat: 27.6648, 
             lng: -81.5158,
             zoom: 6,
-        }
+        },
+        runAlgoNotes: "~1 min; RSD: ~12%"
     },
     {
         name: "New Hampshire",
@@ -114,7 +116,8 @@ const options = [
             lat: 42.19, 
             lng: -71.57,
             zoom: 7,
-        } 
+        },
+        runAlgoNotes: "~1 min; RSD: ~7%"
     },
     {
         name: "New York",
@@ -125,19 +128,20 @@ const options = [
             lat: 40.7128, 
             lng: -74.0060,
             zoom: 6,
-        }
+        },
+        runAlgoNotes: "~6 min; RSD: ~12%"
     },
-    {
-        name: "Illinois",
-        districts: "18 congressional districts",
-        info: "Zero parameters, ZIP codes as precincts",
-        fileName: "il18zc.txt",
-        zoom: {
-            lat: 40.6331, 
-            lng: -89.3985,
-            zoom: 6,
-        }
-    },
+    // {
+    //     name: "Illinois",
+    //     districts: "18 congressional districts",
+    //     info: "Zero parameters, ZIP codes as precincts",
+    //     fileName: "il18zc.txt",
+    //     zoom: {
+    //         lat: 40.6331, 
+    //         lng: -89.3985,
+    //         zoom: 6,
+    //     }
+    // },
 ]
 
 export default options;
