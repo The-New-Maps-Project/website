@@ -19,8 +19,9 @@ export default class Network{
         //Step 1: initialize graph, towns, and grid
         for(let i:number=0;i<townsParam.length;i++) this.graph.push([]);
         this.towns = townsParam; //pass by REFERENCE
-        this.rows = granularity;
-        this.cols = granularity;
+        this.rows = Math.round(granularity);
+        this.cols = Math.round(granularity);
+        if(granularity<1) return;
         for(let i:number=0;i<this.rows*this.cols;i++) this.grid.push(-1);
 
         //Step 2: set townIds

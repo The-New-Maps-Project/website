@@ -426,6 +426,26 @@ header {
             font-size: 18px;
             background-color: rgb(5, 161, 0);
             margin-right: 20px;
+            div.hover-box{
+              position: fixed;
+              color: white;
+              background-color: black;
+              padding: 5px 10px;
+              font-size: 15px;
+              word-break: keep-all;
+              box-shadow: 2px 2px 5px rgb(0, 0, 0);
+              font-weight: bold;
+              display: none;
+              transform: translateY(-100%);
+            }
+            transition: background-color 0.2s;
+            &:hover{
+              opacity: 1;
+              background-color: rgb(5, 161, 0,0.7);;
+              div.hover-box{
+                display: block;
+              }
+            }
           }
           .view-map{
             font-size: 14px;
