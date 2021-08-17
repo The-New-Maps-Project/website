@@ -91,10 +91,11 @@ export default function RunAlgorithm(){
                                 Grid Granularity: 
                                 <input
                                     type="number"
-                                    className="ml15"
+                                    className="ml15 mr15"
                                     value={algoSettings["gridGranularity"]}
                                     onChange={e=>setSingleAlgoSetting("gridGranularity",Number(e.target.value))}
                                 ></input>
+                                (Under 600 highly recommended)
                             </p>
                             <p className="numberInputArea">
                                 Round One: Graph every

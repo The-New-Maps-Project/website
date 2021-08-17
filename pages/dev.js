@@ -43,6 +43,11 @@ export default function Dev(){
             for(let i= 0;i<order.length;i++){
                 obj[order[i]] = a[i];
             }
+
+            // if(objectsArr.filter(o=>o["name"]==obj["zip code tabulation area"]).length>0) {
+            //     console.log(objectsArr.filter(o=>o["zip code tabulation area"]==obj["zip code tabulation area"]).length);
+            //     return; 
+            // }
             var pop = Number(obj["B01001_001E"]);
             if(pop == 0){
                 pop = objectsArr.push({
@@ -58,7 +63,16 @@ export default function Dev(){
                 })
             }
         })
-        console.log(objectsArr)
+        console.log(objectsArr);
+        for(let i=0;i<objectsArr.length;i++){
+            for(let j=i+1;j<objectsArr.length;j++){
+                if(objectsArr[i].name == objectsArr[j].name){
+                    objectsArr.splice(j,1);
+                    j--;
+                }
+            }
+        }
+        console.log("LENGTH: "+objectsArr.length);
 
         var index = 0;
         var length = objectsArr.length;
