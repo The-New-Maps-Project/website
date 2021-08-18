@@ -241,12 +241,12 @@ export default function Algorithm(){
             </div>
             {algoFocus!==1?<div className="round-subheader">
                 <span>Iterations: {round1Data.length}</span>
-                <span>{algoSettings["type"]==0?"% Unchanged: ":`${parameters[algoSettings["parameter"]]}: `} {round1Data.length==0?0:(round1Data[round1Data.length-1]*100).toFixed(2)}% </span>
+                <span>{algoSettings["type"]==0?"% Unchanged: ":`${parameters[algoSettings["parameter"]]}: `} {round1Data.length==0?"Na":(round1Data[round1Data.length-1]*100).toFixed(2)}% </span>
             </div>:<div className="round-body">
                 {round1Graph||<p>{isMain?"Randomly Assigning Precincts ...":"Waiting..."}</p>}
                 <div className="round-footer">
                     <span className="iterations">Iterations: {round1Data.length}</span>
-                    <span className="main-value">{isMain?"% Unchanged: ":paramName+": "} {round1Data.length==0?0:(round1Data[round1Data.length-1]*100).toFixed(2)}%</span>
+                    <span className="main-value">{isMain?"% Unchanged: ":paramName+": "} {round1Data.length==0?"Na":(round1Data[round1Data.length-1]*100).toFixed(2)}%</span>
                 </div>
             </div>}
         </section>

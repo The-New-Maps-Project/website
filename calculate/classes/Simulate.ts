@@ -462,8 +462,7 @@ export default class Simulate{
                 if(borderingDistrictsPops[0]>this.districtPops[this.district-1]) continue;
 
                 //Criteria 2: check that it is higher/lower in a certain parameter
-                if((this.type==1&&town.parameter<p)||(!(this.type==1)&&town.parameter>p)){
-                    p = town.parameter
+                if((this.type==1&&town.parameter<=districtAvParam)||(!(this.type==1)&&town.parameter>=districtAvParam)){
                     t = town;
                     break;
                 }
@@ -486,7 +485,7 @@ export default class Simulate{
             // })
 
             //Step C: if will not actually increase/decrease parameter, then end all iterations. Otherise, lose the precinct.
-            if(t==null||(this.type==1&&p>=districtAvParam)||(!(this.type==1)&&p<=districtAvParam)){
+            if(t==null){
                 console.log("l3")
                 this.setAlgoFocus(3);
                 this.setAlgoState(4);
@@ -528,10 +527,11 @@ export default class Simulate{
 
                 //Criteria 1: the district it is in must have a higher population than the current district, else continue
                 if(this.districtPops[town.district-1]<this.districtPops[this.district-1]) continue;
+                console.log(town.name+" | "+town.district+" | "+town.parameter+","+p);
 
                 //Criteria 2: check that it is higher/lower in a certain parameter
-                if((this.type==1&&town.parameter>p)||(!(this.type==1)&&town.parameter<p)){
-                    p = town.parameter;
+                if((this.type==1&&town.parameter>=districtAvParam)||(!(this.type==1)&&town.parameter<=districtAvParam)){
+                    console.log("YES: "+ town.name)
                     t = town;
                     break;
                 }
@@ -551,7 +551,7 @@ export default class Simulate{
             // })
 
             //Step C: if it will not help pack/crack, stop algorithm, else gain the precinct.
-            if(t==null||(this.type==1&&p<=districtAvParam)||(!(this.type==1)&&p>=districtAvParam)){
+            if(t==null){
                 this.setAlgoFocus(3);
                 this.setAlgoState(4);
                 return;
