@@ -1,6 +1,9 @@
-export default function getSuggestedAlgoSettings(data:object,algoSettings:object,type?:number):object{
+export default function getSuggestedAlgoSettings(data:object,algoSettings:object,type?:number,district?:number):object{
     var newAlgoSettings:object = {...algoSettings};
-    if(type) newAlgoSettings["type"] = type;
+    if(type){ 
+        newAlgoSettings["type"] = type;
+        if(type!=0&&district) newAlgoSettings["district"] = district;
+    }
 
     //set the suggested values
     var numPrecincts:number = Object.keys(data).length;
@@ -19,6 +22,9 @@ export default function getSuggestedAlgoSettings(data:object,algoSettings:object
     newAlgoSettings["maxConnectingIterations"] = 1000;
     newAlgoSettings["maxIterations1"] = 100;
     newAlgoSettings["maxIterations2"] = 2000;
+
+    //for packing and cracking, the interval should be about an round 2 interval:
+    if(type&&type!=0) newAlgoSettings["interval1"] = newAlgoSettings["interval2"];
     
 
     return (newAlgoSettings);

@@ -14,7 +14,7 @@ export default function RunAlgorithm(){
 
     useEffect(()=>{
         //only if not currently running the algorithm
-        if(algoState<1||algoState>3) setAlgoSettings(getSuggestedAlgoSettings(data,algoSettings));
+        if(algoState<0) setAlgoSettings(getSuggestedAlgoSettings(data,algoSettings,0));
     },[data])
 
     const runAlgorithm = () =>{
