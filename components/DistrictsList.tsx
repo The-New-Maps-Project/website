@@ -19,13 +19,11 @@ export default function DistrictsList(){
                 {viewAloneDistrict==(i+1)?<button className="unselect" onClick={()=>setViewAloneDistrict(-1)}>Unselect</button>:<button className="view-alone" onClick={()=>setViewAloneDistrict(i+1)}>View Alone</button>}
                 {districtPops[i]>0&&(algoState<0)&&<div className="buttons row">
                     <button className="pack mr15" onClick={()=>{
-                        
-                        getSuggestedAlgoSettings(data,algoSettings,1)
+                        setAlgoSettings(getSuggestedAlgoSettings(data,algoSettings,1,i+1));
                         setShowParamPopup(true)
                     }}>Pack</button>
                     <button className='crack' onClick={()=>{
-                       
-                        getSuggestedAlgoSettings(data,algoSettings,1)
+                        setAlgoSettings(getSuggestedAlgoSettings(data,algoSettings,2,i+1));
                         setShowParamPopup(true)
                     }}>Crack</button>
                 </div>}

@@ -7,7 +7,7 @@ import Simulate from "../calculate/classes/Simulate"
 import PContext from "../services/context"
 
 export default function Algorithm(){
-    const {algoState,algoFocus,round1Data,round2Data,setAlgoState,setRound1Data,setRound2Data,districtPops,algoSettings,data,districts,setData,setAlgoFocus,setConnectingData,connectingData} = useContext(PContext)
+    const {algoState,algoFocus,round1Data,round2Data,setAlgoState,setRound1Data,setRound2Data,districtPops,algoSettings,data,districts,setData,setAlgoFocus,setConnectingData,connectingData,parameters} = useContext(PContext)
     const [connectingRoundGraph,setConnectingRoundGraph] = useState<any>(null);
     const [round1Graph,setRound1Graph] = useState<any>(null);
     const [round2Graph,setRound2Graph] = useState<any>(null);
@@ -19,6 +19,12 @@ export default function Algorithm(){
     const [isDragging,setIsDragging] = useState<boolean>(false);
     const [dragStyles,setDragStyles] = useState<object>({})
     const [timeRun,setTimeRun] = useState<number>(0);
+
+
+    //helper variables
+    const [name,setName] = useState<string>(algoSettings["type"]==1?"Packing":"Cracking" + " District " + algoSettings["district"]);
+    const [paramName,setParamName] = useState<string>(parameters[algoSettings["parameter"]]);
+    const [isMain,setIsMain] = useState<boolean>(algoSettings["type"] == 0);
 
     useEffect(()=>{
 
@@ -32,12 +38,17 @@ export default function Algorithm(){
         simulate.current.start();
     },[])//IMPORTANT that it is an empty array, must only run this ONCE, and NOT on every re-render
 
-
     useEffect(()=>{
         window.onmouseup = ()=>{
             setIsDragging(false);
         }
     },[])
+
+    useEffect(()=>{
+        setName((algoSettings["type"]==1?"Packing":"Cracking") + " District " + algoSettings["district"]);
+        setParamName(parameters[algoSettings["parameter"]]);
+        setIsMain(algoSettings["type"] == 0);
+    },[algoSettings])
 
     useEffect(()=>{
         if(algoState>=3) setTimeRun(Math.round(((new Date()).getTime()-simulate.current.timeMarker)/1000));
@@ -48,7 +59,7 @@ export default function Algorithm(){
     },[connectingData])
 
     useEffect(()=>{ 
-        setRound1Graph(renderLineGraph(round1Data,algoSettings["graphInterval1"],"% Unchanged"));
+        setRound1Graph(renderLineGraph(round1Data,algoSettings["graphInterval1"],isMain?"% Unchanged":paramName));
     },[round1Data])
  
     useEffect(()=>{
@@ -200,9 +211,10 @@ export default function Algorithm(){
         setAlgoState(-1)
     }
 
+    
     return  <div id="algorithm-container"  style={dragStyles} >
         <div id="algorithm-header" onMouseDown={dragStart} onMouseMove={dragging} onMouseUp={dragEnd}>
-            <h4><FontAwesomeIcon icon={faMapMarkedAlt} className="icon"></FontAwesomeIcon>Algorithm <Link href="/documentation/algorithm"><a className="link" target="_blank">how it works</a></Link></h4>
+            <h4><FontAwesomeIcon icon={faMapMarkedAlt} className="icon"></FontAwesomeIcon>{algoSettings["type"]==0?"Algorithm":name}<Link href="/documentation/algorithm"><a className="link" target="_blank">how it works</a></Link></h4>
             <button className="terminate-button" onClick={terminate}>{algoState>=3?<FontAwesomeIcon icon={faTimes} className="sir"></FontAwesomeIcon>:"Terminate"}</button>
         </div>
         <section id="connectinground" className={algoFocus==0?"focused":"clickable"} onClick={()=>setAlgoFocusIfNotSet(0)}>
@@ -224,22 +236,22 @@ export default function Algorithm(){
         <hr></hr>
         <section id="roundone" className={algoFocus==1?"focused":"clickable"} onClick={()=>setAlgoFocusIfNotSet(1)}>
             <div className="round-header">
-                <h5>Round One</h5>
+                <h5>{algoSettings["type"]==0?"Round One":name}</h5>
                 {renderRoundStateIcon(1)}
             </div>
             {algoFocus!==1?<div className="round-subheader">
                 <span>Iterations: {round1Data.length}</span>
-                <span>% Unchanged: {round1Data.length==0?0:(round1Data[round1Data.length-1]*100).toFixed(2)}% </span>
+                <span>{algoSettings["type"]==0?"% Unchanged: ":`${parameters[algoSettings["parameter"]]}: `} {round1Data.length==0?0:(round1Data[round1Data.length-1]*100).toFixed(2)}% </span>
             </div>:<div className="round-body">
                 {round1Graph||<p>Randomly Assigning Precincts ...</p>}
                 <div className="round-footer">
                     <span className="iterations">Iterations: {round1Data.length}</span>
-                    <span className="main-value">% Unchanged: {round1Data.length==0?0:(round1Data[round1Data.length-1]*100).toFixed(2)}%</span>
+                    <span className="main-value">{isMain?"% Unchanged: ":paramName+": "} {round1Data.length==0?0:(round1Data[round1Data.length-1]*100).toFixed(2)}%</span>
                 </div>
             </div>}
         </section>
         <hr></hr>
-        <section id="roundtwo" className={algoFocus==2?"focused":"clickable"} onClick={()=>setAlgoFocusIfNotSet(2)}>
+        {algoSettings["type"]==0&&<section id="roundtwo" className={algoFocus==2?"focused":"clickable"} onClick={()=>setAlgoFocusIfNotSet(2)}>
             <div className="round-header">
                 <h5>Round Two</h5>
                 {renderRoundStateIcon(2)}
@@ -255,14 +267,14 @@ export default function Algorithm(){
                     <span className="main-value">RSD: {round2Data.length==0?"N/A":(round2Data[round2Data.length-1]*100).toFixed(2)+"%"} </span>
                 </div>
             </div>}
-        </section>
-        <hr></hr>
+        </section>}
+        {algoSettings["type"]==0&&<hr></hr>}
         <section id="roundthree" className={algoFocus==3?"focused":"clickable"} onClick={()=>setAlgoFocusIfNotSet(3)}>
             <div className="round-header">
                 <h5>Finished</h5>
                 {renderRoundStateIcon(3)}
             </div>
-            {algoFocus==3&&<div>
+            {isMain&&algoFocus==3&&<div>
                 {algoState>=3?<div>
                     <p>The algorithm has finished running in {timeRun}s. Here are some next steps:</p>
                     <ol>
@@ -274,6 +286,7 @@ export default function Algorithm(){
                     <button className="sb" onClick={terminate}>Done</button>
                 </div>:<div>The algorithm is still in progress</div>}
             </div>}
+            {!isMain}
         </section>
     </div>
 }

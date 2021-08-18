@@ -29,10 +29,20 @@ export default class Simulate{
     useSubiterations:boolean = true; //for round one only
     interval2:number = 20;//round two
     maxConnectingIterations = 1000;
-    maxIterations1 = Number.MAX_VALUE;
-    maxIterations2 = Number.MAX_VALUE;
-    gridGranularity = 200;
+    maxIterations1:number = Number.MAX_VALUE;
+    maxIterations2:number = Number.MAX_VALUE;
+    gridGranularity:number = 200;
+    type:number = 0;
+    district:number = 1;
+    parameter:number = 0;
 
+    //for packing/cracking only:
+    onBorder:number[] = [];
+    bordering:number[] = [];
+    paramPop:number = 0;
+
+
+    //Miscellaneous
     isTerminated:boolean = false;
     timeMarker: number;
 
@@ -52,19 +62,32 @@ export default class Simulate{
         this.interval2 = Number(settings["interval2"]) || 20;
         this.useSubiterations = Boolean(settings["useSubiterations"]) || false;
 
-        this.maxConnectingIterations = Number(settings["maxConnectingIterations"]) || 1000;
-        this.maxIterations1 = Number(settings["maxIterations1"]) || 100;
-        this.maxIterations2 = Number(settings["maxIterations2"]) || 2000;
-        this.gridGranularity = Number(settings["gridGranularity"]) || 200;
+        this.maxConnectingIterations = Number(settings["maxConnectingIterations"]) || this.maxConnectingIterations;
+        this.maxIterations1 = Number(settings["maxIterations1"]) || this.maxIterations1;
+        this.maxIterations2 = Number(settings["maxIterations2"]) || this.maxIterations2;
+        this.gridGranularity = Number(settings["gridGranularity"]) || this.gridGranularity;
+
+        //for type and pack/crack:
+        console.log(Number(settings["type"]));
+        this.type = Number(settings["type"]) || this.type;
+        console.log(this.type);
+        this.district = Number(settings["district"]) || this.district;
+        this.parameter = Number(settings["parameter"]) || this.parameter;
 
         //Step 2: set the towns (+ totalStatePop and av)
         this.towns = Object.keys(data).map(key=>{
             let p:number[] = data[key].map(n=>Number(n));
             this.totalStatePop += p[1];
             let t:Town = new Town(key,p[1],p[2],p[3]);
-            if(p[0]>0&&p[0]<=this.districts) { //if already assing a district
+            if(p[0]>0&&p[0]<=this.districts) { //if already assigNED a district
                 t.district = p[0]; //assign it to the Town instance
                 this.districtPops[t.district-1] += t.population; //and add it to districtPops
+                
+                //set param pop
+                if(this.type!=0){
+                    t.parameter = p.slice(4)[this.parameter]; //get index 4 and after for parameters, THEN get parameter in focus
+                    if(t.district==this.district) this.paramPop += t.population * t.parameter;
+                }
             }
             return t;
         });
@@ -75,6 +98,8 @@ export default class Simulate{
         //Step 3: create the network
         this.network = new Network(this.towns,this.gridGranularity);
     }
+
+    /* START AND PRECINCT CONNECTING ROUND METHODS BELOW */
 
     start():void{
         if(this.isTerminated) return;
@@ -91,8 +116,12 @@ export default class Simulate{
         var thisData = this.network.makeAllConnections(prevData)
         this.setConnectingData(thisData);
         if(thisData.length>this.maxConnectingIterations||thisData[thisData.length-1]==0){
-            
-            this.startRounds();
+            console.log(this.type);
+            if(this.type==0) {
+                this.startRounds();
+            }else{
+                this.pcStartRound();
+            }
         }else{
             setTimeout(()=>{
                 this.connectingRoundIteration(thisData);
@@ -100,9 +129,15 @@ export default class Simulate{
         }
     }
 
+    /*MAIN ALGORITHM METHODS BELOW*/
+
     //AFTER precinct connections have been made in Network
     startRounds(): void{
         if(this.isTerminated) return;
+        if(this.type!=0){
+            this.pcStartRound();
+            return;
+        }
         this.network.test();
         this.network.connectAllOverlapping();
         this.network.test();
@@ -342,6 +377,186 @@ export default class Simulate{
         },this.interval2)
     }
 
+    /* PACK AND CRACK METHODS BELOW */
+
+    pcStartRound(){
+        console.log(this.type);
+        if(this.type==0){
+            this.startRounds();
+            return;
+        }
+
+        //Step 1: fill out bordering and onBorder towns
+        this.towns.forEach(town=>{
+            //first check to fill out 
+
+
+            let adjs:number[] = this.network.getAdjacents(town.id);
+            let isBordering:boolean = false;
+            let isOnBorder:boolean = false;
+            adjs.forEach(t=>{
+                let otherTown:Town = this.towns[t];
+                if(town.district==this.district&&otherTown.district!=this.district){
+                    isOnBorder = true; //town is inside, but adjacent to a town in another district
+                }
+                if(town.district!=this.district&&otherTown.district==this.district){
+                    isBordering = true; //town is NOT in this district, but is adjacent to a town in the district
+                }
+            })
+
+            //If either bordering or onBorder, add to the arrays
+            if(isOnBorder&&!this.onBorder.includes(town.id)) this.onBorder.push(town.id);
+            else if(isBordering&&!this.bordering.includes(town.id)) this.bordering.push(town.id);
+        })
+
+        //Step 2: start iterating
+        this.pcIterate([]);
+    }
+
+    pcIterate(prevData:number[]){
+        if(this.isTerminated) return;
+        console.log(prevData);
+        this.setRound1Data(prevData);
+
+        // console.log(this.paramPop, this.districtPops,this.district,this.districtPops[this.district-1]);
+
+        let districtAvParam = (this.paramPop/this.districtPops[this.district-1]);
+        if(this.districtPops[this.district-1]>this.av){//greater than average, need to LOSE
+            let t:Town|null = null;
+            let p:number = (this.type==1?1:-1) * Number.MAX_VALUE; //find minimum to lose if packing, maximum to lose if cracking
+            this.onBorder.forEach(tId=>{
+                let town:Town = this.towns[tId];
+                //find minimum to lose if packing,   or  maximum to lose if cracking
+                if((this.type==1&&town.parameter<p)||(!(this.type==1)&&town.parameter>p)){
+                    p = town.parameter
+                    t = town;
+                }
+            })
+            if(t==null){
+                this.setAlgoFocus(3);
+                this.setAlgoState(4);
+                return;
+            }else{
+                let canLose = this.loseTown(t); //always keep iterating on a LOSE, unless t is null
+                if(!canLose){
+                    this.setAlgoFocus(3);
+                    this.setAlgoState(4);
+                    return;
+                }
+            }
+        }else{//lesser than average, need to GAIN
+            let t:Town|null = null;
+            let p:number =  (this.type==1?-1:1) * Number.MAX_VALUE; //find maximum to gain if packing, minimum to gain if cracking
+            this.bordering.forEach(tId=>{
+                let town:Town = this.towns[tId];
+                if((this.type==1&&town.parameter>p)||(!(this.type==1)&&town.parameter<p)){
+                    p = town.parameter;
+                    t = town;
+                }
+                
+            })
+            if(t==null||(this.type==1&&p<=districtAvParam)||(!(this.type==1)&&p>=districtAvParam)){
+                console.log("PRECINT PARAM: "+p);
+                this.setAlgoFocus(3);
+                this.setAlgoState(4);
+                return;
+            }else{
+                this.gainTown(t);
+                console.log("Gaining "+t.name);
+                console.log(this.districtPops[this.district-1])
+            }
+        }
+        setTimeout(()=>{
+            if(prevData.length>this.maxIterations2){
+                this.setAlgoFocus(3);
+                this.setAlgoState(4);
+                return;
+            }else{
+                console.log("iterating"+prevData.length);
+                this.pcIterate([...prevData,districtAvParam])
+            }
+        },this.interval1)
+    }
+
+   //returns if can successfully lose the town.
+    loseTown(t:Town):boolean{
+        if(t.district!=this.district) return; //MUST lose from district in focus
+
+        //Step 1: find the district to lose to (least populous bording district)
+        var adjs:number[] = this.network.getAdjacents(t.id);
+        var toDistrict:number = -1;
+        var minPop:number = Number.MAX_VALUE;
+        adjs.forEach(t=>{
+            if(this.towns[t].district!=this.district&&this.districtPops[this.towns[t].district-1]<minPop){
+                toDistrict = this.towns[t].district;
+                minPop = this.districtPops[this.towns[t].district-1];
+            }
+        })
+        if(toDistrict==-1) return false;//no adjacents
+        else{
+            this.assignData(t,toDistrict);
+        }
+
+        //Step 2: remove from onBorder, add to bordering
+        var tIndex = this.onBorder.indexOf(t.id);
+        this.onBorder.splice(tIndex,1); //remove from onBorder
+        this.bordering.push(t.id);
+
+        //Step 3: Find new precincts onBorder,and remove precincts from "bordering" that are no longer bordering because of this removal
+        //only the adjacents of the removed town could be new onBorders (only check if in the focused district, because they border the removed district, which is NOT in the focused district anymore)
+        this.network.getAdjacents(t.id).forEach(adjId=>{
+            let otherTown:Town = this.towns[adjId];
+            if(otherTown.district==this.district&&!this.onBorder.includes(adjId)) this.onBorder.push(adjId); //add to onBorder
+            if(otherTown.district!=this.district&&this.bordering.includes(adjId)&&this.checkIsBordering(otherTown)){
+                let index = this.bordering.indexOf(adjId);
+                this.bordering.splice(index,1);
+            }
+        })
+        return true;
+    }
+
+    gainTown(t:Town){
+        if(t.district==this.district) return; //MUST be bordering, NOT in the district
+
+        //Step 1: assign the precinct to the focus district
+        this.assignData(t,this.district);
+
+        //Step 2: remove from bordering, add to onBorder
+        var tIndex = this.bordering.indexOf(t.id);
+        this.bordering.splice(tIndex,1);
+        this.onBorder.push(t.id);
+
+        //Step 3: remove precincts that are no longer onBorder because this is added, and add new precincts to "bordering" because this is added
+        this.network.getAdjacents(t.id).forEach(adjId=>{
+            let otherTown:Town = this.towns[adjId];
+            if(otherTown.district==this.district&&this.onBorder.includes(adjId)&&!this.checkIsOnBorder(otherTown)){
+                let index = this.onBorder.indexOf(adjId);
+                this.onBorder.splice(index,1);
+            }
+            if(otherTown.district!=this.district&&!this.bordering.includes(adjId)) this.bordering.push(adjId);
+        })
+    }
+
+    checkIsBordering(t:Town){
+        var isBordering:boolean = false;
+        this.network.getAdjacents(t.id).forEach(adjId=>{
+            if(this.towns[adjId].district==this.district) isBordering = true;
+        })
+        return t.district !== this.district && isBordering; //need to also make sure it's NOT in this district
+    }
+
+    checkIsOnBorder(t:Town){
+        var isOnBorder:boolean = false;
+        this.network.getAdjacents(t.id).forEach(adjId=>{
+            if(this.towns[adjId].district!=this.district) isOnBorder = true;
+        })
+        return t.district == this.district && isOnBorder; //need to also make sure it's actually in the district
+    }
+
+
+
+    /*HELPER METHODS BELOW */
+
     getDiff(t:Town):number{
         return this.districtPops[t.secondDistrict - 1] / this.districtPops[t.district - 1];
     }
@@ -427,8 +642,10 @@ export default class Simulate{
 
     assign(t:Town,district:number):void{
         if(t.district!=null&&t.district>0) this.districtPops[t.district - 1] -= t.population;
+        if(this.type!=0&&t.district==this.district) this.paramPop -= t.population * t.parameter;
         t.district = district;
         this.districtPops[t.district - 1] += t.population;
+        if(this.type!=0&&district==this.district) this.paramPop += t.population * t.parameter;
         this.data[t.name][0] = district;
     }
 
