@@ -226,6 +226,7 @@ export default function Algorithm(){
                 <span>Iterations: {connectingData.length}</span>
                 <span>Changed: {connectingData.length==0?0:(connectingData[connectingData.length-1]).toFixed(0)}</span>
             </div>:<div className="round-body">
+                <p>No map visualization for connecting precincts</p>
                 {connectingRoundGraph}
                 <div className="round-footer">
                     <span className="iterations">Iterations: {connectingData.length}</span>

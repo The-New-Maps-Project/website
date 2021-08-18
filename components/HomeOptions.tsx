@@ -39,7 +39,7 @@ export default function HomeOptions({xFunction}){
 
             if(runAlgo){
                 //Step 3: set suggested algorithm settings automatically
-                setAlgoSettings(getSuggestedAlgoSettings(dataObj,algoSettings))
+                setAlgoSettings(getSuggestedAlgoSettings(dataObj,algoSettings,0,0))
 
                 //Step 4: Run the algorithm
                 setAlgoState(0);
