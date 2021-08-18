@@ -42,6 +42,9 @@ function MyApp({ Component, pageProps }) {
     graphInterval1: 1,
     graphInterval2: 1,
     gridGranularity: 200,
+    district: 1,
+    parameter: 1,
+    type: 0, //0 for Main Algorithm, 1 for packing, 2 for cracking
   });
 
   //For packing and cracking

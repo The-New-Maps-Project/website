@@ -6,7 +6,7 @@ import writeNum from "../services/writeNum";
 import Popup from "./Popup";
 
 export default function DistrictsList(){
-    const {districts,districtPops,setViewAloneDistrict,viewAloneDistrict,algoState,pcSettings,setPcSettings,setPcState,parameters,pcState} = useContext(PContext);
+    const {districts,districtPops,setViewAloneDistrict,viewAloneDistrict,algoState,algoSettings,setAlgoSettings,setPcState,parameters} = useContext(PContext);
     const [showParamPopup,setShowParamPopup] = useState<boolean>(false);
 
     const renderDistricts = ():any[] => {
@@ -16,19 +16,19 @@ export default function DistrictsList(){
                 <div className="district-name row"><span>District {i+1}</span><span style={{backgroundColor: `var(--${districts[i]}-icon)`}} className="color-box"></span></div>
                 <div className="population">Population: {writeNum(districtPops[i])}</div>
                 {viewAloneDistrict==(i+1)?<button className="unselect" onClick={()=>setViewAloneDistrict(-1)}>Unselect</button>:<button className="view-alone" onClick={()=>setViewAloneDistrict(i+1)}>View Alone</button>}
-                {districtPops[i]>0&&(algoState<0||algoState>3)&&(pcState<0)&&<div className="buttons row">
+                {districtPops[i]>0&&(algoState<0)&&<div className="buttons row">
                     <button className="pack mr15" onClick={()=>{
-                        let newObj = {...pcSettings};
-                        newObj["isPacking"] = true;
+                        let newObj = {...algoSettings};
+                        newObj["type"] = 1;
                         newObj["district"] = i +1;
-                        setPcSettings(newObj);
+                        setAlgoSettings(newObj);
                         setShowParamPopup(true)
                     }}>Pack</button>
                     <button className='crack' onClick={()=>{
-                        let newObj = {...pcSettings};
-                        newObj["isPacking"] = false;
+                        let newObj = {...algoSettings};
+                        newObj["type"] = 2;
                         newObj["district"] = i +1;
-                        setPcSettings(newObj);
+                        setAlgoSettings(newObj);
                         setShowParamPopup(true)
                     }}>Crack</button>
                 </div>}
@@ -43,9 +43,7 @@ export default function DistrictsList(){
             arr.push(<li key={i}>
                 <button onClick={()=>{
                     setShowParamPopup(false);
-                    let newObj = {...pcSettings};
-                    newObj["parameter"] = i;
-                    setPcSettings(newObj);
+                    setSingleAlgoSetting("parameter",i);
                     setPcState(0);//begin algorithm
                 }}>{parameters[i]}</button>
             </li>)
@@ -53,12 +51,10 @@ export default function DistrictsList(){
         return arr;
     }
 
-    const setSpecifiedPcSetting = (settings:string[],value:any)=>{
-        let newObj = {...pcSettings};
-        settings.forEach(setting=>{
-            newObj[setting] = value;
-        })
-        setPcSettings(newObj);
+    const setSingleAlgoSetting = (setting:string,value:any) => {
+        let newObj = {...algoSettings};
+        newObj[setting] = value;
+        setAlgoSettings(newObj);
     }
 
     return<div id="districts-list1">
@@ -71,7 +67,23 @@ export default function DistrictsList(){
                 <FontAwesomeIcon icon={faTimes} className="sir"></FontAwesomeIcon>
             </button>
             <div id="pc-select-param">
-                <h5>{`${pcSettings["isPacking"]?"Packing ":"Cracking "} District ${pcSettings["district"]}`}</h5>
+                <h5>{`${algoSettings["type"]==1?"Packing ":"Cracking "} District ${algoSettings["district"]}`}</h5>
+                <ul className="algoSettings">
+                    <li>
+                        <input
+                            onChange={(e)=>setSingleAlgoSetting("intervalConnecting",Number(e.target.value))}
+                            type="number"
+                            value={algoSettings["intervalConnecting"]}
+                        ></input>ms between Precinct Connecting Round iterations
+                    </li>
+                    <li>
+                        <input
+                            onChange={(e)=>setSingleAlgoSetting("interval1",Number(e.target.value))}
+                            type="number"
+                            value={algoSettings["interval1"]}
+                        ></input>ms between packing/cracking iterations
+                    </li>
+                </ul>
                 <p>Select a Parameter</p>
                 <ul className="params">
                     {renderParameters()}
