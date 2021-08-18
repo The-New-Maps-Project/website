@@ -113,6 +113,7 @@ export default class Simulate{
     }
 
     connectingRoundIteration(prevData:number[]){
+        if(this.isTerminated) return;
         var thisData = this.network.makeAllConnections(prevData)
         this.setConnectingData(thisData);
         if(thisData.length>this.maxConnectingIterations||thisData[thisData.length-1]==0){
@@ -167,18 +168,19 @@ export default class Simulate{
     }
 
     randomAssignmentIteration(townIndex:number): void{
+        if(this.isTerminated) return;
+        //Step 1: assign to a distict
+        var district:number = (townIndex % this.districts) + 1;
+        var t:Town = this.shuffledTowns[townIndex];
+        if(t.district<=0||t.district>this.districts){
+            this.assignData(t,district);
+        }
+
+        //Step 2: increment townIndex
+        townIndex++;
+
+            
         setTimeout(()=>{
-            if(this.isTerminated) return;
-            //Step 1: assign to a distict
-            var district:number = (townIndex % this.districts) + 1;
-            var t:Town = this.shuffledTowns[townIndex];
-            if(t.district<=0||t.district>this.districts){
-                this.assignData(t,district);
-            }
-
-            //Step 2: increment townIndex
-            townIndex++;
-
             //Step 3: check if all precincts have been randomly assigned and move onto round one.
             if(townIndex>=this.towns.length){
                 this.roundOneSubiteration(0,0,0,0);
@@ -189,39 +191,40 @@ export default class Simulate{
     }
 
     roundOneIteration(prevPU:number, secondPrevPU):void{
+        if(this.isTerminated) return;
+        var unchangedCount:number = 0;
+        this.towns.forEach(t=>{
+            //Step 1: find closest district
+            let minDist:number = Number.MAX_VALUE;
+            let closestDistrictIndex:number = 0;
+            //A: get the centers of each district
+            let centers: Location[] = this.getDistrictCenters();
+            //B: loop through them to see which one is closest
+            for(let i:number = 0;i<centers.length;i++){
+                if(centers[i]==null) continue;
+                let dist:number = t.location.distTo(centers[i]) * this.districtPops[i];
+                if(dist<minDist){
+                    minDist = dist;
+                    closestDistrictIndex = i;
+                }
+            }
+
+            //Step 2: assign to that district or increment unchangedCount
+            if(closestDistrictIndex + 1 == t.district){
+                unchangedCount += 1;
+            }else{
+                this.assign(t,closestDistrictIndex + 1);
+            }
+        })
+
+        //Step 3: calculate pu and see if you need to terminate
+        var pu:number = unchangedCount / this.towns.length;
+        var prevRound1Data = [...this.round1Data];
+        this.round1Data = [...this.round1Data,pu];
+        this.setRound1Data(this.round1Data);
+        this.setData({...this.data}); //also update the map data
+        
         setTimeout(()=>{
-            if(this.isTerminated) return;
-            var unchangedCount:number = 0;
-            this.towns.forEach(t=>{
-                //Step 1: find closest district
-                let minDist:number = Number.MAX_VALUE;
-                let closestDistrictIndex:number = 0;
-                //A: get the centers of each district
-                let centers: Location[] = this.getDistrictCenters();
-                //B: loop through them to see which one is closest
-                for(let i:number = 0;i<centers.length;i++){
-                    if(centers[i]==null) continue;
-                    let dist:number = t.location.distTo(centers[i]) * this.districtPops[i];
-                    if(dist<minDist){
-                        minDist = dist;
-                        closestDistrictIndex = i;
-                    }
-                }
-
-                //Step 2: assign to that district or increment unchangedCount
-                if(closestDistrictIndex + 1 == t.district){
-                    unchangedCount += 1;
-                }else{
-                    this.assign(t,closestDistrictIndex + 1);
-                }
-            })
-
-            //Step 3: calculate pu and see if you need to terminate
-            var pu:number = unchangedCount / this.towns.length;
-            var prevRound1Data = [...this.round1Data];
-            this.round1Data = [...this.round1Data,pu];
-            this.setRound1Data(this.round1Data);
-            this.setData({...this.data}); //also update the map data
             if(prevRound1Data.includes(pu)||pu==1||this.round1Data.length > this.maxIterations1){ //if already had this pu value, then terminate
                 this.roundTwoIteration(Number.MAX_VALUE);
                 this.setAlgoFocus(2);
@@ -232,7 +235,7 @@ export default class Simulate{
                 prevPU = pu;
                 //Step 4: recurse
                 this.roundOneIteration(prevPU,secondPrevPU);
-            }
+            } 
         },this.interval1);
     }
 
@@ -294,69 +297,71 @@ export default class Simulate{
     }
 
     roundTwoIteration(prevRSD:number):void{
-        setTimeout(()=>{
-            if(this.isTerminated) return;
+        if(this.isTerminated) return;
 
-            var centers:Location[] = this.getDistrictCenters();
+        var centers:Location[] = this.getDistrictCenters();
 
-            var hashedNum:number = 0;
-            var maxPopDiff:number = Number.MAX_VALUE;
+        var hashedNum:number = 0;
+        var maxPopDiff:number = Number.MAX_VALUE;
 
-            var dTown:Town;
-    
-            //Step 1: find the two connected distrits with the biggest population difference
-            this.towns.forEach(t=>{
-                let secondDistrict:number = this.findClosestDistrictBorder(t);
-                if(secondDistrict==-1) return; //if not on the border
-                let diff:number = this.getDiff(t);
-                if(diff > 1) diff = 1/diff; //just trying to find the pair of districts, so either order is fine;
-                if(diff < maxPopDiff){
-                    maxPopDiff = diff;
-                    hashedNum = this.districtsHash(t);
-                    dTown = t;
-                }
-            })
-    
-            //Step 2: find the town in the bigger district closest to the smaller district
-            var minDist:number = Number.MAX_VALUE;
-            var biggerDistrict:number = this.unHash(hashedNum)[1];
-            var smallerDistrict:number = this.unHash(hashedNum)[0];
-            var res:Town = null;
-            this.towns.forEach(t=>{
-                if(t.district!=biggerDistrict||!this.isBordering(t.id,smallerDistrict)) return; //must be in the bigger district and bordering the smaller one
-                var thisDist:number = t.location.distTo(centers[smallerDistrict -1 ]);
-                if(thisDist < minDist){
-                    minDist = thisDist;
-                    res = t;
-                }
-            })
-            if(res==null){
-                console.log(dTown.name + "; "+dTown.district+" , "+dTown.secondDistrict);
-                console.log(res);
-                console.log(biggerDistrict+" -> "+smallerDistrict);
-                console.log("Res is null")
-                this.network.test();
-                this.towns.forEach(t=>{
-                    if(t.district==biggerDistrict){
-                        var adjs = this.network.getAdjacents(t.id).map(tid=>this.towns[tid].name+"-"+this.towns[tid].district);
-                        console.log(t.district+": "+t.name+": "+adjs);
-                    }
-                })
-                this.towns.forEach(t=>{
-                    if(t.district==smallerDistrict){
-                        var adjs = this.network.getAdjacents(t.id).map(tid=>this.towns[tid].name+"-"+this.towns[tid].district);
-                        console.log(t.district+": "+t.name+": "+adjs);
-                    }
-                })
-                return;
+        var dTown:Town;
+
+        //Step 1: find the two connected distrits with the biggest population difference
+        this.towns.forEach(t=>{
+            let secondDistrict:number = this.findClosestDistrictBorder(t);
+            if(secondDistrict==-1) return; //if not on the border
+            let diff:number = this.getDiff(t);
+            if(diff > 1) diff = 1/diff; //just trying to find the pair of districts, so either order is fine;
+            if(diff < maxPopDiff){
+                maxPopDiff = diff;
+                hashedNum = this.districtsHash(t);
+                dTown = t;
             }
-            this.assignData(res,smallerDistrict);
-            
-            //Step 3: recalculate rsd
-            var thisRSD:number = Number((this.stddev() / this.av).toFixed(5));
-            this.round2Data = [...this.round2Data,thisRSD];
-            this.setRound2Data(this.round2Data);
+        })
 
+        //Step 2: find the town in the bigger district closest to the smaller district
+        var minDist:number = Number.MAX_VALUE;
+        var biggerDistrict:number = this.unHash(hashedNum)[1];
+        var smallerDistrict:number = this.unHash(hashedNum)[0];
+        var res:Town = null;
+        this.towns.forEach(t=>{
+            if(t.district!=biggerDistrict||!this.isBordering(t.id,smallerDistrict)) return; //must be in the bigger district and bordering the smaller one
+            var thisDist:number = t.location.distTo(centers[smallerDistrict -1 ]);
+            if(thisDist < minDist){
+                minDist = thisDist;
+                res = t;
+            }
+        })
+        if(res==null){
+            console.log(dTown.name + "; "+dTown.district+" , "+dTown.secondDistrict);
+            console.log(res);
+            console.log(biggerDistrict+" -> "+smallerDistrict);
+            console.log("Res is null")
+            this.network.test();
+            this.towns.forEach(t=>{
+                if(t.district==biggerDistrict){
+                    var adjs = this.network.getAdjacents(t.id).map(tid=>this.towns[tid].name+"-"+this.towns[tid].district);
+                    console.log(t.district+": "+t.name+": "+adjs);
+                }
+            })
+            this.towns.forEach(t=>{
+                if(t.district==smallerDistrict){
+                    var adjs = this.network.getAdjacents(t.id).map(tid=>this.towns[tid].name+"-"+this.towns[tid].district);
+                    console.log(t.district+": "+t.name+": "+adjs);
+                }
+            })
+            return;
+        }
+        this.assignData(res,smallerDistrict);
+        
+        //Step 3: recalculate rsd
+        var thisRSD:number = Number((this.stddev() / this.av).toFixed(5));
+        this.round2Data = [...this.round2Data,thisRSD];
+        this.setRound2Data(this.round2Data);
+
+        
+
+        setTimeout(()=>{
             //Step 4: determine whether to end or keep recursing
             let indexOfValue:number = this.round2Data.indexOf(thisRSD);
             //if is already in array and is not just the last or second last value
@@ -373,14 +378,13 @@ export default class Simulate{
                 prevRSD = thisRSD;
                 this.roundTwoIteration(prevRSD);
             }
-
         },this.interval2)
     }
 
     /* PACK AND CRACK METHODS BELOW */
 
     pcStartRound(){
-        console.log(this.type);
+        if(this.isTerminated) return;
         if(this.type==0){
             this.startRounds();
             return;
@@ -411,6 +415,8 @@ export default class Simulate{
 
         //Step 2: start iterating
         this.pcIterate([]);
+        this.setAlgoFocus(1);
+        this.setAlgoState(1);
     }
 
     pcIterate(prevData:number[]){

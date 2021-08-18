@@ -251,7 +251,7 @@ export default function Algorithm(){
             </div>}
         </section>
         <hr></hr>
-        {algoSettings["type"]==0&&<section id="roundtwo" className={algoFocus==2?"focused":"clickable"} onClick={()=>setAlgoFocusIfNotSet(2)}>
+        {isMain&&<section id="roundtwo" className={algoFocus==2?"focused":"clickable"} onClick={()=>setAlgoFocusIfNotSet(2)}>
             <div className="round-header">
                 <h5>Round Two</h5>
                 {renderRoundStateIcon(2)}

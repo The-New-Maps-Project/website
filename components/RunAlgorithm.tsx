@@ -35,7 +35,10 @@ export default function RunAlgorithm(){
     }
 
     return <div>
-        <button className="algorithm-button" onClick={()=>setShowPopup(true)}>
+        <button className="algorithm-button" onClick={()=>{
+            setShowPopup(true);
+            setAlgoSettings(getSuggestedAlgoSettings(data,algoSettings,0));
+        }}>
             Run Algorithm
         </button>
         
