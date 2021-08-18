@@ -286,7 +286,12 @@ export default function Algorithm(){
                     <button className="sb" onClick={terminate}>Done</button>
                 </div>:<div>The algorithm is still in progress</div>}
             </div>}
-            {!isMain}
+            {!isMain&&algoFocus==3&&<div>
+                {algoState>=3?<div>
+                    <p>Finished running in {timeRun}s. </p>
+                    <button className="sb" onClick={terminate}>Done</button>
+                </div>:<div>Still in progress</div>}
+            </div>}
         </section>
     </div>
 }

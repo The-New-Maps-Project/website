@@ -21,6 +21,7 @@ export default function RunAlgorithm(){
         var n = districts.length;
         //var newObj = {...algorithm(data,n,tInput/100)};
         //setData(newObj);
+        setSingleAlgoSetting('type',0);
         setRound1Data([]);//empty round 1 data
         setRound2Data([]);//empty round 2 data
         setShowPopup(false);

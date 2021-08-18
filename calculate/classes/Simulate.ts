@@ -430,15 +430,31 @@ export default class Simulate{
         if(this.districtPops[this.district-1]>this.av){//greater than average, need to LOSE
             let t:Town|null = null;
             let p:number = (this.type==1?1:-1) * Number.MAX_VALUE; //find minimum to lose if packing, maximum to lose if cracking
+
+            //Step A: search for lowest population district (to lose a district TO)
+            let d:number = -1; 
+            let minPop:number = Number.MAX_VALUE;
+            this.onBorder.forEach(tId=>{
+                let thisDistrict = this.towns[tId].district;
+                if(thisDistrict!=this.district&&this.districtPops[thisDistrict-1]<minPop){
+                    d = thisDistrict;
+                    minPop = this.districtPops[thisDistrict-1];
+                }
+            })
+
+            //Step B: find the precinct out of that lowest population district with the lowest/highest percentage of the parameter.
             this.onBorder.forEach(tId=>{
                 let town:Town = this.towns[tId];
+                if(town.district!=d) return;
                 //find minimum to lose if packing,   or  maximum to lose if cracking
                 if((this.type==1&&town.parameter<p)||(!(this.type==1)&&town.parameter>p)){
                     p = town.parameter
                     t = town;
                 }
             })
-            if(t==null){
+
+            //Step C: if will not actually increase/decrease parameter, then end all iterations. Otherise, lose the precinct.
+            if(t==null||(this.type==1&&p>=districtAvParam)||(!(this.type==1)&&p<=districtAvParam)){
                 this.setAlgoFocus(3);
                 this.setAlgoState(4);
                 return;
@@ -453,14 +469,32 @@ export default class Simulate{
         }else{//lesser than average, need to GAIN
             let t:Town|null = null;
             let p:number =  (this.type==1?-1:1) * Number.MAX_VALUE; //find maximum to gain if packing, minimum to gain if cracking
+
+
+            //Step A: search for highest population district (to take a district FROM)
+            let d:number = -1; 
+            let maxPop:number = 0;
+            this.onBorder.forEach(tId=>{
+                let thisDistrict = this.towns[tId].district;
+                if(thisDistrict!=this.district&&this.districtPops[thisDistrict-1]>maxPop){
+                    d = thisDistrict;
+                    maxPop = this.districtPops[thisDistrict-1];
+                }
+            })
+
+
+            //Step B: find the precinct out of highest population district with the lowest/highest param value
             this.bordering.forEach(tId=>{
                 let town:Town = this.towns[tId];
+                if(town.district!=d) return;
                 if((this.type==1&&town.parameter>p)||(!(this.type==1)&&town.parameter<p)){
                     p = town.parameter;
                     t = town;
                 }
                 
             })
+
+            //Step C: if it will not help pack/crack, stop algorithm, else gain the precinct.
             if(t==null||(this.type==1&&p<=districtAvParam)||(!(this.type==1)&&p>=districtAvParam)){
                 console.log("PRECINT PARAM: "+p);
                 this.setAlgoFocus(3);
