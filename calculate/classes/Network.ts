@@ -126,22 +126,18 @@ export default class Network{
 
     test(){
         //Testing
-        console.log(this.towns.length);
         var count = 0;
         this.towns.forEach(t=>{
             var adj:number[] = this.graph[t.id];
             if(adj.length==0) count++;
             adj.forEach(otherT=>{
-                if(!this.isConnected(otherT,t.id)) console.log("NOT CONNECTED: "+otherT+" , "+t);
+                if(!this.isConnected(otherT,t.id)) console.error("NOT CONNECTED: "+otherT+" , "+t);
                 if(!this.graph[otherT].includes(t.id)){
-                    console.log(this.towns[otherT].name+" Not connected back to "+this.towns[t.id].name);
-                    console.log(this.graph[otherT]);
-                    console.log("-----");
+                    console.error(this.towns[otherT].name+" Not connected back to "+this.towns[t.id].name);
+                   ;
                 }
             })
         })
-        console.log(count);
-        console.log("ran test");
     //     var index:number = 1393;
     //     //this.printGrid();
     //     console.log(this.towns[index].name);
@@ -187,7 +183,6 @@ export default class Network{
             if(adj.length==0){
                 let otherTownId = this.grid[this.toGridSpace(this.towns[t.id])];
                 adj = this.graph[otherTownId];
-                if(adj.length==0) console.log(this.towns[this.grid[this.toGridSpace(this.towns[t.id])]].name);
                 adj.forEach(a=>{
                     this.connect(a,t.id);
                 })
@@ -303,7 +298,6 @@ export default class Network{
         var str:string = ""
         for(let i:number=0;i<this.grid.length;i++){
             if(i%this.rows==0){
-                console.log(str);
                 str = "";
             }
             str += String(this.grid[i]) + " , ";

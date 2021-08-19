@@ -23,7 +23,6 @@ export default function SwitchPopup(props){
 
     const selectDistrict = (districtNo:number)=>{
         if(!props.selectDistrict||typeof props.selectDistrict!="function") return;
-        console.log("is a function");
         props.selectDistrict(districtNo);
         props.xFunction();
     }

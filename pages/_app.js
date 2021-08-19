@@ -47,21 +47,6 @@ function MyApp({ Component, pageProps }) {
     type: 0, //0 for Main Algorithm, 1 for packing, 2 for cracking
   });
 
-  //For packing and cracking
-  const [pcData,setPcData] = useState([]);
-  const [pcSettings,setPcSettings] = useState({
-    district: 1,
-    parameter: 0, //starting at 0, in order
-    interval: 200,
-    intervalConnecting: 50,
-    isPacking: true,
-    maxConnectingIterations: 1000,
-    maxIterations: 1000,
-  });
-  const [pcState,setPcState] = useState(-1); // 0 - connecting, 1 - packing/cracking, 2 - done
-  const [pcFocus,setPcFocus] = useState(-1);
-
-
   const saveTimes = useRef(0);
   const [mapZoom,setMapZoom] = useState({
     lat: 39.3433, 
@@ -106,14 +91,6 @@ function MyApp({ Component, pageProps }) {
     setViewAloneDistrict,
     connectingData,
     setConnectingData,
-    pcData,
-    setPcData,
-    pcFocus,
-    setPcFocus,
-    pcState,
-    setPcState,
-    pcSettings,
-    setPcSettings
   }
 
   return <PContext.Provider value={contextValue}>
