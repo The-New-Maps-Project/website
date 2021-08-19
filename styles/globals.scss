@@ -1182,7 +1182,14 @@ h3.mymaps {
 @media (max-width: $breakpoint-large) {
   #list-view{
     padding: 30px 0px;
+    margin: 0px;
     width: auto;
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  #list-view{
+    width: 100%;
   }
 }
 
@@ -1787,4 +1794,10 @@ footer {
   background-color: black;
   color: white;
   padding: 15px 0px;
+}
+
+@media (max-width: $breakpoint-mobile) {
+  footer{
+    @include col();
+  }
 }

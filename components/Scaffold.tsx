@@ -17,7 +17,7 @@ export default function Scaffold({showOptions}){
 
 
     return <div id="scaffold">
-        {algoState<0&&<button className="spb" style={{marginBottom: "20px"}} onClick={()=>showOptions()}>Use a Pre-made Option</button>}
+        {algoState<0&&<button className="spb" style={{marginBottom: "20px"}} onClick={()=>showOptions()}>Use a Premade Option</button>}
         <section id="first-row">
             <div className="left">
                 <Parameters></Parameters>
