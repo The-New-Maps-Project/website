@@ -129,7 +129,7 @@ const options = [
             lng: -74.0060,
             zoom: 6,
         },
-        runAlgoNotes: "~10 min; RSD: ~12%"
+        runAlgoNotes: "~6 min; RSD: ~12%"
     },
     // {
     //     name: "Illinois",
