@@ -33,10 +33,8 @@ export default function Parameters(){
                             <button className="l-arrow" onClick={()=>{
                                 var i = parameters.indexOf(p);
                                 if(i>=1) {
-                                    console.log(i);
                                     var arr =[...parameters]
                                     arr.splice(i-1,2,parameters[i],parameters[i-1]);
-                                    console.log(arr);
                                     setParameters(arr);
                                 }
                                 
@@ -46,7 +44,6 @@ export default function Parameters(){
                                 if(i<parameters.length-1) {
                                     var arr = [...parameters]
                                     arr.splice(i,2,parameters[i+1],parameters[i]);
-                                    console.log(arr);
                                     setParameters(arr);
                                 }
                             }}><FontAwesomeIcon className="si" icon={faCaretRight}></FontAwesomeIcon></button>

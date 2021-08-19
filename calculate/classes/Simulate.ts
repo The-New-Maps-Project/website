@@ -68,9 +68,8 @@ export default class Simulate{
         this.gridGranularity = Number(settings["gridGranularity"]) || this.gridGranularity;
 
         //for type and pack/crack:
-        console.log(Number(settings["type"]));
+        
         this.type = Number(settings["type"]) || this.type;
-        console.log(this.type);
         this.district = Number(settings["district"]) || this.district;
         this.parameter = Number(settings["parameter"]) || this.parameter;
 
@@ -117,7 +116,6 @@ export default class Simulate{
         var thisData = this.network.makeAllConnections(prevData)
         this.setConnectingData(thisData);
         if(thisData.length>this.maxConnectingIterations||thisData[thisData.length-1]==0){
-            console.log(this.type);
             if(this.type==0) {
                 this.startRounds();
             }else{
@@ -333,23 +331,7 @@ export default class Simulate{
             }
         })
         if(res==null){
-            console.log(dTown.name + "; "+dTown.district+" , "+dTown.secondDistrict);
-            console.log(res);
-            console.log(biggerDistrict+" -> "+smallerDistrict);
-            console.log("Res is null")
             this.network.test();
-            this.towns.forEach(t=>{
-                if(t.district==biggerDistrict){
-                    var adjs = this.network.getAdjacents(t.id).map(tid=>this.towns[tid].name+"-"+this.towns[tid].district);
-                    console.log(t.district+": "+t.name+": "+adjs);
-                }
-            })
-            this.towns.forEach(t=>{
-                if(t.district==smallerDistrict){
-                    var adjs = this.network.getAdjacents(t.id).map(tid=>this.towns[tid].name+"-"+this.towns[tid].district);
-                    console.log(t.district+": "+t.name+": "+adjs);
-                }
-            })
             return;
         }
         this.assignData(res,smallerDistrict);
@@ -365,9 +347,9 @@ export default class Simulate{
             //Step 4: determine whether to end or keep recursing
             let indexOfValue:number = this.round2Data.indexOf(thisRSD);
             //if is already in array and is not just the last or second last value
-            if(indexOfValue<this.round2Data.length-2){
-                console.log("Cycling?: "+res.name+ ", "+biggerDistrict+" -> "+smallerDistrict);
-            }
+            // if(indexOfValue<this.round2Data.length-2){
+            //     console.log("Cycling?: "+res.name+ ", "+biggerDistrict+" -> "+smallerDistrict);
+            // }
             if((indexOfValue<this.round2Data.length-2&&this.round2Data[this.round2Data.length-2]!=thisRSD)||this.round2Data.length>this.maxIterations2){
                 
                 
@@ -420,37 +402,17 @@ export default class Simulate{
     }
 
     pcIterate(prevData:number[]){
-        if(this.isTerminated) return;
-        console.log(prevData);
+        if(this.isTerminated) return;;
         this.setRound1Data(prevData);
-
-        // console.log(this.paramPop, this.districtPops,this.district,this.districtPops[this.district-1]);
-
         let districtAvParam = (this.paramPop/this.districtPops[this.district-1]);
         if(this.districtPops[this.district-1]>this.av){//greater than average, need to LOSE
             let t:Town|null = null;
-            let p:number = (this.type==1?1:-1) * Number.MAX_VALUE; //find minimum to lose if packing, maximum to lose if cracking
-
-            // //Step A: search for lowest population district (to lose a district TO)
-            // let d:number = -1; 
-            // let minPop:number = Number.MAX_VALUE;
-            // this.onBorder.forEach(tId=>{
-            //     var adjs:number[] = this.network.getAdjacents(tId);
-            //     adjs.forEach(a=>{
-            //         let thisDistrict = this.towns[a].district;
-            //         if(thisDistrict!=this.district&&this.districtPops[thisDistrict-1]<minPop){
-            //             d = thisDistrict;
-            //             minPop = this.districtPops[thisDistrict-1];
-            //         }
-            //     })
-            // })
-            // console.log("l2",d)
 
             //Step A: Sort by distance to this district's center, descending, furthest out first.
             let districtCenter:Location = this.getDistrictCenters()[this.district-1]; //get the element in the array that is the location of the focused district.
             this.onBorder.sort((a,b)=>this.towns[b].location.distTo(districtCenter) - this.towns[a].location.distTo(districtCenter));
 
-            console.log("l1")
+
 
             //Step B: find the furthest precinct on the border that satisfies the criteria.
             for(let i:number = 0;i<this.onBorder.length;i++){
@@ -468,33 +430,17 @@ export default class Simulate{
                 }
             }
 
-            console.log("l2")
-            
-
-            // //Step B: find the precinct with the lowest/highest percentage of the parameter that is also from a district with a lower population
-            // this.onBorder.forEach(tId=>{
-            //     let town:Town = this.towns[tId];
-            //     let borderingDistrictsPops:number[] = this.network.getAdjacents(tId).filter(dN=>dN!=this.district).map(aId=>this.districtPops[this.towns[aId].district-1]);
-            //     borderingDistrictsPops.sort((a,b)=>a-b);
-            //     if(borderingDistrictsPops[0]>this.districtPops[this.district-1]) return;
-            //     //find minimum to lose if packing,   or  maximum to lose if cracking
-            //     if((this.type==1&&town.parameter<p)||(!(this.type==1)&&town.parameter>p)){
-            //         p = town.parameter
-            //         t = town;
-            //     }
-            // })
-
             //Step C: if will not actually increase/decrease parameter, then end all iterations. Otherise, lose the precinct.
             if(t==null){
-                console.log("l3")
+     
                 this.setAlgoFocus(3);
                 this.setAlgoState(4);
-                console.log("algoState Set")
+  
                 return;
             }else{
-                console.log("l4")
+           
                 let canLose = this.loseTown(t); //always keep iterating on a LOSE, unless t is null
-                console.log(canLose);
+        
                 if(!canLose){
                     this.setAlgoFocus(3);
                     this.setAlgoState(4);
@@ -503,19 +449,6 @@ export default class Simulate{
             }
         }else{//lesser than average, need to GAIN
             let t:Town|null = null;
-            let p:number =  (this.type==1?-1:1) * Number.MAX_VALUE; //find maximum to gain if packing, minimum to gain if cracking
-
-
-            // //Step A: search for highest population district (to take a district FROM)
-            // let d:number = -1; 
-            // let maxPop:number = 0;
-            // this.onBorder.forEach(tId=>{
-            //     let thisDistrict = this.towns[tId].district;
-            //     if(thisDistrict!=this.district&&this.districtPops[thisDistrict-1]>maxPop){
-            //         d = thisDistrict;
-            //         maxPop = this.districtPops[thisDistrict-1];
-            //     }
-            // })
 
             //Step A: Sort by distance to district center, ascending, closest first
             let districtCenter:Location = this.getDistrictCenters()[this.district-1]; //get the element in the array that is the location of the focused district.
@@ -527,28 +460,13 @@ export default class Simulate{
 
                 //Criteria 1: the district it is in must have a higher population than the current district, else continue
                 if(this.districtPops[town.district-1]<this.districtPops[this.district-1]) continue;
-                console.log(town.name+" | "+town.district+" | "+town.parameter+","+p);
-
+              
                 //Criteria 2: check that it is higher/lower in a certain parameter
                 if((this.type==1&&town.parameter>=districtAvParam)||(!(this.type==1)&&town.parameter<=districtAvParam)){
-                    console.log("YES: "+ town.name)
                     t = town;
                     break;
                 }
             }
-
-
-
-            // //Step B: find the precinct with lowest/highest param value, that is assigned to a district of a large size than the one in focus.
-            // this.bordering.forEach(tId=>{
-            //     let town:Town = this.towns[tId];
-            //     if(this.districtPops[town.district-1]<this.districtPops[this.district-1]) return;
-            //     if((this.type==1&&town.parameter>p)||(!(this.type==1)&&town.parameter<p)){
-            //         p = town.parameter;
-            //         t = town;
-            //     }
-                
-            // })
 
             //Step C: if it will not help pack/crack, stop algorithm, else gain the precinct.
             if(t==null){
@@ -557,13 +475,11 @@ export default class Simulate{
                 return;
             }else{
                 this.gainTown(t);
-                console.log("Gaining from "+t.district);
-                console.log(this.districtPops[this.district-1])
+               
             }
         }
         
         setTimeout(()=>{
-            console.log("timeout")
             if(prevData.length>this.maxIterations1){
                 this.setAlgoFocus(3);
                 this.setAlgoState(4);
@@ -593,8 +509,6 @@ export default class Simulate{
         else{
             this.assignData(t,toDistrict);
         }
-        console.log("Losing To"+toDistrict);
-
         //Step 2: remove from onBorder, add to bordering
         var tIndex = this.onBorder.indexOf(t.id);
         this.onBorder.splice(tIndex,1); //remove from onBorder
