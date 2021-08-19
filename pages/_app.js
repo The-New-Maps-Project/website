@@ -25,22 +25,41 @@ function MyApp({ Component, pageProps }) {
   const [viewAloneDistrict,setViewAloneDistrict] = useState(-1);
 
   //For algorithm running
-  const [algoState,setAlgoState] = useState(0); // -1: not running, 1: round 1, 2: round 2, 3: done
+  const [algoState,setAlgoState] = useState(-1); // -1: not running, 1: round 0,1, 2: round 2, 3: done
   const [algoFocus,setAlgoFocus] = useState(0);//same values as algoState, but the current round opened in the popup viewing the data and graphs
-  const [round1Data,setRound1Data] = useState([]); //bar graph, length of array is how many iterations, each element is the percent unchanged per iteration
-  const [round2Data,setRound2Data] = useState([]); //bar graph, length of array is how many iterations % 10 (or some number), each element is the RSD
+  const [connectingData,setConnectingData] = useState([]); //line graph, number of gridspaces changed each time.
+  const [round1Data,setRound1Data] = useState([]); //line graph, length of array is how many iterations, each element is the percent unchanged per iteration
+  const [round2Data,setRound2Data] = useState([]); //line graph, length of array is how many iterations % 10 (or some number), each element is the RSD
   const [districtPops,setDistrictPops] = useState([]);
   const [algoSettings,setAlgoSettings] = useState({
     useSubiterations: true,
+    intervalConnecting: 300,
     interval1: 10,
-    interval2: 20,
+    interval2: 30,
+    maxConnectingIterations: 1000,
     maxIterations1: 100,
     maxIterations2: 2000,
     graphInterval1: 1,
     graphInterval2: 1,
-    gridGranularity: 2000,
+    gridGranularity: 200,
+    district: 1,
+    parameter: 1,
+    type: 0, //0 for Main Algorithm, 1 for packing, 2 for cracking
   });
 
+  //For packing and cracking
+  const [pcData,setPcData] = useState([]);
+  const [pcSettings,setPcSettings] = useState({
+    district: 1,
+    parameter: 0, //starting at 0, in order
+    interval: 200,
+    intervalConnecting: 50,
+    isPacking: true,
+    maxConnectingIterations: 1000,
+    maxIterations: 1000,
+  });
+  const [pcState,setPcState] = useState(-1); // 0 - connecting, 1 - packing/cracking, 2 - done
+  const [pcFocus,setPcFocus] = useState(-1);
 
 
   const saveTimes = useRef(0);
@@ -84,7 +103,17 @@ function MyApp({ Component, pageProps }) {
     districtPops,
     setDistrictPops,
     viewAloneDistrict,
-    setViewAloneDistrict
+    setViewAloneDistrict,
+    connectingData,
+    setConnectingData,
+    pcData,
+    setPcData,
+    pcFocus,
+    setPcFocus,
+    pcState,
+    setPcState,
+    pcSettings,
+    setPcSettings
   }
 
   return <PContext.Provider value={contextValue}>

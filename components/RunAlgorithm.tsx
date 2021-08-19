@@ -14,17 +14,18 @@ export default function RunAlgorithm(){
 
     useEffect(()=>{
         //only if not currently running the algorithm
-        if(algoState<1||algoState>3) setAlgoSettings(getSuggestedAlgoSettings(data,algoSettings));
+        if(algoState<0) setAlgoSettings(getSuggestedAlgoSettings(data,algoSettings,0));
     },[data])
 
     const runAlgorithm = () =>{
         var n = districts.length;
         //var newObj = {...algorithm(data,n,tInput/100)};
         //setData(newObj);
+        setSingleAlgoSetting('type',0);
         setRound1Data([]);//empty round 1 data
         setRound2Data([]);//empty round 2 data
         setShowPopup(false);
-        setAlgoState(1);//make the grid after you hide the popup
+        setAlgoState(0);//make the grid after you hide the popup
     }
 
     const setSingleAlgoSetting = (algoSetting:string,val:any)=>{
@@ -35,7 +36,10 @@ export default function RunAlgorithm(){
     }
 
     return <div>
-        <button className="algorithm-button" onClick={()=>setShowPopup(true)}>
+        <button className="algorithm-button" onClick={()=>{
+            setShowPopup(true);
+            setAlgoSettings(getSuggestedAlgoSettings(data,algoSettings,0));
+        }}>
             Run Algorithm
         </button>
         
@@ -55,6 +59,13 @@ export default function RunAlgorithm(){
                         <section id="algo-settings">
                             <h6>Config</h6>
                             <p className="description-note">Suggested values filled in</p>
+                            <p className="numberInputArea">
+                                <input
+                                    type="number"
+                                    value={algoSettings["intervalConnecting"]}
+                                    onChange={e=>setSingleAlgoSetting("intervalConnecting",Number(e.target.value))}
+                                ></input>ms between Precinct Connecting Round iterations
+                            </p>
                             <p className="numberInputArea">
                                 <input
                                     type="number"
@@ -84,10 +95,11 @@ export default function RunAlgorithm(){
                                 Grid Granularity: 
                                 <input
                                     type="number"
-                                    className="ml15"
+                                    className="ml15 mr15"
                                     value={algoSettings["gridGranularity"]}
                                     onChange={e=>setSingleAlgoSetting("gridGranularity",Number(e.target.value))}
                                 ></input>
+                                (Under 600 highly recommended)
                             </p>
                             <p className="numberInputArea">
                                 Round One: Graph every

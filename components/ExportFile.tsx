@@ -17,7 +17,6 @@ export default function ExportFile(){
         //Step 1: add the first line: district, param1, param2 ...
         text += String(districts.length);
         for(let i:number = 0;i<parameters.length;i++) text += "," + parameters[i];
-        text += "\n";
 
         //Step 2: add all the precincts
         Object.keys(data).forEach(key=>{
@@ -46,7 +45,7 @@ export default function ExportFile(){
             thisLine = thisLine.substring(0,thisLine.length-1);
 
             //Finally add to full text, and break to next line
-            text += thisLine + "\n";
+            text += "\n"+thisLine;
         })
 
         var blob:Blob = new Blob([text], {type: 'text/plain'});

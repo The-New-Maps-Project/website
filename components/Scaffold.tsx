@@ -10,10 +10,14 @@ import ListView from "./ListView";
 import Analysis from "./Analysis";
 import ExportFile from "./ExportFile";
 import DistrictsList from "./DistrictsList";
+import PContext from "../services/context";
 
-export default function Scaffold(){
+export default function Scaffold({showOptions}){
+    const {algoState} = useContext(PContext)
+
 
     return <div id="scaffold">
+        {algoState<0&&<button className="spb" style={{marginBottom: "20px"}} onClick={()=>showOptions()}>Use a Premade Option</button>}
         <section id="first-row">
             <div className="left">
                 <Parameters></Parameters>
@@ -25,7 +29,7 @@ export default function Scaffold(){
                     <ImportFile></ImportFile>
                 </div>
                 <div className="second-row">
-                    <RunAlgorithm></RunAlgorithm>
+                    {algoState<0&&<RunAlgorithm></RunAlgorithm>}
                     <DistrictsEdit></DistrictsEdit>
                 </div>
             </div>

@@ -11,6 +11,8 @@ import Popup from "./Popup";
 export default function HomeOptions({xFunction}){
     const {colors,setDistricts,setParameters,setData,setMapZoom,algoSettings,setAlgoSettings,setAlgoState} = useContext(PContext);
     const [isLoading,setIsLoading] = useState(false);
+    const [mouseX,setMouseX] = useState(0);
+    const [mouseY,setMouseY] = useState(0);
 
     const selectMap = async (fileName:string,zoom:object,runAlgo:boolean) => {
         setIsLoading(true);
@@ -37,10 +39,10 @@ export default function HomeOptions({xFunction}){
 
             if(runAlgo){
                 //Step 3: set suggested algorithm settings automatically
-                setAlgoSettings(getSuggestedAlgoSettings(dataObj,algoSettings))
+                setAlgoSettings(getSuggestedAlgoSettings(dataObj,algoSettings,0,0))
 
                 //Step 4: Run the algorithm
-                setAlgoState(1);
+                setAlgoState(0);
             }
         }catch(e){
             console.error(e);
@@ -66,9 +68,14 @@ export default function HomeOptions({xFunction}){
                         <div className="map-name">{d.name}</div>
                         <div className="map-districts">{d.districts}</div>
                         <div className="buttons">
-                            <button className="draw-district sb"
+                            <button className="draw-district sb" onMouseMove={(e)=>{
+                                setMouseX(e.clientX);
+                                setMouseY(e.clientY);
+                            }}
                                 onClick={()=>selectMap(d.fileName,d.zoom,true)}
-                            >Draw the Districts</button>
+                            >Draw the Districts
+                                <div style={{top: mouseY,left:mouseX}} className="hover-box">{d.runAlgoNotes||"Run Algorithm"}</div>
+                            </button>
                             <button className="view-map tb"
                                 onClick={()=>selectMap(d.fileName,d.zoom,false)}
                             >view the map</button>

@@ -3,11 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react"
 import PContext from "../services/context"
 import Algorithm from "./Algorithm";
+import PackCrack from "./PackCrack";
 import Popup from "./Popup";
 import SwitchPopup from "./SwitchPopup";
 
 export default function ListView(){
-    const {districts,data,parameters,setData,setMapZoom,algoState} = useContext(PContext);
+    const {districts,data,parameters,setData,setMapZoom,algoState,pcState} = useContext(PContext);
     const [switchPopup,setSwitchPopup] = useState(false);
     const [precinctToSwitch,setPrecinctToSwitch] = useState("");
     const [showParams,setShowParams] = useState({}); //[name]: boolean
@@ -39,7 +40,6 @@ export default function ListView(){
         //Change district in "data"
         var newObj = {...data};
         newObj[precinctToSwitch][0] = district;
-        console.log(newObj[precinctToSwitch]);
         setData(newObj);
         setSwitchPopup(false);
     }
@@ -116,7 +116,6 @@ export default function ListView(){
         let ps:string[] = Object.keys(selected).filter(p=>Boolean(selected[p]));
         var newObj = {...data};
         ps.forEach(p=>{
-            console.log(newObj[p]);
             if(!newObj[p]) return;
             newObj[p][0] = num;
         })
@@ -137,7 +136,9 @@ export default function ListView(){
     }
 
     return <div id="list-view">
-        {algoState>0&&<Algorithm></Algorithm>}
+        {algoState>-1&&<Algorithm></Algorithm>}
+
+        {pcState>-1&&<PackCrack></PackCrack>}
 
         {isEditing&&<div >
             <div className="edit-row">
@@ -200,7 +201,7 @@ export default function ListView(){
                             ></input>}
                             <button className="precinct-name tb" onClick={()=>{
                                 let precData = data[precinct];
-                                console.log(precData);
+                               
                                 setMapZoom({
                                     lat: precData[2],
                                     lng: precData[3],

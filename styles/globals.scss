@@ -59,6 +59,22 @@
   @include sbstyle();
 }
 
+@mixin spbstyles{
+  background-color: purple;
+  padding: 8px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  box-shadow: 2px 2px 10px rgb(109, 109, 109);
+  border: none;
+  @include hoverer1();
+
+}
+
+.spb{
+  @include spbstyles()
+}
+
 button .plus-icon {
   margin-right: 5px;
   height: 16px;
@@ -365,7 +381,7 @@ header {
 
 #home-section{
   font-weight: bold;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 }
 
 #home-popup{
@@ -426,6 +442,26 @@ header {
             font-size: 18px;
             background-color: rgb(5, 161, 0);
             margin-right: 20px;
+            div.hover-box{
+              position: fixed;
+              color: white;
+              background-color: black;
+              padding: 5px 10px;
+              font-size: 15px;
+              word-break: keep-all;
+              box-shadow: 2px 2px 5px rgb(0, 0, 0);
+              font-weight: bold;
+              display: none;
+              transform: translateY(-100%);
+            }
+            transition: background-color 0.2s;
+            &:hover{
+              opacity: 1;
+              background-color: rgb(5, 161, 0,0.7);;
+              div.hover-box{
+                display: block;
+              }
+            }
           }
           .view-map{
             font-size: 14px;
@@ -1146,7 +1182,14 @@ h3.mymaps {
 @media (max-width: $breakpoint-large) {
   #list-view{
     padding: 30px 0px;
+    margin: 0px;
     width: auto;
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  #list-view{
+    width: 100%;
   }
 }
 
@@ -1279,7 +1322,7 @@ h3.mymaps {
 
 #districts-list1{
   overflow-x: scroll;
-  ul{
+  #dl-ul{
     @include row();  
     width: max-content;
     li{
@@ -1323,6 +1366,36 @@ h3.mymaps {
         button{
           @include sbstyle();
         }
+      }
+    }
+  }
+}
+
+#pc-select-param{
+  padding: 20px;
+  h5{
+    margin: 0px;
+    font-size: 24px;
+    margin-right: 20px;
+  }
+  input{
+    max-width: 100px;
+  }
+  p{
+    margin: 10px 0px;
+  }
+  ul{
+    li{
+      margin: 10px 0px;
+      button{
+        @include hoverer1();
+        box-shadow: 2px 2px 6px rgb(112, 112, 112);
+        border: 2px solid black;
+        border-radius: 3px;
+        padding: 2px 10px;
+        background-color: rgb(236, 236, 236);
+        font-weight: bold;
+        font-size: 16px;
       }
     }
   }
@@ -1500,7 +1573,7 @@ h3.mymaps {
   overflow-x: scroll;
 }
 
-#algorithm-container{
+#algorithm-container, #packcrack-container{
   background-color: lightgray;
   width: 400px;
   z-index: 10;
@@ -1721,4 +1794,10 @@ footer {
   background-color: black;
   color: white;
   padding: 15px 0px;
+}
+
+@media (max-width: $breakpoint-mobile) {
+  footer{
+    @include col();
+  }
 }

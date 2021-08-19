@@ -16,7 +16,7 @@ export default function Home() {
       <section id="home-section">
         <p>An Interactive Online Tool to Visualize, Analyze, and Draw Congressional Districts</p>
       </section>
-      <Scaffold></Scaffold>
+      <Scaffold showOptions={()=>setShowFirstPopup(true)}></Scaffold>
       {showFirstPopup&&<HomeOptions xFunction={()=>{setShowFirstPopup(false)}}></HomeOptions>}
     </div>
   )

@@ -14,7 +14,7 @@ export default function Dev(){
     const [stateName,setStateName] = useState("");
     const [errorMessage,setErrorMessage] = useState("");
     const params = ["B01001_002E","B01001_026E","B01001A_001E","B01001B_001E","B01001C_001E","B01001D_001E","B01001E_001E","B01001I_001E","B06012_002E","B07009_005E"];
-    const paramNames = ["% Male","% Female","% White","% Black","% Native American","% Asian","% Pacific Islander","% Hispanic or Latino","% in Poverty","% College Graduate"] //in ORDER
+    const paramNames = ["% Male","% Female","% White","% Black","% Native American","% Asian","% Pacific Islander","% Hispanic or Latino","% Below Poverty Line","% With Bachelors Degree"] //in ORDER
 
     const getData = async () => {
         try{
@@ -43,6 +43,11 @@ export default function Dev(){
             for(let i= 0;i<order.length;i++){
                 obj[order[i]] = a[i];
             }
+
+            // if(objectsArr.filter(o=>o["name"]==obj["zip code tabulation area"]).length>0) {
+            //     console.log(objectsArr.filter(o=>o["zip code tabulation area"]==obj["zip code tabulation area"]).length);
+            //     return; 
+            // }
             var pop = Number(obj["B01001_001E"]);
             if(pop == 0){
                 pop = objectsArr.push({
@@ -58,61 +63,120 @@ export default function Dev(){
                 })
             }
         })
-        console.log(objectsArr)
+        console.log(objectsArr);
+        for(let i=0;i<objectsArr.length;i++){
+            for(let j=i+1;j<objectsArr.length;j++){
+                if(objectsArr[i].name == objectsArr[j].name){
+                    objectsArr.splice(j,1);
+                    j--;
+                }
+            }
+        }
+        console.log("LENGTH: "+objectsArr.length);
 
         var index = 0;
         var length = objectsArr.length;
-        setInterval(async ()=>{
-            if(index > length) return;
-            if(index == length){
-                //download
+        iterate(0,length,objectsArr);
+        // setInterval(async ()=>{
+        //     if(index > length) return;
+        //     if(index == length){
+        //         //download
                 
 
-                //first create the text
-                var blobText = ""+numDistricts;
-                paramNames.forEach(pn=>blobText+=","+pn);
-                list.current.forEach(l=>{
-                    blobText += "\n"+l;
-                })
+        //         //first create the text
+        //         var blobText = ""+numDistricts;
+        //         paramNames.forEach(pn=>blobText+=","+pn);
+        //         list.current.forEach(l=>{
+        //             blobText += "\n"+l;
+        //         })
 
 
-                //create the blob and setUrl
-                var blob = new Blob([blobText], {type: 'text/plain'});
-                var url = window.URL.createObjectURL(blob);
-                setUrl(url);
-                return;
-            }
-            var thisObj = objectsArr[index];
-            if(!thisObj) return;
+        //         //create the blob and setUrl
+        //         var blob = new Blob([blobText], {type: 'text/plain'});
+        //         var url = window.URL.createObjectURL(blob);
+        //         setUrl(url);
+        //         return;
+        //     }
+        //     var thisObj = objectsArr[index];
+        //     if(!thisObj) return;
 
-            //Step 1: get the data from google
-            var geocodingRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${thisObj["name"]}&key=${googleApiKey}`);
-            var jsonRes = await geocodingRes.json();
-            console.log(jsonRes);
+        //     //Step 1: get the data from google
+        //     var geocodingRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${`US Zip Code ${thisObj["name"]}`}&key=${googleApiKey}`);
+        //     var jsonRes = await geocodingRes.json();
+        //     console.log(jsonRes);
 
-            var data = jsonRes.results[0];
-            if(!data) return;
-            var name = data["address_components"][1]["long_name"] + " ("+ thisObj["name"]+")";
-            var lat = data.geometry.location.lat;
-            var lng = data.geometry.location.lng;
-            console.log(name + ","+lat+","+lng);
+        //     var data = jsonRes.results[0];
+        //     if(!data) return;
+        //     var name = data["address_components"][1]["long_name"] + " ("+ thisObj["name"]+")";
+        //     var lat = data.geometry.location.lat;
+        //     var lng = data.geometry.location.lng;
+        //     console.log(name + ","+lat+","+lng);
 
-            //Step 2: set the data
-            var str = name + ",0,"+lat+","+lng+","+thisObj["population"]; 
-            thisObj.params.forEach(p=>str += ","+p);
-            list.current = ([...list.current,str]);
-            var arr = []
-            list.current.forEach(l=>arr.push(l));
-            setResText(arr);
-            setProgress(""+list.current.length + " / "+ length);
+        //     //Step 2: set the data
+        //     var str = name + ",0,"+lat+","+lng+","+thisObj["population"]; 
+        //     thisObj.params.forEach(p=>str += ","+p);
+        //     list.current = ([...list.current,str]);
+        //     var arr = []
+        //     list.current.forEach(l=>arr.push(l));
+        //     setResText(arr);
+        //     setProgress(""+index + " / "+ length);
 
 
 
-            index++;
-        },interval)
+        //     index++;
+        // },interval)
         }catch(e){
             setErrorMessage(e.message);
         }
+    }
+
+    const iterate = async (index,length,objectsArr) =>{
+        if(index > length) return;
+        if(index == length){
+            //download
+            
+
+            //first create the text
+            var blobText = ""+numDistricts;
+            paramNames.forEach(pn=>blobText+=","+pn);
+            list.current.forEach(l=>{
+                blobText += "\n"+l;
+            })
+
+
+            //create the blob and setUrl
+            var blob = new Blob([blobText], {type: 'text/plain'});
+            var url = window.URL.createObjectURL(blob);
+            setUrl(url);
+            return;
+        }
+        var thisObj = objectsArr[index];
+        if(!thisObj) return;
+
+        //Step 1: get the data from google
+        var geocodingRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${`US Zip Code ${thisObj["name"]}`}&key=${googleApiKey}`);
+        var jsonRes = await geocodingRes.json();
+        console.log(jsonRes);
+
+        var data = jsonRes.results[0];
+        if(!data) return;
+        var name = data["address_components"][1]["long_name"] + " ("+ thisObj["name"]+")";
+        var lat = data.geometry.location.lat;
+        var lng = data.geometry.location.lng;
+        console.log(name + ","+lat+","+lng);
+
+        //Step 2: set the data
+        var str = name + ",0,"+lat+","+lng+","+thisObj["population"]; 
+        thisObj.params.forEach(p=>str += ","+p);
+        list.current = ([...list.current,str]);
+        var arr = []
+        list.current.forEach(l=>arr.push(l));
+        setResText(arr);
+        setProgress(""+index + " / "+ length);
+        index++;
+        setTimeout(()=>{
+            iterate(index,length,objectsArr);
+        },interval)
     }
 
     const getDataIteration = (index,lines) =>{

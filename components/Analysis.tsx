@@ -122,14 +122,11 @@ export default function Analysis() {
   }
 
   const renderCharts = () => {
-    // console.log(chartValue);
-    // console.log(res["params"]);
     let allData: number[] = res["params"][selectedParam][chartValue];
     if(selectedParam!=0&&chartValue=="pAllData"){
       let count =-1;
        allData = allData.map(a=> {
          count++;
-         //console.log("Percent: "+writeNum(a/res["params"][0][chartValue][count],4));
          return Number(writeNum(a/res["params"][0][chartValue][count],4));
         })
     }
@@ -295,7 +292,6 @@ export default function Analysis() {
                   }else{
                     b = res["params"][selectedParam][a[1]];
                   }
-                  console.log(b);
                   if (a[1] == "pOutliers") b = b.length;
 
                   return (
