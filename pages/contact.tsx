@@ -11,7 +11,7 @@ export default function Contact(){
     return <div>
         <div className="page-header">
             <h2>Contact</h2>
-            <p>Information about the people working on The New Maps Project</p>
+            <p>Contact The New Maps Project</p>
         </div>
 
 
