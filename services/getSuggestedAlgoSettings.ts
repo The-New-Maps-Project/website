@@ -24,7 +24,10 @@ export default function getSuggestedAlgoSettings(data:object,algoSettings:object
     newAlgoSettings["maxIterations2"] = 2000;
 
     //for packing and cracking, the interval should be about an round 2 interval:
-    if(type!=null&&type!=0) newAlgoSettings["interval1"] = newAlgoSettings["interval2"];
+    if(type!=null&&type!=0) {
+        newAlgoSettings["interval1"] = newAlgoSettings["interval2"];
+        newAlgoSettings["graphInterval1"] = 1;
+    }
     
 
     return (newAlgoSettings);

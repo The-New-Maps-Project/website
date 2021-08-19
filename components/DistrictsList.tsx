@@ -78,6 +78,22 @@ export default function DistrictsList(){
                             value={algoSettings["interval1"]}
                         ></input>ms between packing/cracking iterations
                     </li>
+                    <li>
+                        Grid Granularity:<input
+                            className="ml15 mr15"
+                            onChange={(e)=>setSingleAlgoSetting("gridGranularity",Number(e.target.value))}
+                            type="number"
+                            value={algoSettings["gridGranularity"]}
+                        ></input> (Under 600 highly recommended)
+                    </li>
+                    <li>
+                        Graph Every<input
+                            className="ml15 mr15"
+                            onChange={(e)=>setSingleAlgoSetting("graphInterval1",Number(e.target.value))}
+                            type="number"
+                            value={algoSettings["graphInterval1"]}
+                        ></input> iterations
+                    </li>
                 </ul>
                 <p>Select a Parameter</p>
                 <ul className="params">

@@ -55,15 +55,15 @@ export default function Algorithm(){
     },[algoState])
 
     useEffect(()=>{
-       setConnectingRoundGraph(renderLineGraph(connectingData,1,"Filled Gridspaces")); 
+       setConnectingRoundGraph(renderLineGraph(connectingData.map(r=>r*100),1,"Filled Gridspaces")); 
     },[connectingData])
 
     useEffect(()=>{ 
-        setRound1Graph(renderLineGraph(round1Data,algoSettings["graphInterval1"],isMain?"% Unchanged":paramName));
+        setRound1Graph(renderLineGraph(round1Data.map(r=>r*100),algoSettings["graphInterval1"],isMain?"% Unchanged":paramName));
     },[round1Data])
  
     useEffect(()=>{
-        setRound2Graph(renderLineGraph(round2Data,algoSettings["graphInterval2"],"RSD"))
+        setRound2Graph(renderLineGraph(round2Data.map(r=>r*100),algoSettings["graphInterval2"],"RSD"))
     },[round2Data]);
 
     useEffect(()=>{
@@ -214,7 +214,7 @@ export default function Algorithm(){
     
     return  <div id="algorithm-container"  style={dragStyles} >
         <div id="algorithm-header" onMouseDown={dragStart} onMouseMove={dragging} onMouseUp={dragEnd}>
-            <h4><FontAwesomeIcon icon={faMapMarkedAlt} className="icon"></FontAwesomeIcon>{algoSettings["type"]==0?"Algorithm":name}<Link href="/documentation/algorithm"><a className="link" target="_blank">how it works</a></Link></h4>
+            <h4><FontAwesomeIcon icon={faMapMarkedAlt} className="icon"></FontAwesomeIcon>{algoSettings["type"]==0?"Algorithm":name}<Link href={`/documentation/${isMain?"algorithm":"packandcrack"}`}><a className="link" target="_blank">how it works</a></Link></h4>
             <button className="terminate-button" onClick={terminate}>{algoState>=3?<FontAwesomeIcon icon={faTimes} className="sir"></FontAwesomeIcon>:"Terminate"}</button>
         </div>
         <section id="connectinground" className={algoFocus==0?"focused":"clickable"} onClick={()=>setAlgoFocusIfNotSet(0)}>
@@ -226,7 +226,7 @@ export default function Algorithm(){
                 <span>Iterations: {connectingData.length}</span>
                 <span>Changed: {connectingData.length==0?0:(connectingData[connectingData.length-1]).toFixed(0)}</span>
             </div>:<div className="round-body">
-                <p>No map visualization for connecting precincts</p>
+                <p>Does not show on map</p>
                 {connectingRoundGraph}
                 <div className="round-footer">
                     <span className="iterations">Iterations: {connectingData.length}</span>
