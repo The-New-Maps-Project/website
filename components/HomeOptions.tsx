@@ -59,7 +59,7 @@ export default function HomeOptions({xFunction}){
         <button className="x-button" onClick={()=>xFunction()}><FontAwesomeIcon icon={faTimes} className="sir"></FontAwesomeIcon></button>
         <div className="top-section">
             <h3>Choose a Map to Get Started</h3>
-            <p>Example data to show how The New Maps Project's website works</p>
+            <p>Example data to show how The New Maps Project's website works (districts drawn using default settings)</p>
         </div>
         <div className="home-options-container">
             <ul>
