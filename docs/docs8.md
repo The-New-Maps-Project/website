@@ -23,3 +23,20 @@ A two dimensional square grid `n x n` from lowest to highest latitute and longit
 ### State Boundaries
 
 Another caveat to using coordinate data per precinct is that there is no sure way to determine exact state boundaries. For the process of connecting precincts, gridspaces are not considered to be within state boundaries if they are further away from all precincts than each of their closest precincts. 
+
+### Filling in the Grid
+
+Each gridspace is unassigned at the start. First, gridspaces that contain the coordinates of precincts will be assigned that precinct. 
+
+A basic floodfill algorithm is then used to fill the rest of grid in. A fundamental filling of one space checks the four adjacent spaces to it on the grid to see if it can be filled with the same precinct as the original gridspace. A adjacent gridspace will not be filled under these conditions:
+
+1. It is already filled by the same precinct
+2. The gridspace center is further away from the precinct than its closest precinct (likely out of state boundaries)
+3. It is filled by another precinct, but that precinct is closer to that gridspace center
+4. It is outside the grid
+
+If, like in condition 3, the adjacent precinct is already filled by another precinct, connect the two precincts, because they occupy adjacent gridspaces.
+
+### Iterations
+
+Each iteration in this process will loop over the entire grid to fill in adjacent gridspaces of each gridspace that has already been filled (so unfilled gridspaces are not checked per iteration). If a gridspace cannot fill any of its adjacent gridspaces, because they all meet the above criteria, the gridspace is said to be unchanged. All other gridspaces checked during that iteration, with at least one adjacent gridspace being filled, are considered to be **changed**. To connect precincts, the algorithms will continue iterating until the changed precincts in an iteration is equal to zero
