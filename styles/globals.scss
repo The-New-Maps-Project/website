@@ -829,9 +829,23 @@ h3.mymaps {
           top: 20px;
           left: 0px;
           transform: translateX(-50%);
-          background-color: var(--green);
-          padding: 5px 10px;
+          background-color: black;
+          padding: 7px 8px;
+          box-shadow: 2px 2px 5px grey;
           border-radius: 5px;
+          button{
+            @include center();
+          }
+          .l-arrow, .r-arrow{
+            border: none;
+            background-color: white;
+            border-radius: 3px;
+            @include hoverer1();
+          }
+
+          .l-arrow{
+            margin-right: 5px;
+          }
         }
         &:hover .p-settings-display {
           @include row();
@@ -1335,6 +1349,10 @@ h3.mymaps {
     input{
       max-width: 70px;
     }
+  }
+
+  .runAlgorithmButton{
+    background-color: green;
   }
 }
 

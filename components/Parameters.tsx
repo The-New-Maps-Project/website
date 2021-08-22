@@ -39,7 +39,7 @@ export default function Parameters(){
                                 }
                                 
                             }}><FontAwesomeIcon className="si" icon={faCaretLeft}></FontAwesomeIcon></button>
-                            <button className="-arrow" onClick={()=>{
+                            <button className="r-arrow" onClick={()=>{
                                 var i = parameters.indexOf(p);
                                 if(i<parameters.length-1) {
                                     var arr = [...parameters]
