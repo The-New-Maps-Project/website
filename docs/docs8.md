@@ -1,6 +1,6 @@
 # Connecting Precincts
 
-The procedure in The New Maps Project Algorithm and for packing/cracking districts to determine which precincts are connected to each other. 
+This is the procedure in The New Maps Project Algorithm and in the Packing/Cracking Algorithm to determine which precincts are deemed to be "connected" to each other. 
 
 ### Problems and Goals
 
