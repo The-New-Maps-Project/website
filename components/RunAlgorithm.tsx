@@ -126,7 +126,7 @@ export default function RunAlgorithm(){
                     <p>{districts.length} districts created</p>
                     {districts.length<2?
                         <p>Must have 2 or more districts to run algorithm</p>:
-                        <button className="sb" onClick={runAlgorithm}>Run Algorithm</button>
+                        <button className="sb runAlgorithmButton" onClick={runAlgorithm}>Run Algorithm</button>
                     }
                 </div>
                 
