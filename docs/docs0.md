@@ -4,6 +4,8 @@ The New Maps Project's website provides online tools to interactively visualize,
 
 This documentation provides guidance as to how to use this website. Go to the specific section of the documentation, found in the menu, to view documentation for that section.
 
+Version 3.0 of The New Maps Project Website.
+
 ## Documentation Links
 
 ### Overview
