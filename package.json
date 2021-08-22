@@ -20,7 +20,7 @@
     "firebase": "^9.0.0-beta.7",
     "jest": "^27.0.5",
     "js-stats": "^1.0.5",
-    "next": "11.0.0",
+    "next": "^11.1.0",
     "raw-loader": "^4.0.2",
     "react": "17.0.2",
     "react-chartjs-2": "^3.0.3",
