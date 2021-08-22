@@ -1,8 +1,8 @@
 # Overview
 
-The New Maps Project website is an online tool to interactively visualize, draw, and analyze congressional districts. On the homepage, you can use The New Maps Project's many online tools to build a map.
+The New Maps Project's website provides online tools to interactively visualize, draw, and analyze congressional districts. The Editing Suite on the homepage has the majority of this site's resources and tools for visualizing, analyzing, and drawing congressional districts.
 
-This documentation provides guidance as to how to use this website. Go to the specific section of the documentation, found in the menu, to view documentation for that component
+This documentation provides guidance as to how to use this website. Go to the specific section of the documentation, found in the menu, to view documentation for that section.
 
 ## Documentation Links
 
