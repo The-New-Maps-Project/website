@@ -4,7 +4,7 @@ This site has a page-based layout. Click on the hamburger icon in the top right 
 
 ### Homepage - "/"
 
-This is the homepage that contains the main map for The New Maps Project.
+This is the homepage that contains the Editing Suite for The New Maps Project.
 
 ### About Page - "/about"
 

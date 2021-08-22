@@ -4,7 +4,7 @@ Maps can be visualized, analyzed and drawn from a specific data format in The Ne
 
 ## Precincts
 
-The New Maps Project refers to a precinct as the smallest geographical unit that can be assigned to a district in a map. A precinct will have a population, a location (in latitude and longitude), and a district it is assigned to (although it will start off as unassigned, district 0). 
+A **precinct** is referred to as the smallest geographical unit that can be assigned to a district in a map (regardless if it corresponds to actual voting precincts or not). A precinct will have a population, a location (in latitude and longitude), and a district it is assigned to (although it will start off as unassigned, district 0). 
 
 You can add other pieces of information to a precinct as well; these are called "parameters" and are commonly demographic data (like "% Women" or "% Republican"). Read more below.
 
@@ -23,7 +23,7 @@ You can analyze the representation, population, and compactness of each paramete
 
 ## Files
 
-The data for a map, which includes precincts and parameters, is imported as a file into The New Maps Project's homepage visualizer. The file is always a plain text file (.txt) and the same file format is used for imported and exported files.
+The data for a map, which includes precincts and parameters, is imported as a file into The New Maps Project's Editing Suite. The file is always a plain text file (.txt) and the same file format is used for imported and exported files.
 
 ## File Format
 
@@ -65,7 +65,7 @@ Using the previous example for a map with three parameters: % Democrat, % White,
 
 For this line of data, the precinct of Springfield is in District 2, has a location of ( 40.124N , 79.428W ), is 45% Democrat, 67% White, and 16% of it's residents have graduated from college.
 
-**NOTE:** District zero is "unassigned". Commonly, a group of precincts are not assigned to a district yet, and in this case, use "0" as the district it is assigned to.
+**NOTE:** District zero is "unassigned". When a group of precincts are not assigned to a district yet, list "0" as the district they are assigned to.
 
 ## Importing and Exporting Data
 
@@ -73,4 +73,4 @@ On the homepage, the red "Import Data" button is used to upload text files in th
 
 The blue "Export" button to the left is to download the data for the current map in the homepage after edits and district assignments.
 
-Read more in the "Hompage" section of the documentation
+Read more in the "Homepage" section of the documentation

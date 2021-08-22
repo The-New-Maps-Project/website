@@ -6,39 +6,15 @@ The New Maps Project Redistricting Algorithm was created with the purpose of ass
 
 The algorithm is split into different rounds, each round split into different iterations and subiterations.
 
-### Definitions
+## Connecting Precincts Round
 
-**Connected Precincts:** Two precincts are deemed "connected" if there exists a point within state lines where no other precincts are closer to that point than the two precincts in question.
+For the rest of the algorithm to run, it must be known which precincts are bordering each other to ensure the best possible results regarding continuity of districts.
 
-**Continuity:** A district is considered continuous if there exists a path through connected districts between every pair of precincts from that district
+However, since each precinct is represented by a single point on the map, there is no way to determine for sure which precincts border each other. Therefore, inferences must be made. Precincts inferred to be bordering are considered to be **connected** precincts
 
-**Grid Granularity:** The number of rows and columns made in the grid to determine connected precincts.
+### Algorithm to Determine Connected Precincts
 
-### Caveats
-
-With a list of precincts, each with only latitute and longitude data, there is no sure way to determine whether two precincts are indeed connected, by the definition above. There are two reasons why:
-
-1. Not every point in the plane can be checked to see if it satisfies the above criteria for two connected precincts
-2. There is no way of determining for sure which areas are within state lines and which areas are outside of state lines with just a list of precinct locations.
-
-However, inferences and estimates can be made to maximize the accuracy of deeming two precincts connected
-
-
-## Determining Connected Precincts
-
-To try to determine **connected precincts**, a large n x n grid must be created, from lowest to highest latitute and longitude of the precincts in the map. Each space in the grid represents a small range of latitute and longitute values.
-
-All gridspaces that contain precincts are initially filled with the precinct they contain. Then, a process of eliminating gridspaces outside of state lines begins
-
-### Eliminating Gridspaces Outside State Lines
-
-Starting from the top of the grid, going from left to right, every gridspace in the first row is considered outside state boundaries until the first precinct filled gridspace is reached. For each subsequent row, going from left to right, the gridspaces are eliminated until a precinct filled gridspace is reached or the number of gridspaces eliminated in that row is equal to the number of gridspaces eliminated in the previous row. This is repeated for the next row until a row *begins* with a precinct filled gridspace. 
-
-Then the same process is repeated starting at the top of the grid from right to left. Then starting from the bottom, form left to right, then from right to left. 
-
-### Finding Connections
-
-Each precinct filled gridspace will start to flood fill the remaining gridspaces, assigning each filled gridspace with a precinct. If during the flood fill a gridspace is already filled by another precinct, it will be assigned to whichever precinct is closest to the center of the gridsapce. When every gridspace is filled, precincts are considered connected if there exists two adjacent gridspaces that are each assigned to one of those two precincts.
+View the [Connecting Precincts Reference](/documentation/connectingprecincts) in the documentation to learn about the algorithm used to determine connecting precincts. 
 
 ## Random Assignment Round
 

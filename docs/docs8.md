@@ -1,14 +1,14 @@
 # Connecting Precincts
 
-This is the procedure in The New Maps Project Algorithm and in the Packing/Cracking Algorithm to determine which precincts are deemed to be "connected" to each other. 
+This is the algorithm used determine which precincts are deemed to be "connected" to each other. 
 
 ### Problems and Goals
 
-To ensure maximum possible continguity in district mappings, it must be known which precincts on a map border each other. However, since The New Maps Project Algorithm represents the location of a precinct by just a point on a map (a latitute and longitude coordinate), there is no way of determining for sure which precincts are bordering each other.
+To ensure maximum possible continuity in district mappings, it must be known which precincts on a map border each other. However, since The New Maps Project Algorithm represents the location of a precinct by just a point on a map (a latitute and longitude coordinate), there is no way of determining for sure which precincts are bordering each other.
 
 However, inferences can be made as to which precincts are bordering each other by examining their geographical coordinates using an algorithm. Precincts that are inferred to be bordering are said to be **connected**.
 
-A continguous district is defined as a district where all subsets of two precincts from that district are connected through connected precincts. Please note that neither The New Maps Project Redistricting Algorithm nor the Packing/Cracking Districts Algorithm guarantees continguous districts.
+A continuous district is defined as a district where all subsets of two precincts assigned to that district are connected through connected precincts. Please note that neither The New Maps Project Redistricting Algorithm nor the Packing/Cracking Districts Algorithm guarantees continuous districts.
 
 ## Finding Connected Precincts
 
@@ -18,7 +18,9 @@ The approach taken by The New Maps Project to implement this procedure is outlin
 
 ### The Grid
 
-A two dimensional square grid `n x n` from lowest to highest latitute and longitude of a precinct in the state is constructed, each gridspace representing a distinct coordinate on the map between the coordinate extremities. Gridspaces are divided equally, for both latitude and longitude, each covering an equal rectangular geographic area. The geographic center of the area each gridspace covers is the point that represents the gridspace
+A two dimensional square grid `n x n` from lowest to highest latitute and longitude of a precinct in the state is constructed, each gridspace representing a distinct coordinate on the map between the coordinate extremities. Gridspaces are divided equally, for both latitude and longitude, each covering an equal rectangular geographic area. The geographic center of the area each gridspace covers is the point that represents the gridspace.
+
+The value `n` is referred to as the **grid granularity**.
 
 ### State Boundaries
 
