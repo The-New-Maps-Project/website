@@ -48,4 +48,4 @@ Every iteration of Round Two switches the district of a precinct to lower the **
 
 For each iteration, the pair of bordering districts with the highest population ratio is found. Two districts are bordering if a precinct from one is connected to a precinct from the other. Then, from the district with the higher population, pick the precinct that is bordering the other district and is closest to the population center of the other district to switch to the other district.
 
-Keep iterating until there exists an iteration at least two iterations before the current iteration that had the same RSD of the districts.
+Keep iterating until there exists an iteration at least two iterations before the current iteration that had the same RSD value, and the previous iteration does NOT equal this value. This means there is a loop in RSD values, and Round Two will terminate.
