@@ -23,12 +23,12 @@
                 li{
                     margin: 10px 0px;
                     .tb{
-                        font-size: 18px;
+                        font-size: 22px;
                         &.focused{
                             font-weight: bold;
                         }
                         &.docs-option-secondary{
-                            font-size: 16px;
+                            font-size: 18px;
                             padding-left: 10px;
                         }
                     }
@@ -38,9 +38,17 @@
         .docs-col2{
             margin: 0px 30px;
             #docs-body{
+                font-size: 1.2em;
+                h1{
+                    font-size: 2em;
+                }
                 a{
                     @include linkStyles();
                 }
+                p{
+                    line-height: 1.5;
+                }
+                
             }
         }
     }

@@ -72,8 +72,9 @@ export default function DocsRoot() {
 
   return (
     <div id="documentation">
-      <div className="docs-header-container">
-        <h1 className="docs-header">Documentation</h1>
+      <div className="page-header">
+        <h2>Documentation</h2>
+        <p>The New Maps Project Documentation</p>
       </div>
       <div id="docs-container">
         <div className="docs-col1">

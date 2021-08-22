@@ -4,24 +4,32 @@ The New Maps Project website is an online tool to interactively visualize, draw,
 
 This documentation provides guidance as to how to use this website. Go to the specific section of the documentation, found in the menu, to view documentation for that component
 
+## Documentation Links
 
+### Overview
 
-## Importing Data
+**Site Layout:** Describing the various pages on The New Maps Project's website - [Link Here](/documentation/sitelayout)
 
-Import a plain text file with the name and population of each precinct. You may also choose to import demographics information for each file. The format of the file is specified on the upload popup, and is compatible with the input files in The New Maps Project's datastore.
+**Map Content and Files:** What type of data can be used with The New Maps Project's resources and tools, what makes a map, and file format for the data - [Link Here](/documentation/maps)
 
-## Assigning Districts
+### Editing Suite
 
-Once all the precincts are imported, you will see the precincts show on the map to visualize. click on a precinct on the map or search for it on the precinct list, and you can freely change it's district assignment. 
+**Editing Suite:** Everything about the Editing Suite on the homepage, how to visualize, import, export, edit, analyze, and run algorithms on map data - [Link Here](/documentation/editing)
 
-The map is very flexible and interactive and you can easily see the districts in different colors.
+**Browser Algorithm:** Running the algorithm in the Editing Suite in the browser. Not a detailed explanation of the algorithm - [Link Here](/documentation/browseralgorithm)
 
-## Analyzing a Map
+**Browser Pack & Crack:** Explanation of the algorithm used to pack and crack districts, as well as information about running it in the browser Editing Suite - [Link Here](/documentation/packandcrack)
 
-You can calculate the stats of a map at any time. It will show some basic stats like mean, median and standard deviation of the district populations and compactness, as well as bar charts and histograms of the entire dataset. You can also select certain demographic parameters to specifically analyze district representation, population distribution, and compactness of that specific demographic. 
+### Premade Options
 
-If you are unsatisfied with these statistics, you are free to edit your map and recalculate the statistics until you find a map that has the statistics you desire.
+**Premade Options:** About the datastore and premade options to use as example data in The New Maps Project's tools - [Link Here](/documentation/datastore)
 
-## Documentation
+### Algorithm
 
-Read the [detailed documentation](/documentation/maps) for a map drawing.
+**Algorithm:** An explanation of how The New Maps Project Redistricting Algorithm works - [Link Here](/documentation/algorithm)
+
+**Connecting Precincts:** An explanation of the algorithm to determine connected precincts for both the Redistricting Algorithm and the Packing/Cracking algorithms - [Link Here](/documentation/connectingprecincts)
+
+## Contact
+
+This documenation was written by Vincent Cai, creator of The New Maps Project. Contact information is available here: [contact page](/contact)
