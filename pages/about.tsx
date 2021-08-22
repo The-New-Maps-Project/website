@@ -1,3 +1,5 @@
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 
 export default function About() {
@@ -22,10 +24,10 @@ export default function About() {
       </section>
       <section className="links">
         <Link href="/">
-          <a>Editing Suite</a>
+          <a>Editing Suite <FontAwesomeIcon  className="icon" icon={faArrowRight}></FontAwesomeIcon></a>
         </Link>
         <Link href="/documentation">
-          <a>Documentation</a>
+          <a>Documentation <FontAwesomeIcon  className="icon" icon={faArrowRight}></FontAwesomeIcon></a>
         </Link>
       </section>
     </div>

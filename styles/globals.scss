@@ -1793,6 +1793,19 @@ h3.mymaps {
       font-size: 20px;
       box-shadow: 2px 2px 5px grey;
       margin-bottom: 20px;
+      @include row();
+      justify-content: space-between;
+      .icon{
+        height: 20px;
+        transform: translateX(-5px);
+        transition: all 0.3s;
+      }
+      &:hover{
+        .icon{
+          transform: translateX(2px);
+          opacity: 0.8;
+        }
+      }
     }
     margin-bottom: 30vh;
   }
