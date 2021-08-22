@@ -2,6 +2,8 @@
 
 The New Maps Project Redistricting Algorithm was created with the purpose of assigning precincts to districts that are as compact, contiguous, and uniformly populated as possible.
 
+This is a documentation of version 2.0.
+
 ### Overview
 
 The algorithm is split into different rounds, each round split into different iterations and subiterations.
@@ -46,6 +48,12 @@ Round One stops when either the percent unchanged for an iteration hits 100% or 
 
 Every iteration of Round Two switches the district of a precinct to lower the **relative standard deviation** or **RSD** of the district populations. 
 
-For each iteration, the pair of bordering districts with the highest population ratio is found. Two districts are bordering if a precinct from one is connected to a precinct from the other. Then, from the district with the higher population, pick the precinct that is bordering the other district and is closest to the population center of the other district to switch to the other district.
+For each iteration, the pair of bordering districts with the highest population ratio is found. Two districts are **bordering** if a precinct from one is connected to a precinct from the other. Then, from the district with the higher population, pick the precinct that is bordering the other district and is closest to the population center of the other district to switch to the other district.
 
-Keep iterating until there exists an iteration at least two iterations before the current iteration that had the same RSD value, and the previous iteration does NOT equal this value. This means there is a loop in RSD values, and Round Two will terminate.
+Keep iterating until there exists an iteration at least two iterations before the current iteration that had the same RSD value, and the previous iteration does NOT equal this value. This means there is a loop in RSD values, and Round Two will terminate. 
+
+Round Two is the final round of the algorithm, after it is done, the algorithm is done running.
+
+### Continuity
+
+There is **no guarantee** that all districts will be continuous after this algorithm is finished running. Although during Round Two, every precinct that is reassigned is connected to the district it is reassigned to, there is a possibility that it may disconnect the original district it was reassigned from. 
