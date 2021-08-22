@@ -20,27 +20,35 @@ Please refer to the specific section "Settings & Parameters" for the algorithm, 
 
 Settings for graphs of algorithm iteration data.
 
-- Number of iterations between each plot on the graph, Round One and Round Two
+- Number of iterations between each plot on the graph, only for Round One and Round Two
 
 ## Algorithm Running Popup
 
-After the "Run Algorithm" button is clicked, the graph of precinct connections will be made and a popup will show over the precinct list that will show data and progress of the browser algorithm.
+After the "Run Algorithm" button is clicked, a popup will show over the precinct list that will show data and the current progress of the browser algorithm.
+
+The rounds shown on the popup are the Connecting Precints Round, Round One, and Round Two. The Connecting Precincts Round will not be visualized on the map. 
 
 For each round, an icon on the right will show it's status. A grey circle means it has not yet begun, three dots means it is in progress, and a green circle with a checkmark means it is completed.
 
-The random assignment round will complete before the first iteration of Round One. If subiterations are selected, each district will be randomly assigned one-by-one, like a Round One subiteration.
+Each round will also have a line graph, depicting a certain value (y-axis) over the number of iterations (x-axis). The Connecting Precincts Round will graph the number changed, Round One will graph percent unchanged, and Round Two will graph relative standard deviation of district populations. In addition, a bar graph will display for Round Two, showing the most up-to-date information on district populations, only while Round Two is running.
+
+The Random Assignment Round will complete before the first iteration of Round One. If subiterations are selected, each district will be randomly assigned one-by-one, like a Round One subiteration. No data from the Random Assignment Round will be graphed.
 
 The popup can be dragged around using the header with a black background. You can terminate the algorithm at any time using the "Terminate" button and be brought to the documenation by clicking the "how it works" text.
 
-Click on a round of the algorithm in the popup to show it's data and graphs.
+Click on a round of the algorithm in the popup to show its data and graphs.
 
-### Round One
+## Connecting Precincts Round
 
-When Round One is running, the % unchanged value of full iterations will be graphed on a line graph in the "Round One" section of the algorithm popup. The number of iterations will also show at the bottom, as well as the current % unchanged. Learn more about how Round One works in the "Algorithm" documentation.
+A line graph will appear displaying the relationship between number changed (y-axis), and iteration count (x-axis), updating while the precincts are being connected under the "Connecting Precincts" section of the algorithm popup. Learn more about how the precincts are connected in the "Connecting Precincts" section of the documentation
+
+## Round One
+
+When Round One is running, a line graph showing the % unchanged value of full iterations on the y-axis and the full iteration count on the x-axis will appear under in the "Round One" section of the algorithm popup. Learn more about how Round One works in the "Algorithm" section of the documentation.
 
 ## Round Two
 
-A line graph of the RSD (Relative Standard Deviation) values of Round Two iterations will be graphed in the "Round Two" section of the algorithm popup. A bar graph will also appear underneath displaying the population of each district, updating every iteration of Round Two. The number of iterations and current RSD of district populations will also show.
+A line graph of the RSD (Relative Standard Deviation) of the district populations on the y-axis and iteration count on the x-axis will appear under the "Round Two" section of the algorithm popup. A bar graph will also appear underneath displaying the population of each district, updating only during every iteration of Round Two.
 
 ## Finished
 

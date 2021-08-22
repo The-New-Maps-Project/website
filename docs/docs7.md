@@ -18,7 +18,7 @@ View the [Connecting Precincts Reference](/documentation/connectingprecincts) in
 
 ## Random Assignment Round
 
-Before Round One, the Algorithm will make sure every precinct is assigned by randomnly assigning every precinct a district in range if it is either not assigned or out of range.
+Before Round One, the Algorithm will make sure every precinct is assigned by randomnly assigning every precinct a district in range if it is either not assigned or out of range. (Range is from 1 to n, if there are n districts)
 
 **Note:** in the browser algorithm, if "subiterations" are selected for Round One, then each precinct in the random assignment round will also be assigned one-by-one, with the time interval specified for a Round One subiteration
 
