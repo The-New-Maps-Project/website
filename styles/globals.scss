@@ -160,6 +160,7 @@ ul {
   --grey-icon: grey;
   --purple-icon: purple;
   --orange-icon: orange;
+  --link-color:  rgb(0, 156, 0);
 }
 
 $breakpoint-large: 1000px;
@@ -227,6 +228,23 @@ a {
 
 .ml5 {
   margin-left: 5px;
+}
+
+.mr5{
+  margin-right: 5px;
+}
+
+.ml10{
+  margin-left: 10px;
+}
+
+.mr10{
+  margin-right: 10px;
+}
+
+@mixin linkStyles {
+  color: var(--link-color);
+  text-decoration: underline;
 }
 
 header {
@@ -1695,8 +1713,7 @@ h3.mymaps {
       .filelink{
         font-weight: bold;
         @include hoverer1();
-        color: rgb(0, 156, 0);
-        text-decoration: underline;
+        @include linkStyles();
       }
     }
   }

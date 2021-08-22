@@ -1,3 +1,5 @@
+@import "./globals.scss";
+
 #documentation{
     .docs-header-container{
         background-color: lightgray;
@@ -35,6 +37,11 @@
         }
         .docs-col2{
             margin: 0px 30px;
+            #docs-body{
+                a{
+                    @include linkStyles();
+                }
+            }
         }
     }
 }
