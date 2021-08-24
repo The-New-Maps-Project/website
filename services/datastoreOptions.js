@@ -9,7 +9,7 @@ const options = [
             lng: -73.0877,
             zoom: 8,
         },
-        runAlgoNotes: "~3 min; RSD: ~2%"
+        runAlgoNotes: "~20 secs; RSD: ~2%"
     },
     {
         name: "North Carolina",
@@ -21,7 +21,7 @@ const options = [
             lng: -79.0193,
             zoom: 6,
         },
-        runAlgoNotes: "~1 min; RSD: ~3%"
+        runAlgoNotes: "~60 secs; RSD: ~3%"
     },
     {
         name: "Massachusetts",
@@ -33,7 +33,7 @@ const options = [
             lng: -71.3824,
             zoom: 8,
         },
-        runAlgoNotes: "~30 sec; RSD: ~2%"
+        runAlgoNotes: "~40 sec; RSD: ~2%"
     },
     {
         name: "Georgia",
@@ -45,7 +45,7 @@ const options = [
             lng: -82.9001,
             zoom: 6,
         },
-        runAlgoNotes: "~1 min; RSD: ~4%"
+        runAlgoNotes: "~60 secs; RSD: ~4%"
     },
     {
         name: "New Jersey",
@@ -57,7 +57,7 @@ const options = [
             lng: -74.4057,
             zoom: 7,
         },
-        runAlgoNotes: "~1 min; RSD: ~3%"
+        runAlgoNotes: "~60 secs; RSD: ~3%"
     },
     {
         name: "Colorado",
@@ -105,7 +105,7 @@ const options = [
             lng: -81.5158,
             zoom: 6,
         },
-        runAlgoNotes: "~1 min; RSD: ~12%"
+        runAlgoNotes: "~70 secs; RSD: ~12%"
     },
     {
         name: "New Hampshire",
@@ -117,7 +117,7 @@ const options = [
             lng: -71.57,
             zoom: 7,
         },
-        runAlgoNotes: "~1 min; RSD: ~7%"
+        runAlgoNotes: "~20 secs; RSD: ~7%"
     },
     {
         name: "New York",
