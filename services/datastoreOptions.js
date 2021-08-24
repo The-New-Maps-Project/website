@@ -1,5 +1,17 @@
 const options = [
     {
+        name: "Connecticut",
+        districts: "5 congressional districts",
+        info: "10 parameters, ZIP codes as precicnts",
+        fileName: "ct5zc.txt",
+        zoom: {
+            lat: 41.6032, 
+            lng: -73.0877,
+            zoom: 8,
+        },
+        runAlgoNotes: "~3 min; RSD: ~2%"
+    },
+    {
         name: "North Carolina",
         districts: "14 congressional districts",
         info: "10 parameters, ZIP codes as precicnts",
@@ -46,18 +58,6 @@ const options = [
             zoom: 7,
         },
         runAlgoNotes: "~1 min; RSD: ~3%"
-    },
-    {
-        name: "Connecticut",
-        districts: "5 congressional districts",
-        info: "10 parameters, ZIP codes as precicnts",
-        fileName: "ct5zc.txt",
-        zoom: {
-            lat: 41.6032, 
-            lng: -73.0877,
-            zoom: 8,
-        },
-        runAlgoNotes: "~3 min; RSD: ~2%"
     },
     {
         name: "Colorado",

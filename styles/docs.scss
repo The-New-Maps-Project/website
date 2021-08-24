@@ -12,6 +12,10 @@
         grid-template-columns: auto 1fr;
         margin: 20px 0px;
         margin-bottom: 20vh;
+
+        .menu-button{
+            display: none;
+        }
         .docs-col1{
             margin-right: 20px;
             .docs-options{
@@ -49,6 +53,33 @@
                     line-height: 1.5;
                 }
                 
+            }
+        }
+    }
+}
+
+@media (max-width: 1000px){
+    #documentation{
+        #docs-container{
+            display: block;
+            .docs-col1, .docs-col2{
+                margin: 0px;
+            }
+            .menu-button{
+                @include row();
+                background-color: transparent;
+                border: none;
+                @include hoverer1();
+                background-color: black;
+                color: white;
+                font-size: 18px;
+                padding: 5px 20px;
+                box-shadow: 5px 5px 10px lightgrey;
+                .icon{
+                    
+                    height: 18px;
+                    margin: auto 0px auto 15px;
+                }
             }
         }
     }

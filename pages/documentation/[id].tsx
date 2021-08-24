@@ -1,8 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ReactMarkdown from 'react-markdown'
 import Link from "next/link";
 import PContext from "../../services/context";
 import { useRouter } from "next/router";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown, faAngleUp, faArrowDown, faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 
 /*
 MARKDOWN FILES IMPORTED
@@ -23,6 +25,12 @@ export default function DocsRoot() {
     id = "/" + id;
   const {setDocId} = useContext(PContext);
   setDocId(null);//exit out of edit map mode when on the docs page.
+  const [showMenu,setShowMenu] = useState<boolean>(true);
+
+  //when window loads
+  useEffect(()=>{
+    if(window.innerWidth<1000) setShowMenu(false);
+  },[])
 
   //In order ("num" property  not actually used, just so you know what index it is")
   const docOptions: DocOption[] = [
@@ -78,7 +86,8 @@ export default function DocsRoot() {
       </div>
       <div id="docs-container">
         <div className="docs-col1">
-          <ul className="docs-options">{optionsArr}</ul>
+          <button onClick={()=>setShowMenu(!showMenu)}className="menu-button">Documentation Menu <FontAwesomeIcon className="icon" icon={showMenu?faAngleUp:faAngleDown}></FontAwesomeIcon></button>
+          {showMenu&&<ul className="docs-options">{optionsArr}</ul>}
         </div>
         <div className="docs-col2">
           <section id="docs-body"><ReactMarkdown>{text}</ReactMarkdown></section>

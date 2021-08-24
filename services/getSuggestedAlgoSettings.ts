@@ -8,7 +8,7 @@ export default function getSuggestedAlgoSettings(data:object,algoSettings:object
     //set the suggested values
     var numPrecincts:number = Object.keys(data).length;
     newAlgoSettings["intervalConnecting"] = 300;
-    if(numPrecincts < 300){
+    if(numPrecincts < 100){
         newAlgoSettings["useSubiterations"] = true;
         newAlgoSettings["interval1"] = 50;
     }else {
