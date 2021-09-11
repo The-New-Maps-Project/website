@@ -215,9 +215,45 @@ export default function Dev(){
         },interval)
     }
 
+    const getDataIteration2 = async (index,lines) =>{
+        var thisLine = lines[index];
+        var elements = thisLine.split("\t");
+        console.log(elements);
+
+        //Step 2: set the geoID and get it's components
+        var geoid = elements[1];
+        var stateid = geoid.substring(0,2);
+        var countyid = geoid.substring(2,5);
+        var tractid = geoid.substring(5);
+
+        var strParams = "NAME,B01001_001E";
+        params.forEach((p)=>strParams += ","+p);
+        var res = await fetch(`https://api.census.gov/data/2019/acs/acs5?get=${strParams}&for=tract:${tractid}&in=state:${stateid}%20county=${countyid}&key=${censusApiKey}`);
+        try{
+            var arr = await res.json();
+            var newResText = [...resText];
+            newResText.push(tractid+","+)
+        }catch(e){
+            console.error(e)
+        }
+        
+    }
+
     useEffect(()=>{
         
     },[list.current])
+
+    const uploadFile= (file) =>{
+        const fr = new FileReader();
+        fr.onload = function(){
+            let fileContents = fr.result.toString().split("\n");
+            console.log(fileContents.length);
+
+
+        }
+
+        fr.readAsText(file)
+    }
 
     return <div id="dev">
         <section>
@@ -268,6 +304,10 @@ export default function Dev(){
         <a download={fileName+".txt"} href={url} className={url==null?"unready":"ready"}>Download File</a>
         <section>
             <ul>{resText.map(l=>{return<li>{l}</li>})}</ul>
+        </section>
+
+        <section>
+            <input type="file" id="fileInput" onChange={(e)=>{uploadFile(e.target.files[0])}}></input>
         </section>
     </div>
 }
