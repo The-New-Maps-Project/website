@@ -8,7 +8,7 @@ export default function Dev(){
     const [resText,setResText] = useState([]);
     const [progress,setProgress] = useState("");
     const list = useRef([]);
-    const [interval,setInterval1] = useState(500);
+    const [interval,setInterval1] = useState(100);
     const [googleApiKey,setGoogle] = useState("");
     const [censusApiKey,setCensus] = useState("");
     const [stateName,setStateName] = useState("");
@@ -216,8 +216,10 @@ export default function Dev(){
     }
 
     const getDataIteration2 = async (index,lines,obj) =>{
-        if(index>=lines.length){
-            var blobText = numDistricts +","+paramNames.reduce((p,c)=>p+","+c) +"\n"+resText.reduce((p,c)=>p+"\n"+c);
+        console.log(index,lines.length)
+        if(index>=lines.length||lines[index].length<1){
+            console.log("YES",resText);
+            var blobText = numDistricts +","+paramNames.reduce((p,c)=>p+","+c) +"\n"+list.current.reduce((p,c)=>p+"\n"+c);
             console.log(blobText)
 
             var blob = new Blob([blobText], {type: 'text/plain'});
@@ -236,8 +238,8 @@ export default function Dev(){
         var countyid = geoid.substring(2,5);
         var tractid = geoid.substring(5);
 
-        var lat = elements[elements.length-2];
-        var lng = elements[elements.length-1];
+        var lat = (elements[elements.length-2].replace(/ /gi,""));
+        var lng = (elements[elements.length-1].replace(/ /gi,""));
 
         var strParams = "NAME,B01001_001E";
         params.forEach((p)=>strParams += ","+p);
@@ -245,7 +247,9 @@ export default function Dev(){
             var arr = obj[tractid];
             var str = tractid+",0,"+lat+","+lng;
             for(var i = 1;i<=params.length+1;i++){ //start from 1 because you want to start with population, and end at params + 1 because you want to get params plus the population.
-                str += ","+ arr[i];
+                str += ","
+                if(i>1) str += arr[1]==0?0:Number(arr[i]/arr[1]).toFixed(4);
+                else str += arr[i]; //arr[1], population
             }
             list.current = [...list.current,str]
             setResText(list.current);
@@ -254,7 +258,7 @@ export default function Dev(){
         }
         setTimeout(()=>{
             getDataIteration2(index+1,lines,obj);
-        },100)
+        },interval)
     }
 
     useEffect(()=>{
@@ -338,6 +342,9 @@ export default function Dev(){
                 className="zcs"
             ></input>
         </section>
+        <section>
+            <input type="file" id="fileInput" onChange={(e)=>{uploadFile(e.target.files[0])}}></input>
+        </section>
         <h3>{progress}</h3>
         <p>State Name: {stateName}</p>
         <p style={{color: "red", fontWeight: "bold"}}>{errorMessage}</p>
@@ -346,8 +353,5 @@ export default function Dev(){
             <ul>{resText.map(l=>{return<li>{l}</li>})}</ul>
         </section>
 
-        <section>
-            <input type="file" id="fileInput" onChange={(e)=>{uploadFile(e.target.files[0])}}></input>
-        </section>
     </div>
 }
