@@ -52,7 +52,7 @@ If in the first line, the map is specified to have parameters, every precinct MU
 **Data Per Precinct:**
 
 ```
-    name,district,latitute,longitude,param1,param2,...
+    name,district,latitute,longitude,population,param1,param2,...
 ```
 
 **Example:**
@@ -60,10 +60,10 @@ If in the first line, the map is specified to have parameters, every precinct MU
 Using the previous example for a map with three parameters: % Democrat, % White, and % College Graduate:
 
 ```
-    Springfield,2,40.124,-79.438,0.45,0.67,0.16
+    Springfield,2,40.124,-79.438,3451,0.45,0.67,0.16
 ```
 
-For this line of data, the precinct of Springfield is in District 2, has a location of ( 40.124N , 79.428W ), is 45% Democrat, 67% White, and 16% of it's residents have graduated from college.
+For this line of data, the precinct of Springfield is in District 2, has a location of ( 40.124N , 79.428W ), has a population of 3451, is 45% Democrat, 67% White, and 16% of it's residents have graduated from college.
 
 **NOTE:** District zero is "unassigned". When a group of precincts are not assigned to a district yet, list "0" as the district they are assigned to.
 

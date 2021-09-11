@@ -8,7 +8,7 @@ export default function Dev(){
     const [resText,setResText] = useState([]);
     const [progress,setProgress] = useState("");
     const list = useRef([]);
-    const [interval,setInterval1] = useState(500);
+    const [interval,setInterval1] = useState(100);
     const [googleApiKey,setGoogle] = useState("");
     const [censusApiKey,setCensus] = useState("");
     const [stateName,setStateName] = useState("");
@@ -215,9 +215,89 @@ export default function Dev(){
         },interval)
     }
 
+    const getDataIteration2 = async (index,lines,obj) =>{
+        console.log(index,lines.length)
+        if(index>=lines.length||lines[index].length<1){
+            console.log("YES",resText);
+            var blobText = numDistricts +","+paramNames.reduce((p,c)=>p+","+c) +"\n"+list.current.reduce((p,c)=>p+"\n"+c);
+            console.log(blobText)
+
+            var blob = new Blob([blobText], {type: 'text/plain'});
+            var url = window.URL.createObjectURL(blob);
+            setUrl(url);
+            return;
+        }
+        setProgress((index+1)+"/"+lines.length);
+        var thisLine = lines[index];
+        var elements = thisLine.split("\t");
+        console.log(elements);
+
+        //Step 2: set the geoID and get it's components
+        var geoid = elements[1];
+        var stateid = geoid.substring(0,2);
+        var countyid = geoid.substring(2,5);
+        var tractid = geoid.substring(5);
+
+        var lat = (elements[elements.length-2].replace(/ /gi,""));
+        var lng = (elements[elements.length-1].replace(/ /gi,""));
+
+        var strParams = "NAME,B01001_001E";
+        params.forEach((p)=>strParams += ","+p);
+        try{
+            var arr = obj[tractid];
+            var str = tractid+",0,"+lat+","+lng;
+            for(var i = 1;i<=params.length+1;i++){ //start from 1 because you want to start with population, and end at params + 1 because you want to get params plus the population.
+                str += ","
+                if(i>1) str += arr[1]==0?0:Number(arr[i]/arr[1]).toFixed(4);
+                else str += arr[i]; //arr[1], population
+            }
+            list.current = [...list.current,str]
+            setResText(list.current);
+        }catch(e){
+            console.error(e)
+        }
+        setTimeout(()=>{
+            getDataIteration2(index+1,lines,obj);
+        },interval)
+    }
+
     useEffect(()=>{
         
     },[list.current])
+
+    const uploadFile= (file) =>{
+        
+
+        const fr = new FileReader();
+        fr.onload = async function(){
+            let fileContents = fr.result.toString().split("\n");
+            fileContents.shift(); //remove first line
+            var stateId = fileContents[0].split("\t")[1].substring(0,2);
+            console.log(fileContents[0])
+            console.log(stateId);
+            var strParams = "NAME,B01001_001E";
+            params.forEach((p)=>strParams += ","+p);
+            try{
+                var reqStr = `https://api.census.gov/data/2019/acs/acs5?get=${strParams}&for=tract:*&in=state:${stateId}&key=${censusApiKey}`;
+                var data1 = await fetch(reqStr);
+                console.log(data1)
+                var dataRes = await data1.json();
+                console.log(dataRes)
+                dataRes.shift(); //the first array is just the order
+                var obj = {};
+                dataRes.forEach(d=>{
+                    obj[d[d.length-1]] = [...d];
+                })
+
+                console.log(fileContents.length);
+                getDataIteration2(0,fileContents,obj)
+            }catch(e){
+                console.error(e);
+            }
+        }
+
+        fr.readAsText(file)
+    }
 
     return <div id="dev">
         <section>
@@ -262,6 +342,9 @@ export default function Dev(){
                 className="zcs"
             ></input>
         </section>
+        <section>
+            <input type="file" id="fileInput" onChange={(e)=>{uploadFile(e.target.files[0])}}></input>
+        </section>
         <h3>{progress}</h3>
         <p>State Name: {stateName}</p>
         <p style={{color: "red", fontWeight: "bold"}}>{errorMessage}</p>
@@ -269,5 +352,6 @@ export default function Dev(){
         <section>
             <ul>{resText.map(l=>{return<li>{l}</li>})}</ul>
         </section>
+
     </div>
 }

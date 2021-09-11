@@ -60,7 +60,7 @@ export default function SaveImport(){
                     <strong>EXAMPLE</strong>
                     <section>
                         <p>8,Percent Democrat,Percent Republican,Percent Minority</p>
-                        <p>Springfield,3451,40.1243,-78.5478,0.46,0.45,0.27</p>
+                        <p>Springfield,0,40.1243,-78.5478,3451,0.46,0.45,0.27</p>
                         <p>...</p>
                     </section>
                     </div>
