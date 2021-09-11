@@ -27,16 +27,15 @@ export default function Dev(){
         params.forEach((p)=>strParams += ","+p);
 
         var res = await fetch(`https://api.census.gov/data/2019/acs/acs5?get=${strParams}&for=zip%20code%20tabulation%20area:*&in=state:${text}&key=${censusApiKey}`);
-        console.log(res);
+    
         try{
             var arr = await res.json();
         }catch(e){
             console.error(e)
         }
-        console.log(arr);
+
 
         var order = arr.shift();
-        console.log(order);
         var objectsArr = [];
         arr.forEach(a=>{
             var obj = {};
@@ -44,10 +43,6 @@ export default function Dev(){
                 obj[order[i]] = a[i];
             }
 
-            // if(objectsArr.filter(o=>o["name"]==obj["zip code tabulation area"]).length>0) {
-            //     console.log(objectsArr.filter(o=>o["zip code tabulation area"]==obj["zip code tabulation area"]).length);
-            //     return; 
-            // }
             var pop = Number(obj["B01001_001E"]);
             if(pop == 0){
                 pop = objectsArr.push({
@@ -63,7 +58,7 @@ export default function Dev(){
                 })
             }
         })
-        console.log(objectsArr);
+  
         for(let i=0;i<objectsArr.length;i++){
             for(let j=i+1;j<objectsArr.length;j++){
                 if(objectsArr[i].name == objectsArr[j].name){
@@ -72,59 +67,11 @@ export default function Dev(){
                 }
             }
         }
-        console.log("LENGTH: "+objectsArr.length);
 
         var index = 0;
         var length = objectsArr.length;
         iterate(0,length,objectsArr);
-        // setInterval(async ()=>{
-        //     if(index > length) return;
-        //     if(index == length){
-        //         //download
-                
-
-        //         //first create the text
-        //         var blobText = ""+numDistricts;
-        //         paramNames.forEach(pn=>blobText+=","+pn);
-        //         list.current.forEach(l=>{
-        //             blobText += "\n"+l;
-        //         })
-
-
-        //         //create the blob and setUrl
-        //         var blob = new Blob([blobText], {type: 'text/plain'});
-        //         var url = window.URL.createObjectURL(blob);
-        //         setUrl(url);
-        //         return;
-        //     }
-        //     var thisObj = objectsArr[index];
-        //     if(!thisObj) return;
-
-        //     //Step 1: get the data from google
-        //     var geocodingRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${`US Zip Code ${thisObj["name"]}`}&key=${googleApiKey}`);
-        //     var jsonRes = await geocodingRes.json();
-        //     console.log(jsonRes);
-
-        //     var data = jsonRes.results[0];
-        //     if(!data) return;
-        //     var name = data["address_components"][1]["long_name"] + " ("+ thisObj["name"]+")";
-        //     var lat = data.geometry.location.lat;
-        //     var lng = data.geometry.location.lng;
-        //     console.log(name + ","+lat+","+lng);
-
-        //     //Step 2: set the data
-        //     var str = name + ",0,"+lat+","+lng+","+thisObj["population"]; 
-        //     thisObj.params.forEach(p=>str += ","+p);
-        //     list.current = ([...list.current,str]);
-        //     var arr = []
-        //     list.current.forEach(l=>arr.push(l));
-        //     setResText(arr);
-        //     setProgress(""+index + " / "+ length);
-
-
-
-        //     index++;
-        // },interval)
+        
         }catch(e){
             setErrorMessage(e.message);
         }
@@ -156,14 +103,14 @@ export default function Dev(){
         //Step 1: get the data from google
         var geocodingRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${`US Zip Code ${thisObj["name"]}`}&key=${googleApiKey}`);
         var jsonRes = await geocodingRes.json();
-        console.log(jsonRes);
+ 
 
         var data = jsonRes.results[0];
         if(!data) return;
         var name = data["address_components"][1]["long_name"] + " ("+ thisObj["name"]+")";
         var lat = data.geometry.location.lat;
         var lng = data.geometry.location.lng;
-        console.log(name + ","+lat+","+lng);
+
 
         //Step 2: set the data
         var str = name + ",0,"+lat+","+lng+","+thisObj["population"]; 
@@ -188,14 +135,14 @@ export default function Dev(){
             //Step 1: get google data (geocoding lat and lng, and place name)
             var geocodingRes = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${zc}&key=${googleApiKey}`);
             var jsonRes = await geocodingRes.json();
-            console.log(jsonRes);
+           
 
             var data = jsonRes.results[0];
             if(!data) return;
             var name = data["address_components"][1]["long_name"] + " ("+ zc+")";
             var lat = data.geometry.location.lat;
             var lng = data.geometry.location.lng;
-            console.log(name + ","+lat+","+lng);
+        
 
             //Step 2: get census data (total population and parameters)
 
@@ -216,11 +163,9 @@ export default function Dev(){
     }
 
     const getDataIteration2 = async (index,lines,obj) =>{
-        console.log(index,lines.length)
         if(index>=lines.length||lines[index].length<1){
-            console.log("YES",resText);
+         
             var blobText = numDistricts +","+paramNames.reduce((p,c)=>p+","+c) +"\n"+list.current.reduce((p,c)=>p+"\n"+c);
-            console.log(blobText)
 
             var blob = new Blob([blobText], {type: 'text/plain'});
             var url = window.URL.createObjectURL(blob);
@@ -230,7 +175,6 @@ export default function Dev(){
         setProgress((index+1)+"/"+lines.length);
         var thisLine = lines[index];
         var elements = thisLine.split("\t");
-        console.log(elements);
 
         //Step 2: set the geoID and get it's components
         var geoid = elements[1];
@@ -273,23 +217,17 @@ export default function Dev(){
             let fileContents = fr.result.toString().split("\n");
             fileContents.shift(); //remove first line
             var stateId = fileContents[0].split("\t")[1].substring(0,2);
-            console.log(fileContents[0])
-            console.log(stateId);
             var strParams = "NAME,B01001_001E";
             params.forEach((p)=>strParams += ","+p);
             try{
                 var reqStr = `https://api.census.gov/data/2019/acs/acs5?get=${strParams}&for=tract:*&in=state:${stateId}&key=${censusApiKey}`;
                 var data1 = await fetch(reqStr);
-                console.log(data1)
                 var dataRes = await data1.json();
-                console.log(dataRes)
                 dataRes.shift(); //the first array is just the order
                 var obj = {};
                 dataRes.forEach(d=>{
                     obj[d[d.length-1]] = [...d];
                 })
-
-                console.log(fileContents.length);
                 getDataIteration2(0,fileContents,obj)
             }catch(e){
                 console.error(e);
