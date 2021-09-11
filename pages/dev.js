@@ -215,7 +215,17 @@ export default function Dev(){
         },interval)
     }
 
-    const getDataIteration2 = async (index,lines) =>{
+    const getDataIteration2 = async (index,lines,obj) =>{
+        if(index>=lines.length){
+            var blobText = numDistricts +","+paramNames.reduce((p,c)=>p+","+c) +"\n"+resText.reduce((p,c)=>p+"\n"+c);
+            console.log(blobText)
+
+            var blob = new Blob([blobText], {type: 'text/plain'});
+            var url = window.URL.createObjectURL(blob);
+            setUrl(url);
+            return;
+        }
+        setProgress((index+1)+"/"+lines.length);
         var thisLine = lines[index];
         var elements = thisLine.split("\t");
         console.log(elements);
@@ -226,17 +236,25 @@ export default function Dev(){
         var countyid = geoid.substring(2,5);
         var tractid = geoid.substring(5);
 
+        var lat = elements[elements.length-2];
+        var lng = elements[elements.length-1];
+
         var strParams = "NAME,B01001_001E";
         params.forEach((p)=>strParams += ","+p);
-        var res = await fetch(`https://api.census.gov/data/2019/acs/acs5?get=${strParams}&for=tract:${tractid}&in=state:${stateid}%20county=${countyid}&key=${censusApiKey}`);
         try{
-            var arr = await res.json();
-            var newResText = [...resText];
-            newResText.push(tractid+","+)
+            var arr = obj[tractid];
+            var str = tractid+",0,"+lat+","+lng;
+            for(var i = 1;i<=params.length+1;i++){ //start from 1 because you want to start with population, and end at params + 1 because you want to get params plus the population.
+                str += ","+ arr[i];
+            }
+            list.current = [...list.current,str]
+            setResText(list.current);
         }catch(e){
             console.error(e)
         }
-        
+        setTimeout(()=>{
+            getDataIteration2(index+1,lines,obj);
+        },100)
     }
 
     useEffect(()=>{
@@ -244,12 +262,34 @@ export default function Dev(){
     },[list.current])
 
     const uploadFile= (file) =>{
+        
+
         const fr = new FileReader();
-        fr.onload = function(){
+        fr.onload = async function(){
             let fileContents = fr.result.toString().split("\n");
-            console.log(fileContents.length);
+            fileContents.shift(); //remove first line
+            var stateId = fileContents[0].split("\t")[1].substring(0,2);
+            console.log(fileContents[0])
+            console.log(stateId);
+            var strParams = "NAME,B01001_001E";
+            params.forEach((p)=>strParams += ","+p);
+            try{
+                var reqStr = `https://api.census.gov/data/2019/acs/acs5?get=${strParams}&for=tract:*&in=state:${stateId}&key=${censusApiKey}`;
+                var data1 = await fetch(reqStr);
+                console.log(data1)
+                var dataRes = await data1.json();
+                console.log(dataRes)
+                dataRes.shift(); //the first array is just the order
+                var obj = {};
+                dataRes.forEach(d=>{
+                    obj[d[d.length-1]] = [...d];
+                })
 
-
+                console.log(fileContents.length);
+                getDataIteration2(0,fileContents,obj)
+            }catch(e){
+                console.error(e);
+            }
         }
 
         fr.readAsText(file)
