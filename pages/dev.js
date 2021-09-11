@@ -8,7 +8,7 @@ export default function Dev(){
     const [resText,setResText] = useState([]);
     const [progress,setProgress] = useState("");
     const list = useRef([]);
-    const [interval,setInterval1] = useState(100);
+    const [interval,setInterval1] = useState(10);
     const [googleApiKey,setGoogle] = useState("");
     const [censusApiKey,setCensus] = useState("");
     const [stateName,setStateName] = useState("");
