@@ -15,6 +15,61 @@ export default function Dev(){
     const [errorMessage,setErrorMessage] = useState("");
     const params = ["B01001_002E","B01001_026E","B01001A_001E","B01001B_001E","B01001C_001E","B01001D_001E","B01001E_001E","B01001I_001E","B06012_002E","B07009_005E"];
     const paramNames = ["% Male","% Female","% White","% Black","% Native American","% Asian","% Pacific Islander","% Hispanic or Latino","% Below Poverty Line","% With Bachelors Degree"] //in ORDER
+    const stateNumbers = [
+        ["Alabama","4876250","01"],
+        ["Alaska","737068","02"],
+        ["Arizona","7050299","04"],
+        ["Arkansas","2999370","05"],
+        ["California","39283497","06"],
+        ["Colorado","5610349","08"],
+        ["Delaware","957248","10"],
+        ["District of Columbia","692683","11"],
+        ["Connecticut","3575074","09"],
+        ["Florida","20901636","12"],
+        ["Georgia","10403847","13"],
+        ["Idaho","1717750","16"],
+        ["Hawaii","1422094","15"],
+        ["Illinois","12770631","17"],
+        ["Indiana","6665703","18"],
+        ["Iowa","3139508","19"],
+        ["Kansas","2910652","20"],
+        ["Kentucky","4449052","21"],
+        ["Louisiana","4664362","22"],
+        ["Maine","1335492","23"],
+        ["Maryland","6018848","24"],
+        ["Massachusetts","6850553","25"],
+        ["Michigan","9965265","26"],
+        ["Minnesota","5563378","27"],
+        ["Mississippi","2984418","28"],
+        ["Missouri","6104910","29"],
+        ["Montana","1050649","30"],
+        ["Nebraska","1914571","31"],
+        ["Nevada","2972382","32"],
+        ["New Hampshire","1348124","33"],
+        ["New Jersey","8878503","34"],
+        ["New Mexico","2092454","35"],
+        ["New York","19572319","36"],
+        ["North Carolina","10264876","37"],
+        ["North Dakota","756717","38"],
+        ["Ohio","11655397","39"],
+        ["Oklahoma","3932870","40"],
+        ["Oregon","4129803","41"],
+        ["Pennsylvania","12791530","42"],
+        ["Rhode Island","1057231","44"],
+        ["South Carolina","5020806","45"],
+        ["South Dakota","870638","46"],
+        ["Tennessee","6709356","47"],
+        ["Texas","28260856","48"],
+        ["Vermont","624313","50"],
+        ["Utah","3096848","49"],
+        ["Virginia","8454463","51"],
+        ["Washington","7404107","53"],
+        ["West Virginia","1817305","54"],
+        ["Wisconsin","5790716","55"],
+        ["Wyoming","581024","56"],
+        ["Puerto Rico","3318447","72"]
+    ];
+    const [showStateNums,setShowStateNums] = useState(false);
 
     const getData = async () => {
         try{
@@ -245,7 +300,12 @@ export default function Dev(){
                 placeholder="State Number"
                 className="zcs"
             ></input>
-            <button className="sb" onClick={()=>getData()}>Get Data</button>
+            <button>{showStateNums?"Hide":"Show"} State Numbers</button>
+            {showStateNums&&<div>
+                <ul>{stateNumbers.map(s=>{
+                    return <li>{s[0]} - {s[2]}</li>
+                })}</ul>
+            </div>}
             <input 
                 onChange={(e)=>setFileName(e.target.value)}
                 value={fileName}
@@ -279,6 +339,8 @@ export default function Dev(){
                 placeholder="Time between calls"
                 className="zcs"
             ></input>
+            <button className="sb" onClick={()=>getData()}>Get Data</button>
+            <hr></hr>
         </section>
         <section>
             <input type="file" id="fileInput" onChange={(e)=>{uploadFile(e.target.files[0])}}></input>
