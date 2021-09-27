@@ -300,10 +300,10 @@ export default function Dev(){
                 placeholder="State Number"
                 className="zcs"
             ></input>
-            <button>{showStateNums?"Hide":"Show"} State Numbers</button>
+            <button onClick={()=>setShowStateNums(!showStateNums)}>{showStateNums?"Hide":"Show"} State Numbers</button>
             {showStateNums&&<div>
-                <ul>{stateNumbers.map(s=>{
-                    return <li>{s[0]} - {s[2]}</li>
+                <ul className="stateNums">{stateNumbers.map(s=>{
+                    return <li key={s[0]}>{s[0]} - {s[2]}</li>
                 })}</ul>
             </div>}
             <input 

@@ -19,6 +19,18 @@
         overflow-y: scroll;
     }
 
+    ul.stateNums{
+        height: auto;
+        margin: 20px;
+        background-color: lightgray;
+        border-radius: 10px;
+        padding: 20px;
+    }
+
+    hr{
+        margin: 30px 0px;
+    }
+
     a.ready{
         background-color: green;
         color: white;
