@@ -9,7 +9,7 @@ const options = [
             lng: -73.0877,
             zoom: 8,
         },
-        runAlgoNotes: "~20 secs; RSD: ~2%"
+        runAlgoNotes: "~40 secs; RSD: ~2%"
     },
     {
         name: "North Carolina",
