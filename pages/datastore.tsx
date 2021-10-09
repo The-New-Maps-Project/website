@@ -7,6 +7,7 @@ export default function Datastore(){
         <div className="page-header">
             <h2>Datastore</h2>
             <p>Data to input into The New Maps Project's online visualizer. All are plain text files (.txt)</p> 
+            <div className="background" style={{backgroundImage: 'url("/images/datastore.jpg")'}}></div>
         </div>
         <ul id="datastore-data">
             {options.map(d=>{

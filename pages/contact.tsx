@@ -12,6 +12,8 @@ export default function Contact(){
         <div className="page-header">
             <h2>Contact</h2>
             <p>Contact The New Maps Project</p>
+            <div className="background" style={{backgroundImage: 'url("/images/contact.jpg")'}}></div>
+
         </div>
 
 

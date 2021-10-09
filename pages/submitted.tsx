@@ -120,16 +120,20 @@ export default function Submitted(){
 
     return <div id="submitted" >
         {user&&<span id="user">User: {user}</span>}
-        <div className="page-header">
+        <div className="page-header lighten">
             <h2>Maps Published and Submitted</h2>
             <p>All maps are created by The New Maps Project creator Vincent Cai</p>
+            <div className="background" style={{backgroundImage: 'url("/images/maps.jpg")'}}></div>
         </div>
+        <section id="information">
+            <p>The maps listed below are either submitted directly to state redistricting commissions or published publicly on a redistricting site. All these maps have the general shapes of their districts created by The New Maps Project's algorithm and are edited by Vincent Cai before they are published and/or submitted. Most maps are submitted to online portals that state redistricting commissions or legislatures have opened for public submission, or are posted on sites like Districtr, which can also function as a submission portal. Since The New Maps Project's algorithm focuses on district compactness and population distribution without the use of partisan data, most of the maps below are drawn to reflect such. </p>
+        </section>
         {user&&<section id="addmap">
             {imageUrl&&<div className="image" style={{backgroundImage: `url(${imageUrl})`}}></div>}
             {!imageUrl&&<input type="file" onChange={e=>setFile(e.target.files[0])}></input>}
-            {file&&!imageUrl&&<button className="sb" onClick={uploadImage}>Upload</button>}
+            {file&&!imageUrl&&<button className="sb" style={{backgroundColor: "#777", boxShadow:"none", borderRadius: "0px"}} onClick={uploadImage}>Upload</button>}
             <input style={{fontWeight: 'bold',fontSize: "20px"}}placeholder="Map Title" onChange={e=>setTitle(e.target.value)} value={title}></input>
-            <input placeholder="Description" onChange={e=>setDescription(e.target.value)} value={description}></input>
+            <input style={{width: "100%"}}placeholder="Description" onChange={e=>setDescription(e.target.value)} value={description}></input>
             <input placeholder="Link" onChange={e=>setLink(e.target.value)} value={link}></input>
             <button onClick={addMap} className="sb">Submit</button>
         </section>}
@@ -141,6 +145,22 @@ export default function Submitted(){
                 <ArrowLink href={d.link||"/"} text="Link to Map"></ArrowLink>
                 {user&&<button onClick={()=>deleteDoc(d.id)} className="delete-button">Delete</button>}
             </li>)}
+        </ul>
+        <ul id="links">
+            <li>
+                <h4>Draw Maps and Visualize the Algorithm</h4>
+                <ArrowLink text="Go to Editing Suite" href="/editingsuite"></ArrowLink>
+            </li>
+
+            <li>
+                <h4>Learn How the Algorithm Works</h4>
+                <ArrowLink text="Algorithm Documentation" href="/algorithm"></ArrowLink>
+            </li>
+
+            <li>
+                <h4>Contact Vincent Cai</h4>
+                <ArrowLink text="Contact Page" href="/contact"></ArrowLink>
+            </li>
         </ul>
         <button className="tb showLogin" onClick={()=>setShowLogin(!showLogin)}>{showLogin?"Hide":"Show"} Login</button>
         {showLogin&&<section id="login-area">

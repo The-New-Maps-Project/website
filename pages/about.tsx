@@ -7,7 +7,9 @@ export default function About() {
     <div id="about">
       <div className="page-header">
         <h2>About</h2>
-        <p>About The New Map Project</p>
+        <p>About The New Maps Project</p>
+        <div className="background" style={{backgroundImage: 'url("/images/about.jpg")'}}></div>
+
       </div>
       <section id="about-paragraph">
         The New Maps Project is a software project created by Vincent Cai to

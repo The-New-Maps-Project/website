@@ -83,6 +83,8 @@ export default function DocsRoot() {
       <div className="page-header">
         <h2>Documentation</h2>
         <p>The New Maps Project Documentation</p>
+        <div className="background" style={{backgroundImage: 'url("/images/docs.jpg")'}}></div>
+
       </div>
       <div id="docs-container">
         <div className="docs-col1">

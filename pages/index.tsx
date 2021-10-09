@@ -82,6 +82,38 @@ export default function Home() {
           </li>
           </ul>
       </section>
+      <section id="additional-links">
+        <h3>Additional Links</h3>
+        <ul>
+        <li>
+            <h5>GitHub</h5>
+            <p>
+              Code repositories for The New Maps Project
+            </p>
+            <ArrowLink href="" text="GitHub Organization"></ArrowLink>
+          </li>
+       
+          <li>
+            <h5>Datastore</h5>
+            <p>
+              Download the files for all the premade options in the Editing Suite.  
+            </p>
+            <ArrowLink href="/datastore" text="Datastore"></ArrowLink>
+          </li>
+        
+          <li>
+            <h5>Documentation</h5>
+            <p>Full documentation for all of The New Maps Project's software on this website</p>
+            <ArrowLink href="/documentation" text="Documentation"></ArrowLink>
+          </li>
+
+          <li>
+            <h5>Legacy Website</h5>
+            <p>(May be dysfunctional) The New Maps Project's old website and software (Not used anymore)</p>
+            <ArrowLink href="https://thenewmapsproject.netlify.app" text="Visit Legacy Site"></ArrowLink>
+          </li>
+          </ul>
+      </section>
     </div>
   );
 }
