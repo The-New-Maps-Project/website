@@ -20,7 +20,7 @@ export default function Header() {
   const [showMenu,setShowMenu] = useState<boolean>(false);
   const links = [{
     name: "Editing Suite",
-    path: "/about",
+    path: "/editingsuite",
     description: "Draw, analyze, and interactively edit your own legislative district maps. Visualize the algorithm in real time on the map."
   },{
     name: "Submitted Maps",
