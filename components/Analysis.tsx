@@ -22,6 +22,7 @@ export default function Analysis() {
     ["Total Population", "pTotal"],
     ["Average", "pMean"],
     ["Standard Deviation", "pStddev"],
+    ["RSD (%)", "pRSD"],
     ["Outliers", "pOutliers"],
     ["Median", "pMedian"],
   ];
@@ -32,6 +33,14 @@ export default function Analysis() {
     ["ASDPC Outliers", "cOutliers"],
     ["Median", "cMedian"],
   ];
+
+  const precinctInfo = [
+    ["Total Precincts","total"],
+    ["Mean Precinct Size","mean"],
+    ["Standard Deviation","stddev"],
+    ["Precinct Density Index","precinctDensity"],
+    ["Population Density Index","populationDensity"]
+  ]
 
   useEffect(() => {
     setNeedRecalculate(true);
@@ -345,6 +354,16 @@ export default function Analysis() {
           </section>
         </div>
       )}
+      {res && <ul id="precinct-data-analysis">
+       
+          {precinctInfo.map(v=>{
+            return <li>
+              <span className="name">{v[0]}:</span>
+              <span className="value">{writeNum(res["precincts"][v[1]],v[1]=="precinctDensity"?3:1)}</span>
+            </li>
+          })}
+        </ul>
+      }
 
       {chartValue && (
         <Popup>

@@ -1,6 +1,7 @@
 import { allAsdpc } from "./asdpc";
 import { mean, median, outliers, stddev, sum } from "./oneVarStats";
 import { sumPopulation } from "./sumPopulation";
+import Location from "./classes/Location";
 /**
  * RETURN FORMAT:
  * {
@@ -26,11 +27,20 @@ import { sumPopulation } from "./sumPopulation";
  *          majorityDistricts?: number (marjority districts)
  *          pValue?: number
  *      } ]
+ *      precincts:{
+ *          total: number, 
+ *          mean: number,
+ *          stddev: number,
+ *          precinctDensity: number,
+ *          populationDensity: number,
+ *      }
  * }
  * 
  * 
  */
 export default function calcData(data:object,districtsParam:string[],paramsParam:string[]){
+
+    //STEP 1: Calculate District Data
     var districts = [];
     for(let i = 0;i<=districtsParam.length;i++){ // 1 more because of total
         let newObj = {};
@@ -40,6 +50,8 @@ export default function calcData(data:object,districtsParam:string[],paramsParam
         districts.push(newObj);
     }
 
+
+    //STEP 2: Calculate Parameter Data
     var paramsRes = [];
     const isPop:boolean = false;
     for(let i = 0;i<=paramsParam.length;i++){
@@ -57,6 +69,8 @@ export default function calcData(data:object,districtsParam:string[],paramsParam
         newObj["pTotal"] = sum(pArr);
         newObj["pMean"] = mean(pArr);
         newObj["pStddev"] = stddev(pArr,isPop);
+        newObj["pRSD"] = newObj["pStddev"]/newObj["pMean"]*100;
+        console.log(newObj["pRSD"])
         newObj["pOutliers"] = outliers(pArr,isPop);
         newObj["pMedian"] = median(pArr);
         
@@ -88,10 +102,42 @@ export default function calcData(data:object,districtsParam:string[],paramsParam
         paramsRes.push(newObj);
     }
 
+    //STEP 3: Calculate Precinct Data
+    var newObj2 = {};
+    var minLat:number = Number.MAX_VALUE;
+    var maxLat:number = -1*Number.MAX_VALUE;
+    var minLng:number = Number.MAX_VALUE;
+    var maxLng:number = -1*Number.MAX_VALUE;
+    var keys = Object.keys(data);
+    var arr = [];
+    for(let i:number = 0;i<keys.length;i++){
+        let p = data[keys[i]];
+        let pop = p[1];
+        let lat = p[2];
+        let lng = p[3];
+        if(lat<minLat) minLat = lat;
+        if(lat>maxLat) maxLat = lat;
+        if(lng<minLng) minLng = lng;
+        if(lng>maxLng) maxLng = lng;
+        arr.push(pop);
+    }
+    newObj2["total"] = arr.length;
+    newObj2["mean"] = mean(arr)
+    newObj2["stddev"] = stddev(arr,isPop);
+    let latRange1 = (new Location(minLat,minLng)).distTo(new Location(maxLat,minLng))
+    let latRange2 = (new Location(minLat,maxLng)).distTo(new Location(maxLat,maxLng))
+    let latRange = (latRange1 + latRange2)/2
+    let lngRange1 = (new Location(minLat,minLng)).distTo(new Location(minLat,maxLng))
+    let lngRange2 = (new Location(maxLat,minLng)).distTo(new Location(maxLat,maxLng))
+    let lngRange = (lngRange1 + lngRange2)/2;
+    newObj2["precinctDensity"] = arr.length / (latRange * lngRange);
+    newObj2["populationDensity"] = newObj2["precinctDensity"] * newObj2["mean"];
+    newObj2["precinctDensity"] *= 100;
 
     return{
         districts: districts,
-        params: paramsRes
+        params: paramsRes,
+        precincts: newObj2,
     }
 }
 

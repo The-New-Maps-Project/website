@@ -247,12 +247,44 @@ a {
   text-decoration: underline;
 }
 
+.arrowLink{
+  @include row();
+  font-size: 20px;
+  color: grey;
+  font-weight: bold;
+  display: flex;
+  width: auto;
+  transition: all 0.3s;
+  span.icon-wrapper {
+    margin-left: 10px;
+    @include center();
+    border: 2px solid grey;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    transition: inherit;
+    .icon{
+      height: 50%;
+    }
+  }
+  &:hover{
+    color:black;
+    
+    .icon-wrapper{
+      border-color: black;
+      transform: translateX(10px);
+    }
+  }
+}
+
 header {
   margin: 0px 3vw;
   box-sizing: border-box;
   width: 94vw;
   border-bottom: 1px solid black;
-  @include row();
+  display: grid;
+  grid-template-columns:  auto 1fr auto;
+  align-items: center;
   justify-content: space-between;
   background-color: rgb(255, 255, 255);
   //box-shadow: 0px 5px 10px darkgrey;
@@ -268,6 +300,15 @@ header {
     #main-header {
       font-size: 30px;
     }
+  }
+  #logo{
+    background-image: url("/images/logo.PNG");
+    width: 80px;
+    height: 40px;
+    background-size: contain;
+    background-position: center;
+    margin-left: 20px;
+    background-repeat: no-repeat
   }
   h2#map-title {
     @include row();
@@ -327,6 +368,78 @@ header {
   }
 }
 
+#jumbotron{
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  margin: 10vh 0px;
+  #jumbo1{
+    .jimage1{
+      width: 70%;
+      aspect-ratio: 16/9;
+      background-image: url("/images/jumbo.PNG");
+      background-size: cover;
+      background-position: center;
+      border: 3px solid black;
+      border-radius: 3px;
+      box-shadow: 2px 2px 10px black;
+    }
+    h4{
+      margin: 20px 0px 0px 0px;
+      font-size: 36px;
+      font-weight: bolder;
+    }
+    p{
+      width: 70%;
+      margin: 10px 0px;
+      margin-bottom: 20px;
+    }
+  }
+  #jumbo2{
+    margin-left: 50px;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 3fr 2fr;
+    svg{
+      width: 80%;
+      height: auto;
+      
+      //background-image: url("/images/jumbo2.PNG");
+      // background-size: cover;
+      // background-position: center;
+      // border: 3px solid black;
+      // border-radius: 3px;
+      // box-shadow: 2px 2px 10px black;
+    }
+    .text2{
+      h4{
+        font-size: 40px;
+        margin: 0px;
+      }
+      p{
+        margin: 15px 0px;
+      }
+    }
+  }
+}
+
+@media (max-width: $breakpoint-large){
+  #jumbotron{
+    h4{
+      font-size: 30px !important;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-mobile){
+  #jumbotron{
+    grid-template-columns: 1fr;
+    #jumbo2{
+      display: none;
+      
+    }
+  }
+}
+
 #side-menu{
   position: fixed;
   z-index: 20;
@@ -374,16 +487,31 @@ header {
     padding: 0px;
     li{
       @include row();
-      margin: 20px 0px;
+      padding: 15px 0px;
+      border-bottom: 1px solid white;
       .single-link{
+        @include row();
         font-size: 20px;
-        display: block;
         transition:  all 0.3s;
         padding: 5px 10px;
+        transition: all 0.4s;
+        .icon{
+          display: inline;
+          font-size: 20px;
+          height: 20px;
+          margin-left: 10px;
+          opacity: 0.7;
+          transition: inherit;
+        }
         &:hover{
-          background-color: white;
-          color: black;
-          box-shadow: 0px 0px 5px rgb(238, 238, 238);
+          // background-color: white;
+          // color: black;
+          // box-shadow: 0px 0px 5px rgb(238, 238, 238);
+          opacity: 0.7;
+          .icon{
+            opacity: 1;
+            margin-left: 20px;
+          }
         }
       }
     }
@@ -440,6 +568,7 @@ header {
     ul{
       @include row();
       width:max-content;
+      transition: all 0.3s;
       li{
         background-color: rgb(202, 202, 202);
         padding: 20px;
@@ -495,6 +624,150 @@ header {
   
 }
 
+.homeOptions-container{
+  display: flex;
+  justify-content: right;
+  width: 100vw;
+  transform: translateX(-3vw);
+}
+
+#home-popup.onHomepage{
+  position: relative;
+  width: 80vw;
+  margin: 0px;
+  padding: 20px 0px 20px 30px;
+  //transform: translateX(3vw);
+  .arrows{
+    display: flex;
+    position: absolute;
+    top: 30px;
+    right: 3vw;
+    padding: 0px 20px;
+    button{
+      padding: 0px;
+      border: 0px;
+      margin-left: 10px;
+      background-color: transparent;
+      .icon{
+        color: green;
+        background-color: white;
+        border-radius: 50%;
+        border: 3px solid green;
+        height: 40px;
+        @include hoverer1();
+      }
+    }
+  }
+  .top-section{
+    margin: 0px;
+    margin-bottom: 10px;
+  }
+  .home-options-container{
+    overflow: hidden;
+    margin: 0px;
+    padding: 0px;
+    ul{
+      padding: 0px;
+      height: auto;
+
+      li .buttons .draw-district .hover-box{
+        position: fixed;
+      }
+    }
+  }
+}
+
+
+@media (max-width: $breakpoint-large){
+  #home-popup.onHomepage{
+    .top-section{
+      width: 80%;
+    }
+    .arrows{
+      padding: 0px;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-mobile){
+  #home-popup.onHomepage{
+    transform: translateX(0px);
+    padding: 15px;
+    width: 100vw;
+    .arrows{
+      padding: 0px;
+      display: none;
+    }
+    .home-options-container{
+      overflow-x: scroll;
+
+    }
+  }
+}
+
+#home-section2{
+  margin: 30vh 0px;
+  .top-part{
+    h3{
+      font-size: 50px;
+      margin: 10px 0px;
+      font-style: italic;
+      text-shadow: 2px 2px 5px rgb(155, 155, 155);
+    }
+    p{
+      font-size: 20px;
+    }
+  }
+  ul{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    li{
+      margin: 20px;
+      h5{
+        font-size: 30px;
+      }
+    }
+  }
+}
+
+@media (max-width: $breakpoint-large){
+  #home-section2{
+    margin: 10vh 0px;
+    .top-part{
+      h3{
+        font-size: 40px;
+      }
+    }
+    ul{
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-mobile){
+  #home-section2{
+    margin: 50px 0px;
+    .top-part{
+      h3{
+        font-size: 36px;
+      }
+      p{
+        font-size: 16px;
+      }
+    }
+    ul{
+      display: block;
+      li {
+        margin: 15vh 0px;
+        h5{
+          font-size: 24px;
+          margin: 10px 0px;
+        }
+      }
+    }
+  }
+}
+
 @media (max-width: $breakpoint-mobile){
   #home-popup{
     .x-button{
@@ -523,6 +796,82 @@ header {
           }
         }
       }
+    }
+  }
+}
+
+#submitted{
+  #user{
+    padding: 5px 15px;
+    border-radius: 5px;
+    margin: 20px 0px;
+    background-color: #004c93;
+    color: white;
+    font-weight: bold;
+    display: block;
+  }
+  .image{
+    height: 200px;
+    width: 250px;
+    border-radius: 3px;
+    border: 3px solid black;
+    box-shadow: 1px 2px 5px black;
+    margin: 20px 0px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+  }
+  #addmap{
+    background-color: lightblue;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 3px 3px 10px black;
+    margin: 30px 0px;
+    input{
+      display: block;
+      margin: 5px 0px;
+      padding: 5px;
+      border-radius: 5px;
+      font-size: 18px;
+    }
+  }
+  #allmaps{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    li{
+      max-width: 250px;
+      h6{
+        margin: 10px 0px 0px 0px;
+        font-size: 30px;
+      }
+      p{
+        margin: 0px;
+      }
+      .arrowLink{
+        margin: 10px 0px;
+      }
+      .delete-button{
+        border: 3px solid red;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-weight: bold;
+        color: red;
+        background-color: transparent;
+        @include hoverer1();
+      }
+    }
+  }
+  .showLogin{
+    margin-top: 30vh;
+    margin-bottom: 20px;
+  }
+  #login-area{
+    margin: 20px 0px;
+    input{
+      padding: 5px;
+      border-radius: 5px;
+      margin: 5px;
     }
   }
 }
@@ -1609,6 +1958,24 @@ h3.mymaps {
   overflow-x: scroll;
 }
 
+#precinct-data-analysis{
+  padding: 20px 30px;
+  box-shadow: 2px 2px 10px black;
+  border-radius: 10px;
+  border: 2px solid black;
+  li{
+    font-size: 20px;
+    margin: 15px 0px;
+    .name{
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    .value{
+      color: grey;
+    }
+  }
+}
+
 #algorithm-container, #packcrack-container{
   background-color: lightgray;
   width: 400px;
@@ -1618,6 +1985,14 @@ h3.mymaps {
 
   hr{
     margin: 0px;
+  }
+
+  #startingsoontext{
+    
+    color:rgb(137, 0, 190);
+    font-weight: bold;
+    padding: 5px 15px;
+    border-radius: 3px;
   }
 
   #algorithm-header{

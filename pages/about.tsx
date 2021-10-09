@@ -23,7 +23,7 @@ export default function About() {
         web browser.
       </section>
       <section className="links">
-        <Link href="/">
+        <Link href="/editing suite">
           <a>Editing Suite <FontAwesomeIcon  className="icon" icon={faArrowRight}></FontAwesomeIcon></a>
         </Link>
         <Link href="/documentation">

@@ -226,7 +226,7 @@ export default function Algorithm(){
                 <span>Iterations: {connectingData.length}</span>
                 <span>Changed: {connectingData.length==0?0:(connectingData[connectingData.length-1]).toFixed(0)}</span>
             </div>:<div className="round-body">
-                <p>**Does not show on map</p>
+                {algoState==0&&<p id="startingsoontext">Hang tight! Visualization will start shortly...</p>}
                 {connectingRoundGraph}
                 <div className="round-footer">
                     <span className="iterations">Iterations: {connectingData.length}</span>

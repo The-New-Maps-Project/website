@@ -1,3 +1,7 @@
+//ORDER OF VALUES IN THE "data" OBJECT: 
+//[assigned district,population,lat,lng,parameters...]
+
+
 export default function readFileText(text:string,colors:string[],setDistricts,setParameters):object{
     var obj = {};
     var lines:string[] = text.split("\n");

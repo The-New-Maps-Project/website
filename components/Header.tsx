@@ -3,6 +3,7 @@ import PContext from "../services/context";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faArrowRight,
   faBars,
   faDownload,
   faPen,
@@ -18,6 +19,14 @@ export default function Header() {
   const [nameInput, setNameInput] = useState<boolean>(name);
   const [showMenu,setShowMenu] = useState<boolean>(false);
   const links = [{
+    name: "Editing Suite",
+    path: "/about",
+    description: "Draw, analyze, and interactively edit your own legislative district maps. Visualize the algorithm in real time on the map."
+  },{
+    name: "Submitted Maps",
+    path: "/submitted",
+    description: "Maps submitted directly to state redistricting commissions or published to the public by The New Maps Project"
+  },{
     name: "About",
     path: "/about",
     description: "Learn about what The New Maps Project is and the purpose it serves"
@@ -40,20 +49,16 @@ export default function Header() {
   
   }]
 
-  const changeName = () => {
-    setName(nameInput);
-    setChangeNamePopup(false);
-  };
-
   return (
     <header>
       <Link href="/">
-        <a>
+        <a target="_blank">
           <h1>
             The New Maps Project
           </h1>
         </a>
       </Link>
+      <div id="logo"></div>
 
       <div id="header-links">
         <Link href="/documentation">
@@ -72,7 +77,9 @@ export default function Header() {
         <ul>
           {links.map(l=>{
             return <li>
-              <Link href={l.path}><a className="single-link" target="_blank">{l.name}</a></Link>
+              <Link href={l.path}><a className="single-link" target="_blank">{l.name}
+                <FontAwesomeIcon className="icon" icon={faArrowRight}></FontAwesomeIcon>
+              </a></Link>
             </li>
           })}
         </ul>

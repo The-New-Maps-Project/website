@@ -2,7 +2,6 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
-import algorithm from "../calculate/algorithm";
 import PContext from "../services/context";
 import getSuggestedAlgoSettings from "../services/getSuggestedAlgoSettings";
 import Popup from "./Popup";

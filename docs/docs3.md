@@ -97,3 +97,21 @@ Average Squared Distance to Population Center (ASDPC) is measured for each distr
 At the top of the left side of the calculation results section there is a select menu where you can select either the "Population" or a specific parameter to show statistics for (if you define a parameter). You can view population and ASDPC distribution of each of the parameter demographics as well.
 
 It will also calculate the percent of the entire population of this parameter, as well as the percent of majority districts for the parameter. This difference can used to spot under or overrepresentation in a district mapping. 
+
+### Precinct Statistics
+
+Data about the precincts is given at the bottom of the analysis section in the Editing Suite. This includes the total number of precinct, the mean population per precinct, and the standard deviation of the precinct population sizes.
+
+**Precinct Density Index** is measure of how densely packed precincts are on the map. The distance between the points at the minimum and maximum latitudes at the maximum longitude is computed and averaged with the distance between the points at the minimum and maximum latitude at the *minimum* longitude to compute an average latitude range. The longitude range is also computed in this way, at the mininum and maximum latitudes. The Precinct Density Index is given by:
+
+```
+    Precinct Density Index = Total # of precincts / (Latitude Range * Longitude Range) * 100
+```
+
+**Population Density Index** uses the same latitude and longitude ranges in calculation:
+
+```
+    Population Density Index = Total Population / (Latitude Range * Longitude Range)
+```
+
+This value is usually less than the population density of the state, for the state's land area is usually less than the product of the latitude and longitude ranges (thus the state's population density is greater than this index).
