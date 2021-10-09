@@ -5,6 +5,7 @@ import PContext from "../services/context"
 import Algorithm from "./Algorithm";
 import Popup from "./Popup";
 import SwitchPopup from "./SwitchPopup";
+import SvgNotFound from "./SvgNotFound";
 
 export default function ListView(){
     const {districts,data,parameters,setData,setMapZoom,algoState} = useContext(PContext);
@@ -242,7 +243,11 @@ export default function ListView(){
                         </div>}
                 </li>
             })}
-            {precinctList.length==0&&<div className="center"><p>No Data Yet</p></div>}
+            {precinctList.length==0&&<div className="nodata">
+                <p>No Data Yet</p>
+                <SvgNotFound/>
+                <div>Try using a Premade Option!</div>
+            </div>}
         </ul>
 
 

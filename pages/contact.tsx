@@ -2,7 +2,7 @@ export default function Contact(){
     const people = [{
         name: "Vincent Cai",
         position: "Creator",
-        description: "I started The New Maps Project in August 2020 and I develop all the software, including the website and the algorithm.",
+        description: "Hi! I'm Vincent Cai. I'm a student from Connecticut who's passionate about creating fair representation in government. I am the creator of The New Maps Project; I develop all the software from the editing suite to the algorithm and visualizer, and I submit all the maps. Please reach out if you have any questions about this site or The New Maps Project in general",
         email: "vincent.cai48@gmail.com",
         imageURL: "vincentcai.jpg"
     }]
