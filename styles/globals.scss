@@ -345,25 +345,57 @@ header {
 
   #header-links{
     @include row();
-    button.menu-button{
+    .header-link{
+      margin: 0px 20px;
+    }
+    .menu-button{
       padding: 0px; // 5px 8px;
       border: none;
       background-color: transparent;
       @include center();
+      transition: all 0.3s;
+      background-color: rgb(0, 0, 0);
+      padding: 5px 10px;
       .icon{
-        color: black;
+        color: rgb(255, 255, 255);
         font-weight: bold;
         font-size: 30px;
-        height: 30px;
+        height: 20px;
       }
-      @include hoverer1();
-      margin-left: 5vw;
+      span{
+        margin-right: 10px;
+        color: white;
+        font-weight: bold;
+      }
+      &:hover{
+        background-color: var(--link-color);
+      }
+      margin-left: 30px;
     }
   }
 }
 
+@media (max-width: $breakpoint-large){
+  .header-link{
+    display: none;
+  }
+}
+
+
 @media (max-width: $breakpoint-mobile){
-  .docs-button{
+  header #header-links button.menu-button{
+    span{
+      display: none;
+    }
+    padding: 0px;
+    .icon{
+      color: black;
+      height: 30px;
+    }
+    background-color: transparent;
+
+  }
+  .header-link{
     display: none;
   }
 }
@@ -454,6 +486,18 @@ header {
   background-color: black;
   color: white;
   transition: right 0.3s;
+  .menu-background{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    opacity: 0.4;
+    background-image: url("/images/menu2.jpg");
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+  }
   .menu-header{
     @include row();
     justify-content: space-between;
@@ -813,6 +857,7 @@ header {
     grid-template-columns: repeat(4,1fr);
     li{
       max-width: 300px;
+      margin-bottom: 20px;
       h5{
         display: inline-block;
         border-radius: 5px;

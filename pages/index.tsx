@@ -90,7 +90,7 @@ export default function Home() {
             <p>
               Code repositories for The New Maps Project
             </p>
-            <ArrowLink href="" text="GitHub Organization"></ArrowLink>
+            <ArrowLink href="https://github.com/The-New-Maps-Project" text="GitHub Organization"></ArrowLink>
           </li>
        
           <li>

@@ -25,7 +25,7 @@ export default function About() {
         web browser.
       </section>
       <section className="links">
-        <Link href="/editing suite">
+        <Link href="/editingsuite">
           <a>Editing Suite <FontAwesomeIcon  className="icon" icon={faArrowRight}></FontAwesomeIcon></a>
         </Link>
         <Link href="/documentation">

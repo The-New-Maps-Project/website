@@ -125,8 +125,8 @@ export default function HomeOptions({xFunction,isPopup,urlParams,showComponent})
                         <div className="buttons">
                             <button className="draw-district sb" onMouseMove={(e)=>{
                                 console.log(offsetY);
-                                setMouseX(e.clientX+window.scrollX+offsetX);
-                                setMouseY(e.clientY+window.scrollY+offsetY);
+                                setMouseX(e.clientX+offsetX);
+                                setMouseY(e.clientY+offsetY);
                             }}
                                 onClick={()=>selectMap(d.fileName,d.zoom,true)}
                             >Draw the Districts

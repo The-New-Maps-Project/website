@@ -61,11 +61,22 @@ export default function Header() {
       <div id="logo"></div>
 
       <div id="header-links">
+        <Link href="/about">
+          <a target="_blank" className="tb header-link">About</a>
+        </Link>
+        <Link href="/submitted">
+          <a target="_blank" className="tb header-link">Submitted Maps</a>
+        </Link>
+        <Link href="/editingsuite">
+          <a target="_blank" className="tb header-link">Editing Suite</a>
+        </Link>
         <Link href="/documentation">
-          <a target="_blank" className="tb docs-button">Docs</a>
+          <a target="_blank" className="tb header-link">Docs</a>
         </Link>
         <button className="menu-button" onClick={()=>setShowMenu(!showMenu)}>
+          <span>Menu</span>
           <FontAwesomeIcon className="icon" icon={faBars}></FontAwesomeIcon>
+          
         </button>
       </div>
 
@@ -74,6 +85,7 @@ export default function Header() {
           <h6><FontAwesomeIcon className="icon" icon={faBars}></FontAwesomeIcon>Menu</h6>
           <button className="x-menu-button" onClick={()=>{setShowMenu(false)}}><FontAwesomeIcon className="icon" icon={faTimes}></FontAwesomeIcon></button>
         </div>
+        <div className="menu-background"></div>
         <ul>
           {links.map(l=>{
             return <li>
